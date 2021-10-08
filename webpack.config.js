@@ -12,7 +12,7 @@ const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : 'style-loader
 
 
 const config = {
-    entry: './src/index.js',
+    entry: './src/index.tsx',
     output: {
         path: path.resolve(__dirname, 'dist'),
         // publicPath: '../dist/',
@@ -47,6 +47,11 @@ const config = {
                 }
             },
             {
+                test: /\.(ts|tsx)$/,
+                use: 'ts-loader',
+                exclude: /node_modules/
+            },
+            {
                 test: /\.css$/i,
                 use: [stylesHandler,'css-loader'],
             },
@@ -56,6 +61,7 @@ const config = {
             },
             {
                 test: /\.(png|svg|jpg|jpeg|gif|ico)$/i,
+                // type: "asset/resource",
                 exclude: /node_modules/,
                 use: [
                     {
@@ -71,7 +77,7 @@ const config = {
         ],
     },
     resolve: {
-        extensions: ['.js', '.ts','.jsx'],
+        extensions: ['.js', '.ts', '.tsx', '.jsx'],
         alias: {
         '@': path.resolve(__dirname, 'src'),
         '@assets': path.resolve(__dirname, 'src/assets'),

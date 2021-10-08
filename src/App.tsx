@@ -1,5 +1,6 @@
-import logo from './assets/icons/demo_icon.png';
+import React from 'react'; 
 import './App.css';
+import logo from './assets/demo_icon.png';
 
 function App() {
   return (
