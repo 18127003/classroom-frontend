@@ -1,3 +1,4 @@
+import { Classroom } from '@/model/Classroom';
 import axios from 'axios';
 
 const instance = axios.create({
@@ -10,14 +11,21 @@ export const getData = () => instance({
     // 'params': {
     //     'search':'parameter',
     // },
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
+export const createClassroom = (classroom: Classroom) => instance({
+    'method':'POST',
+    'url':'/create',
+    'data': classroom,
+    // 'params': {
+    //     'search':'parameter',
+    // },
     transformResponse: [(data) => {
         const json = JSON.parse(data)
 
         console.log(json)
-        // const dates = Object.keys(json['nested object'])
-        // data = {
-        //     dates
-        // }
+        
         return json;
     }]
 })

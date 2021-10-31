@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import AddIcon from '@mui/icons-material/Add';
+import ClassCreateButton from './ClassCreateButton';
 
 const BasicAppBar = () => {
   return (
@@ -25,15 +26,7 @@ const BasicAppBar = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Classroom
           </Typography>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <AddIcon />
-          </IconButton>
+          <ClassCreateButton/>
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>

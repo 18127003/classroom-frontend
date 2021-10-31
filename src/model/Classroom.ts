@@ -1,8 +1,8 @@
 export interface Classroom{
     name: string,
-    code: string,
+    code: string|undefined,
     part: string,
-    id: number,
+    id: number|undefined,
     room: string,
     topic: string
 }
