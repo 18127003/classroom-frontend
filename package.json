@@ -1,5 +1,6 @@
 {
   "name": "my-webpack-project",
+  "homepage": "https://18127003.github.io/ptudwnc-app",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
@@ -23,6 +24,7 @@
   "scripts": {
     "serve": "webpack serve --mode development",
     "build": "webpack --mode=production --node-env=production",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "build:dev": "webpack --mode=development",
@@ -58,6 +60,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "css-loader": "^6.3.0",
     "file-loader": "^6.2.0",
+    "gh-pages": "^3.2.3",
     "html-webpack-plugin": "^5.3.2",
     "mini-css-extract-plugin": "^2.4.2",
     "react-redux": "^7.2.5",
