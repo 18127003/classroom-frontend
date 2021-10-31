@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import logo from './assets/demo_icon.png';
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <header className="App-header">
