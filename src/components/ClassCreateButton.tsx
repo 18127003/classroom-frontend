@@ -5,7 +5,7 @@ import { ClassCreateButtonProps } from "@/@types/props";
 import { addClassroom } from "@/services/service";
 
 const ClassCreateButton: React.FC<ClassCreateButtonProps> = ({onCreate}) => {
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
