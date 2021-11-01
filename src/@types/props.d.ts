@@ -8,3 +8,11 @@ type ClassroomGridProps = {
 type ClassroomCardProps = {
     classroom: Classroom
 }
+
+type ClassCreateButtonProps = {
+    onCreate: (classroom: Classroom)=>void
+}
+
+type BasicAppBarProps = {
+    onClassCreate: (classroom: Classroom)=>void
+}

@@ -1,9 +1,10 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField } from "@mui/material";
 import React, { SyntheticEvent, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import { createClassroom } from "@/services/api";
+import { ClassCreateButtonProps } from "@/@types/props";
+import { addClassroom } from "@/services/service";
 
-const ClassCreateButton = () => {
+const ClassCreateButton: React.FC<ClassCreateButtonProps> = ({onCreate}) => {
     const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -14,7 +15,7 @@ const ClassCreateButton = () => {
     setOpen(false);
   };
 
-  const handleSubmit = (event: React.SyntheticEvent) => {
+  const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
     const target = event.target as typeof event.target & {
         classroomName: { value: string };
@@ -22,14 +23,16 @@ const ClassCreateButton = () => {
         classroomTopic: { value: string };
         classroomRoom: { value: string };
     };
-    createClassroom({
+    handleClose();
+    let classroom = await addClassroom({
       name: target.classroomName.value,
       part: target.classroomPart.value,
       topic: target.classroomTopic.value,
       room: target.classroomRoom.value,
       code: undefined,
       id: undefined
-    })
+    });
+    onCreate(classroom.data);
   }
 
   return (

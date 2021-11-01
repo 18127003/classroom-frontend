@@ -6,10 +6,10 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import AddIcon from '@mui/icons-material/Add';
 import ClassCreateButton from './ClassCreateButton';
+import { BasicAppBarProps } from '@/@types/props';
 
-const BasicAppBar = () => {
+const BasicAppBar: React.FC<BasicAppBarProps> = ({onClassCreate}) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="transparent">
@@ -26,11 +26,10 @@ const BasicAppBar = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Classroom
           </Typography>
-          <ClassCreateButton/>
+          <ClassCreateButton onCreate={onClassCreate}/>
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
-      <Toolbar/>
     </Box>
   );
 }
