@@ -84,7 +84,7 @@ const ClassCreateButton: React.FC<ClassCreateButtonProps> = ({onCreate}) => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button type='submit'>Subscribe</Button>
+            <Button type='submit'>Create</Button>
           </DialogActions>
         </Box>
       </Dialog>

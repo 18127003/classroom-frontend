@@ -18,14 +18,5 @@ export const createClassroom = (classroom: Classroom) => instance({
     'method':'POST',
     'url':'/create',
     'data': classroom,
-    // 'params': {
-    //     'search':'parameter',
-    // },
-    transformResponse: [(data) => {
-        const json = JSON.parse(data)
-
-        console.log(json)
-        
-        return json;
-    }]
+    transformResponse: [(data) => JSON.parse(data)]
 })
