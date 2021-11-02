@@ -1,6 +1,5 @@
 import { Classroom } from "@/model/Classroom";
 
-
 type ClassroomGridProps = {
     classes: Classroom[]
 }
@@ -10,9 +9,11 @@ type ClassroomCardProps = {
 }
 
 type ClassCreateButtonProps = {
-    onCreate: (classroom: Classroom)=>void
+    onPostCreate: (classroom: Classroom)=>void
+    onPreCreate: ()=>void
 }
 
 type BasicAppBarProps = {
-    onClassCreate: (classroom: Classroom)=>void
+    onClassPostCreate: (classroom: Classroom)=>void
+    onClassPreCreate: ()=>void
 }

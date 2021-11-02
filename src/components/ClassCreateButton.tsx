@@ -1,10 +1,10 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, MenuItem, TextField } from "@mui/material";
 import React, { SyntheticEvent, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { ClassCreateButtonProps } from "@/@types/props";
 import { addClassroom } from "@/services/service";
 
-const ClassCreateButton: React.FC<ClassCreateButtonProps> = ({onCreate}) => {
+const ClassCreateButton: React.FC<ClassCreateButtonProps> = ({onPreCreate, onPostCreate}) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -24,6 +24,7 @@ const ClassCreateButton: React.FC<ClassCreateButtonProps> = ({onCreate}) => {
         classroomRoom: { value: string };
     };
     handleClose();
+    onPreCreate();
     let classroom = await addClassroom({
       name: target.classroomName.value,
       part: target.classroomPart.value,
@@ -32,35 +33,25 @@ const ClassCreateButton: React.FC<ClassCreateButtonProps> = ({onCreate}) => {
       code: undefined,
       id: undefined
     });
-    onCreate(classroom.data);
+    onPostCreate(classroom.data);
   }
 
   return (
     <div>
-      <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            onClick={handleClickOpen}
-          >
-          <AddIcon />
-      </IconButton>
+      <MenuItem onClick={handleClickOpen}>Create Class</MenuItem>
       <Dialog open={open} onClose={handleClose} maxWidth='sm' fullWidth={true}>
         <DialogTitle>Create classroom</DialogTitle>
-        
         <Box
           component="form"
           onSubmit={handleSubmit}
           sx={{
             '& .MuiTextField-root': { m: 1, width: '96%' },
           }}
-          noValidate
           autoComplete="off"
         >
           <DialogContent>
             <TextField
+              autoFocus
               required
               id="classroom-name"
               label="Classroom Name"

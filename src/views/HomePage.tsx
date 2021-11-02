@@ -1,7 +1,7 @@
 import BasicAppBar from "@/components/BasicAppBar"
 import ClassroomsGrid from "@/components/ClassroomsGrid"
 import { Classroom } from "@/model/Classroom"
-import { getClassrooms } from "@/services/service"
+import { getClassrooms, saveLocal } from "@/services/service"
 import { LinearProgress } from "@mui/material"
 import React, { useEffect, useState } from "react"
 
@@ -17,18 +17,28 @@ const HomePage = ()=>{
         })()
     },[])
 
-    const onClassCreate = (classroom: Classroom) => {
-        setLoading(true);
-        (async ()=>{
-            const data = await getClassrooms(true)
-            setClasses(data)
-            setLoading(false)
-        })()
+    useEffect(()=>{
+        saveLocal("classes",classes)
+    },[classes])
+
+    const onClassPreCreate = ()=>{
+        setLoading(true)
+    }
+
+    const onClassPostCreate = (classroom: Classroom) => {
+        setClasses([
+            ...classes,
+            classroom
+        ])
+        setLoading(false)
     }
 
     return (
         <>
-            <BasicAppBar onClassCreate={onClassCreate}/>
+            <BasicAppBar 
+                onClassPreCreate={onClassPreCreate}
+                onClassPostCreate={onClassPostCreate}
+            />
             <LinearProgress sx={loading?{}:{display: 'none'}}/>
             <ClassroomsGrid classes={classes}/>
         </>
