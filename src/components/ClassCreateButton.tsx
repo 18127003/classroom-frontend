@@ -1,19 +1,25 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, MenuItem, TextField } from "@mui/material";
-import React, { SyntheticEvent, useState } from "react";
-import AddIcon from "@mui/icons-material/Add";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, TextField } from "@mui/material";
+import React, { SyntheticEvent, useEffect, useState } from "react";
 import { ClassCreateButtonProps } from "@/@types/props";
 import { addClassroom } from "@/services/service";
 
-const ClassCreateButton: React.FC<ClassCreateButtonProps> = ({onPreCreate, onPostCreate}) => {
+const ClassCreateButton: React.FC<ClassCreateButtonProps> = ({
+    onMenuItemClick, onPreCreate, onPostCreate
+  }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
+    onMenuItemClick();
   };
 
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(()=>{
+    console.log(open)
+  },[open])
 
   const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();

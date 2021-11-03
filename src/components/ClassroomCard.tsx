@@ -11,7 +11,7 @@ const ClassroomCard: React.FC<ClassroomCardProps> = ({classroom})=>{
     
     return (
         // <Box sx={{ minWidth: 275 }} height='100%'>
-            <Card variant="outlined" sx={{'&:hover':{boxShadow: '0 8px 24px 0 rgba(0,0,0,0.12)'},height:'100%'}}>
+            <Card variant="outlined" sx={{'&:hover':{boxShadow: '0 8px 24px 0 rgba(0,0,0,0.12)'},height:'100%', minHeight:'250px'}}>
                 <CardContent sx={{background:'rgba(0, 128, 0, 0.3)', height:'20%'}}>
                     <Typography variant="h5" component="div">
                         {classroom.name}

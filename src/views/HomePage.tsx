@@ -38,6 +38,7 @@ const HomePage = ()=>{
     return (
         <>
             <BasicAppBar 
+                auth={auth}
                 onClassPreCreate={onClassPreCreate}
                 onClassPostCreate={onClassPostCreate}
             />

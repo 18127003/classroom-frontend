@@ -1,4 +1,4 @@
-import { Classroom } from "@/model/Classroom";
+import { Account, Classroom } from "@/model/model";
 
 type ClassroomGridProps = {
     classes: Classroom[]
@@ -9,11 +9,13 @@ type ClassroomCardProps = {
 }
 
 type ClassCreateButtonProps = {
+    onMenuItemClick: ()=>void
     onPostCreate: (classroom: Classroom)=>void
     onPreCreate: ()=>void
 }
 
 type BasicAppBarProps = {
+    auth: Account|null
     onClassPostCreate: (classroom: Classroom)=>void
     onClassPreCreate: ()=>void
 }

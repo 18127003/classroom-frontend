@@ -1,13 +1,13 @@
 import React from 'react';
-import {AppBar, Box, Toolbar, Typography, Button, IconButton, Menu} from '@mui/material';
+import {AppBar, Box, Toolbar, Typography, Button, IconButton, Menu, Avatar} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AddIcon from '@mui/icons-material/Add';
 import ClassCreateButton from './ClassCreateButton';
 import { BasicAppBarProps } from '@/@types/props';
 
-const BasicAppBar: React.FC<BasicAppBarProps> = ({onClassPreCreate, onClassPostCreate}) => {
+const BasicAppBar: React.FC<BasicAppBarProps> = ({auth, onClassPreCreate, onClassPostCreate}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -44,8 +44,9 @@ const BasicAppBar: React.FC<BasicAppBarProps> = ({onClassPreCreate, onClassPostC
           <Menu
             id="classroom-menu"
             aria-labelledby="classroom-menu"
+            keepMounted
             anchorEl={anchorEl}
-            open={open}
+            open={Boolean(anchorEl)}
             onClose={handleClose}
             anchorOrigin={{
               vertical: 'bottom',
@@ -59,10 +60,11 @@ const BasicAppBar: React.FC<BasicAppBarProps> = ({onClassPreCreate, onClassPostC
             <ClassCreateButton 
               onPreCreate={onClassPreCreate}
               onPostCreate={onClassPostCreate}
+              onMenuItemClick={handleClose}
             />
           </Menu>
-        
-          <Button color="inherit">Login</Button>
+            {auth?(<Avatar sx={{ bgcolor: 'rgba(0, 128, 0, 0.3)' }}>{auth.name.slice(0,2)}</Avatar>):(<Button color="inherit">Login</Button>)}
+          
         </Toolbar>
       </AppBar>
     </Box>
