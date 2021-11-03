@@ -6,3 +6,8 @@ export interface Classroom{
     room: string,
     topic: string
 }
+
+export interface Account {
+    name: string,
+    id: number
+}
