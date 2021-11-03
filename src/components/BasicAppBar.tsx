@@ -29,7 +29,7 @@ const BasicAppBar: React.FC<BasicAppBarProps> = ({onClassPreCreate, onClassPostC
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Classroom
+            Classroom1
           </Typography>
           <IconButton
             size="large"

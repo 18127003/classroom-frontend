@@ -1,11 +1,13 @@
 import { Classroom } from '@/model/model';
 import axios from 'axios';
-import { truncate } from 'fs/promises';
+import { wrapper } from 'axios-cookiejar-support';
+import { CookieJar } from 'tough-cookie';
+axios.defaults.withCredentials=true;
 
 const instance = axios.create({
     baseURL: 'https://spring-api-backend.herokuapp.com/api',
     // baseURL:'http://localhost:8080/api',
-    withCredentials: true
+    // withCredentials: true
 });
 
 export const getData = () => instance({
