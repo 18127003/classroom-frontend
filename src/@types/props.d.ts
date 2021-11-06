@@ -19,3 +19,10 @@ type BasicAppBarProps = {
     onClassPostCreate: (classroom: AssignedClassroom)=>void
     onClassPreCreate: ()=>void
 }
+
+type CreateClassDialogProps = {
+    isOpen: boolean
+    handleClose: ()=>void
+    onPostCreate: (classroom: AssignedClassroom)=>void
+    onPreCreate: ()=>void
+}
