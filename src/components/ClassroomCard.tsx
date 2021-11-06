@@ -19,6 +19,14 @@ const ClassroomCard: React.FC<ClassroomCardProps> = ({classroom})=>{
                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                         {classroom.part}
                     </Typography>
+                    {
+                        classroom.role==="STUDENT"?
+                        (
+                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                {classroom.creator}
+                            </Typography>
+                        ):(<></>)
+                    }
                 </CardContent>
                 <CardContent sx={{height:'30%'}}>
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">

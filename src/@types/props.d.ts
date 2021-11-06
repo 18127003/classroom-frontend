@@ -1,21 +1,21 @@
-import { Account, Classroom } from "@/model/model";
+import { Account, AssignedClassroom } from "@/model/model";
 
 type ClassroomGridProps = {
-    classes: Classroom[]
+    classes: AssignedClassroom[]
 }
 
 type ClassroomCardProps = {
-    classroom: Classroom
+    classroom: AssignedClassroom
 }
 
 type ClassCreateButtonProps = {
     onMenuItemClick: ()=>void
-    onPostCreate: (classroom: Classroom)=>void
+    onPostCreate: (classroom: AssignedClassroom)=>void
     onPreCreate: ()=>void
 }
 
 type BasicAppBarProps = {
     auth: Account|null
-    onClassPostCreate: (classroom: Classroom)=>void
+    onClassPostCreate: (classroom: AssignedClassroom)=>void
     onClassPreCreate: ()=>void
 }

@@ -7,7 +7,13 @@ export interface Classroom{
     topic: string
 }
 
+export interface AssignedClassroom extends Classroom{
+    role: string,
+    creator:string
+}
+
 export interface Account {
     name: string,
-    id: number
+    id: number,
+    role:string|null
 }
