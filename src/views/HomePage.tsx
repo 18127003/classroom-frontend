@@ -1,18 +1,16 @@
 import BasicAppBar from "@/components/BasicAppBar/BasicAppBar"
 import ClassroomsGrid from "@/components/ClassroomGrid/ClassroomsGrid"
-import { Account, AssignedClassroom } from "@/model/model"
-import { getClassrooms, loginUser, saveLocal } from "@/services/service"
+import { AssignedClassroom } from "@/model/model"
+import { getClassrooms, saveLocal } from "@/services/service"
 import { LinearProgress } from "@mui/material"
 import React, { useEffect, useState } from "react"
 
 const HomePage = ()=>{
     const[classes, setClasses]=useState<AssignedClassroom[]>([])
     const[loading, setLoading]=useState(true)
-    const[auth, setAuth]=useState<Account|null>(null)
 
     useEffect(()=>{
         (async ()=>{
-            setAuth((await loginUser()).data)
             const data = await getClassrooms(true)
             setClasses(data)
             setLoading(false)
@@ -37,8 +35,7 @@ const HomePage = ()=>{
 
     return (
         <>
-            <BasicAppBar 
-                auth={auth}
+            <BasicAppBar
                 onClassPreCreate={onClassPreCreate}
                 onClassPostCreate={onClassPostCreate}
             />

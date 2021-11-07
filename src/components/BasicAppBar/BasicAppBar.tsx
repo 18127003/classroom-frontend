@@ -1,12 +1,14 @@
 import React from 'react';
-import {AppBar, Box, Toolbar, Typography, Button, IconButton, Menu, Avatar} from '@mui/material';
+import {AppBar, Box, Toolbar, Typography, IconButton, Menu, Avatar} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AddIcon from '@mui/icons-material/Add';
 import ClassCreateButton from './ClassCreateButton';
 import { BasicAppBarProps } from '@/@types/props';
+import useAuth from '@/hooks/useAuth';
 
-const BasicAppBar: React.FC<BasicAppBarProps> = ({auth, onClassPreCreate, onClassPostCreate}) => {
+const BasicAppBar: React.FC<BasicAppBarProps> = ({onClassPreCreate, onClassPostCreate}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const auth = useAuth();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -63,8 +65,7 @@ const BasicAppBar: React.FC<BasicAppBarProps> = ({auth, onClassPreCreate, onClas
               onMenuItemClick={handleClose}
             />
           </Menu>
-            {auth?(<Avatar sx={{ bgcolor: 'rgba(0, 128, 0, 0.3)' }}>{auth.name.slice(0,2)}</Avatar>):(<Button color="inherit">Login</Button>)}
-          
+          <Avatar sx={{ bgcolor: 'rgba(0, 128, 0, 0.3)' }}>{auth?.user?.name.slice(0,2)}</Avatar>
         </Toolbar>
       </AppBar>
     </Box>

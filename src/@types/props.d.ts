@@ -15,7 +15,6 @@ type ClassCreateButtonProps = {
 }
 
 type BasicAppBarProps = {
-    auth: Account|null
     onClassPostCreate: (classroom: AssignedClassroom)=>void
     onClassPreCreate: ()=>void
 }
