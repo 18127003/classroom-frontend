@@ -9,7 +9,7 @@ import AuthProvider from './store/AuthProvider';
 ReactDOM.render(
   <React.StrictMode>
     <AuthProvider>
-      <BrowserRouter>
+      <BrowserRouter basename="/ptudwnc-app">
         <Switch>
           {
             routes.map((route, index)=>(
