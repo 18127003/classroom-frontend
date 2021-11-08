@@ -9,7 +9,7 @@ import AuthProvider from './store/AuthProvider';
 ReactDOM.render(
   <React.StrictMode>
     <AuthProvider>
-      <HashRouter basename="/ptudwnc-app">
+      <HashRouter >
         <Switch>
           {
             routes.map((route, index)=>(
