@@ -17,3 +17,8 @@ export interface Account {
     id: number,
     role:string|null
 }
+
+export interface AuthRequest {
+    username: string,
+    password: string
+}

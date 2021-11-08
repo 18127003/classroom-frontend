@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, RouteComponentProps, Switch } from 'react-router-dom';
+import { BrowserRouter, HashRouter, RouteComponentProps, Switch } from 'react-router-dom';
 import './index.css';
 import CustomRoute from './routes/CustomRoute';
 import routes from './routes/route';
@@ -9,7 +9,7 @@ import AuthProvider from './store/AuthProvider';
 ReactDOM.render(
   <React.StrictMode>
     <AuthProvider>
-      <BrowserRouter basename="/ptudwnc-app">
+      <HashRouter basename="/ptudwnc-app">
         <Switch>
           {
             routes.map((route, index)=>(
@@ -29,7 +29,7 @@ ReactDOM.render(
             ))
           }
         </Switch>
-      </BrowserRouter>
+      </HashRouter>
     </AuthProvider>
   </React.StrictMode>,
   document.getElementById('root')

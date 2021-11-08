@@ -1,22 +1,16 @@
-import useAuth from "@/hooks/useAuth";
+
+import LoginForm from "@/components/LoginForm/LoginForm";
+import { Box } from "@mui/material";
 import React from "react";
-import { useHistory } from "react-router-dom";
 
 const LoginPage = ()=>{
-    const auth = useAuth();
-    const history = useHistory();
-    const handleLogin = ()=>{
-        auth?.login(()=>{
-            history.push("/")
-        })
-    }
 
     return (
-        <>
-            <button onClick={handleLogin}>
-                Login 
-            </button>
-        </>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent:'center'}}>
+            <Box sx={{m:12, position: 'relative' }}>
+                <LoginForm/>
+            </Box>
+        </Box>
     )
 }
 

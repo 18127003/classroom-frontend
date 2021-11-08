@@ -1,4 +1,4 @@
-import { Classroom } from '@/model/model';
+import { AuthRequest, Classroom } from '@/model/model';
 import axios from 'axios';
 
 const instance = axios.create({
@@ -23,12 +23,9 @@ export const createClassroom = (classroom: Classroom) => instance({
     transformResponse: [(data) => JSON.parse(data)]
 })
 
-export const login = () => instance({
+export const login = (auth: AuthRequest) => instance({
     'method':'POST',
     'url':'/auth/login',
-    'data':{
-        username:"Hai Dang",
-        password:"123"
-    },
+    'data': auth,
     transformResponse: [(data) => JSON.parse(data)]
 })

@@ -1,17 +1,17 @@
-import { Account } from "@/model/model"
+import { Account, AuthRequest } from "@/model/model"
 import { loginUser } from "@/services/service"
 import { useState } from "react"
 
 export interface IUseAuthProvider{
-    login:(cb: ()=>void)=>void
+    login:(auth:AuthRequest, cb: ()=>void)=>void
     logout:(cb:()=>void)=>void
     user: Account|null
 }
 
 const useAuthProvider=()=>{
     const [user, setUser]=useState<null|Account>(null)
-    const login= async (cb:()=>void)=>{
-        const res = await loginUser();
+    const login= async (auth:AuthRequest, cb:()=>void)=>{
+        const res = await loginUser(auth);
         setUser(res.data);
         cb();
     }

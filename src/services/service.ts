@@ -1,4 +1,4 @@
-import { Classroom } from "@/model/model"
+import { AuthRequest, Classroom } from "@/model/model"
 import { getData, createClassroom, login } from "./api"
 
 export const getClassrooms = async (forceLoad: boolean) =>{
@@ -22,6 +22,6 @@ export const saveLocal = (item: string, data: any[])=>{
     localStorage.setItem(item, JSON.stringify(data))
 }
 
-export const loginUser = async ()=>{
-    return await login();
+export const loginUser = async (auth: AuthRequest)=>{
+    return await login(auth);
 }
