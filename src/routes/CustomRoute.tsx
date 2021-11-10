@@ -7,13 +7,16 @@ interface CustomRouteProps extends RouteProps {
 }
 
 const CustomRoute: React.FC<CustomRouteProps> = ({...rest}) => {
-
-    if(rest.condition && rest.condition()) {
-        return (
-            <Route {...rest}/>
-        )
+    if(rest.condition){
+        if (rest.condition()){
+            return (
+                <Route {...rest}/>
+            )
+        }
+        console.log('redirect')
+        return <Redirect to={rest.redirect??"/login"}/>
     }
-    return <Redirect to={rest.redirect??"/login"}/>
+    return <Route {...rest}/>
 }
 
 export default CustomRoute;

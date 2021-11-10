@@ -1,4 +1,4 @@
-import { AuthRequest, Classroom } from '@/model/model';
+import { AuthRequestInfo, Classroom } from '@/@types/model';
 import axios from 'axios';
 
 const instance = axios.create({
@@ -7,7 +7,7 @@ const instance = axios.create({
     withCredentials: true
 });
 
-export const getData = () => instance({
+const getData = () => instance({
     'method':'GET',
     'url':'/classroom/all',
     // 'params': {
@@ -16,16 +16,22 @@ export const getData = () => instance({
     transformResponse: [(data) => JSON.parse(data)]
 })
 
-export const createClassroom = (classroom: Classroom) => instance({
+const createClassroom = (classroom: Classroom) => instance({
     'method':'POST',
     'url':'/classroom/create',
     'data': classroom,
     transformResponse: [(data) => JSON.parse(data)]
 })
 
-export const login = (auth: AuthRequest) => instance({
+const login = (auth: AuthRequestInfo) => instance({
     'method':'POST',
     'url':'/auth/login',
     'data': auth,
     transformResponse: [(data) => JSON.parse(data)]
 })
+
+export const api = {
+    getData,
+    createClassroom,
+    login
+}

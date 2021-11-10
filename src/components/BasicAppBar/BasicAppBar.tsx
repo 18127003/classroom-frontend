@@ -4,11 +4,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AddIcon from '@mui/icons-material/Add';
 import ClassCreateButton from './ClassCreateButton';
 import { BasicAppBarProps } from '@/@types/props';
-import useAuth from '@/hooks/useAuth';
+import { useSelector } from 'react-redux';
+import { AppState } from '@/reducers';
 
 const BasicAppBar: React.FC<BasicAppBarProps> = ({onClassPreCreate, onClassPostCreate}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const auth = useAuth();
+  const auth = useSelector((state:AppState)=>state.authReducer.user);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -65,7 +66,7 @@ const BasicAppBar: React.FC<BasicAppBarProps> = ({onClassPreCreate, onClassPostC
               onMenuItemClick={handleClose}
             />
           </Menu>
-          <Avatar sx={{ bgcolor: 'rgba(0, 128, 0, 0.3)' }}>{auth?.user?.name.slice(0,2)}</Avatar>
+          <Avatar sx={{ bgcolor: 'rgba(0, 128, 0, 0.3)' }}>{auth.name.slice(0,2)}</Avatar>
         </Toolbar>
       </AppBar>
     </Box>

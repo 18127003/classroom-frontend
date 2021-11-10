@@ -1,27 +1,38 @@
-import { AuthRequest, Classroom } from "@/model/model"
-import { getData, createClassroom, login } from "./api"
 
-export const getClassrooms = async (forceLoad: boolean) =>{
+import { AuthRequestInfo, Classroom } from "@/@types/model"
+import { api } from "./api"
+
+const getClassrooms = async (forceLoad: boolean) =>{
     let localData = localStorage.getItem("classes")
     if(!localData || forceLoad){
-        const res = await getData()
-        saveLocal("classes", res.data)
-        localData = localStorage.getItem("classes")
+        const res = await api.getData()
+        if (res.status===200){
+            saveLocal("classes", res.data)
+            localData = localStorage.getItem("classes")
+        } else {
+            return null;
+        }
     }
     if(localData){
         return JSON.parse(localData)
     }
-    return []
+    return null;
 }
 
-export const addClassroom = async (classroom: Classroom)=>{
-    return await createClassroom(classroom)
+const addClassroom = async (classroom: Classroom)=>{
+    return await api.createClassroom(classroom)
 }
 
-export const saveLocal = (item: string, data: any[])=>{
+const saveLocal = (item: string, data: any[])=>{
     localStorage.setItem(item, JSON.stringify(data))
 }
 
-export const loginUser = async (auth: AuthRequest)=>{
-    return await login(auth);
+const login = async (auth: AuthRequestInfo)=>{
+    return await api.login(auth);
+}
+export const userService = {
+    getClassrooms,
+    addClassroom,
+    saveLocal,
+    login
 }

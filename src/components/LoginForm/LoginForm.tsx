@@ -1,34 +1,45 @@
-import useAuth from "@/hooks/useAuth";
+import { loginRequest } from "@/actions/auth";
+import { AppState } from "@/reducers";
 import { Box, Button, CircularProgress, Stack, TextField } from "@mui/material";
 import React, { SyntheticEvent, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect, useHistory } from "react-router-dom";
 
 const LoginForm = () => {
-    const auth = useAuth();
-    const history = useHistory();
-    const [loading, setLoading]=useState(false);
+    const dispatch = useDispatch();
+    const loading = useSelector((state: AppState) => state.authReducer.loading);
+    const auth = useSelector((state: AppState)=>state.authReducer.user);
+    const error = useSelector((state: AppState)=>state.authReducer.error);
 
-    const handleLoginSubmit=(event:SyntheticEvent)=>{
+    const handleLoginSubmit=async(event:SyntheticEvent)=>{
         event.preventDefault();
         const target = event.target as typeof event.target & {
             username: { value: string };
             password: { value: string };
         };
 
-        setLoading(true)
-        auth?.login(
-            {
-                username: target.username.value,
-                password: target.password.value
-            },
-            ()=>{
-                setLoading(false)
-                history.push("/")
-            }
-        )
-
+        // setLoading(true)
+        // auth?.login(
+        //     {
+        //         username: target.username.value,
+        //         password: target.password.value
+        //     },
+        //     ()=>{
+                // setLoading(false)
+                // history.push("/")
+        //         console.log("push")
+        //     }
+        // )
+        dispatch(loginRequest({
+            username: target.username.value,
+            password: target.password.value
+        }))
+        // history.push("/")
     }
 
+    if(auth!==null && auth!==undefined){
+        return <Redirect to="/"/>
+    }
     return(
         <Box 
             component="form"
@@ -38,6 +49,7 @@ const LoginForm = () => {
             onSubmit={handleLoginSubmit}
         >
             <Stack>
+                <div>{loading}</div>
                 <TextField
                     autoFocus
                     required

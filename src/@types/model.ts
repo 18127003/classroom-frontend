@@ -18,7 +18,7 @@ export interface Account {
     role:string|null
 }
 
-export interface AuthRequest {
+export interface AuthRequestInfo {
     username: string,
     password: string
 }

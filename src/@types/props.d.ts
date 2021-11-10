@@ -1,4 +1,4 @@
-import { Account, AssignedClassroom } from "@/model/model";
+import { AssignedClassroom } from "@/@types/model";
 
 type ClassroomGridProps = {
     classes: AssignedClassroom[]
@@ -24,4 +24,10 @@ type CreateClassDialogProps = {
     handleClose: ()=>void
     onPostCreate: (classroom: AssignedClassroom)=>void
     onPreCreate: ()=>void
+}
+
+type ClassroomAction = {
+    type: string,
+    data?: AssignedClassroom[],
+    error?: string
 }
