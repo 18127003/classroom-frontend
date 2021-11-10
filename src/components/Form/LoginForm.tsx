@@ -8,7 +8,6 @@ import { Redirect } from "react-router-dom";
 const LoginForm = () => {
     const dispatch = useDispatch();
     const loading = useSelector((state: AppState) => state.auth.loading);
-    const auth = useSelector((state: AppState)=>state.auth.user);
     const error = useSelector((state: AppState)=>state.auth.error);
 
     const handleLoginSubmit=async(event:SyntheticEvent)=>{
@@ -24,9 +23,6 @@ const LoginForm = () => {
         }))
     }
 
-    if(auth!==null && auth!==undefined){
-        return <Redirect to="/"/>
-    }
     return(
         <Box 
             component="form"

@@ -20,6 +20,11 @@ export interface AuthRequest{
     payload: AuthRequestInfo
 }
 
+export interface AuthRefresh {
+    type: typeof authActions.LOGIN_REFRESH
+    payload: Account
+}
+
 export interface AuthSuccess {
     type: typeof authActions.LOGIN_SUCCESS
     payload: AuthSuccessPayload
@@ -34,3 +39,4 @@ export type AuthAction =
     | AuthRequest
     | AuthSuccess
     | AuthFail
+    | AuthRefresh
