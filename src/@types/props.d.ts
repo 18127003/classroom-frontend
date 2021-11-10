@@ -1,4 +1,5 @@
 import { AssignedClassroom } from "@/@types/model";
+import { RouteProps } from "react-router-dom";
 
 type ClassroomGridProps = {
     classes: AssignedClassroom[]
@@ -10,18 +11,13 @@ type ClassroomCardProps = {
 
 type ClassCreateButtonProps = {
     onMenuItemClick: ()=>void
-    onPostCreate: (classroom: AssignedClassroom)=>void
-    onPreCreate: ()=>void
-}
-
-type BasicAppBarProps = {
-    onClassPostCreate: (classroom: AssignedClassroom)=>void
-    onClassPreCreate: ()=>void
 }
 
 type CreateClassDialogProps = {
     isOpen: boolean
     handleClose: ()=>void
-    onPostCreate: (classroom: AssignedClassroom)=>void
-    onPreCreate: ()=>void
+}
+
+interface CustomRouteProps extends RouteProps {
+    protected?: boolean
 }

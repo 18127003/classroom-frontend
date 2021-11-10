@@ -3,9 +3,7 @@ import React, { useState } from "react";
 import { ClassCreateButtonProps } from "@/@types/props";
 import { CreateClassDialog } from "../Dialog/CreateClassdialog";
 
-const ClassCreateButton: React.FC<ClassCreateButtonProps> = ({
-    onMenuItemClick, onPreCreate, onPostCreate
-  }) => {
+const ClassCreateButton: React.FC<ClassCreateButtonProps> = ({onMenuItemClick}) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -23,8 +21,6 @@ const ClassCreateButton: React.FC<ClassCreateButtonProps> = ({
       <CreateClassDialog 
         isOpen={open} 
         handleClose={handleClose}
-        onPostCreate={onPostCreate}
-        onPreCreate={onPreCreate}
       />
     </div>
   );

@@ -5,8 +5,7 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextFie
 import React, { SyntheticEvent } from "react";
 import { useDispatch } from "react-redux";
 
-export const CreateClassDialog: React.FC<CreateClassDialogProps> = ({
-    isOpen, handleClose, onPostCreate, onPreCreate}) => {
+export const CreateClassDialog: React.FC<CreateClassDialogProps> = ({isOpen, handleClose}) => {
     const dispatch = useDispatch();
 
     const handleSubmit = async (event: SyntheticEvent) => {

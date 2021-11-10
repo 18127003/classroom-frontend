@@ -4,6 +4,7 @@ import { useCookies } from "react-cookie";
 import { authActions } from "../constants/actions";
 import {all, call, put, takeLatest} from "redux-saga/effects";
 import { AuthSuccessPayload, AuthSuccess, AuthFailPayload, AuthFail, AuthAction, AuthRequest } from "@/@types/auth.action";
+import { COOKIES_AUTH_NAME } from "@/constants/common";
 
 
 export const loginRequest = (auth: AuthRequestInfo) => ({
@@ -22,9 +23,9 @@ export const loginFail = (payload: AuthFailPayload):AuthFail =>({
 });
  
 function* loginSaga(action: AuthAction) {
-    // const [cookies, setCookies] = useCookies(['user']);
     try{
         const user = yield call(userService.login, (action as AuthRequest).payload);
+        userService.saveCookies(COOKIES_AUTH_NAME, user.data);
         yield put(loginSuccess({
             user: user.data
         }))

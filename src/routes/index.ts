@@ -7,6 +7,7 @@ type AppRoute = {
     name:string,
     component: React.FC,
     exact:boolean,
+    protected: boolean
     props?:any
 }
 
@@ -15,12 +16,14 @@ const routes: AppRoute[] = [
         path: '/',
         name: 'Home Page',
         component: HomePage,
+        protected: true,
         exact: true
     },
     {
         path: '/login',
         name: 'Login Page',
         component: LoginPage,
+        protected: false,
         exact: true,
     }
 ]

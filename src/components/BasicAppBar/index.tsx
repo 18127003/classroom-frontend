@@ -3,11 +3,10 @@ import {AppBar, Box, Toolbar, Typography, IconButton, Menu, Avatar} from '@mui/m
 import MenuIcon from '@mui/icons-material/Menu';
 import AddIcon from '@mui/icons-material/Add';
 import ClassCreateButton from './ClassCreateButton';
-import { BasicAppBarProps } from '@/@types/props';
 import { useSelector } from 'react-redux';
 import { AppState } from '@/reducers';
 
-const BasicAppBar: React.FC<BasicAppBarProps> = ({onClassPreCreate, onClassPostCreate}) => {
+const BasicAppBar: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const auth = useSelector((state:AppState)=>state.auth.user);
 
@@ -61,8 +60,6 @@ const BasicAppBar: React.FC<BasicAppBarProps> = ({onClassPreCreate, onClassPostC
             }}
           >
             <ClassCreateButton 
-              onPreCreate={onClassPreCreate}
-              onPostCreate={onClassPostCreate}
               onMenuItemClick={handleClose}
             />
           </Menu>

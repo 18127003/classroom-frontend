@@ -1,6 +1,7 @@
 
 import { AssignedClassroom, AuthRequestInfo, Classroom, GetClassroomsCriteria } from "@/@types/model"
 import { LOCAL_STORAGE_CLASSES_NAME } from "@/constants/common"
+import Cookies from "universal-cookie"
 import { api } from "./api"
 
 const getClassrooms = async (criteria: GetClassroomsCriteria) =>{
@@ -28,6 +29,14 @@ const saveLocal = (item: string, data: any[])=>{
     localStorage.setItem(item, JSON.stringify(data))
 }
 
+const saveCookies = (name:string, value:any)=>{
+    const cookies = new Cookies();
+    cookies.set(name,value,{
+        'path':'/',
+        'maxAge':3600000
+    })
+}
+
 const addClassroomLocal = (classroom: AssignedClassroom)=>{
     let newData: AssignedClassroom[] = []
     let localData = localStorage.getItem(LOCAL_STORAGE_CLASSES_NAME)
@@ -45,6 +54,7 @@ export const userService = {
     getClassrooms,
     addClassroom,
     saveLocal,
+    saveCookies,
     addClassroomLocal,
     login
 }
