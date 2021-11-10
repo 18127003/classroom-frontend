@@ -1,7 +1,6 @@
-import BasicAppBar from "@/components/BasicAppBar/BasicAppBar"
-import ClassroomsGrid from "@/components/ClassroomGrid/ClassroomsGrid"
+import BasicAppBar from "@/components/BasicAppBar"
+import ClassroomsGrid from "@/components/ClassroomGrid"
 import { AssignedClassroom } from "@/@types/model"
-import { userService } from "@/services/service"
 import { LinearProgress } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
@@ -9,9 +8,8 @@ import { AppState } from "@/reducers"
 import { Redirect } from "react-router"
 
 const HomePage = ()=>{
-    const[classes, setClasses]=useState<AssignedClassroom[]>([])
-    const[loading, setLoading]=useState(true)
-    const auth = useSelector((state: AppState)=>state.authReducer.user);
+    const loading = useSelector((state: AppState)=>state.classrooms.loading);
+    const auth = useSelector((state: AppState)=>state.auth.user);
 
 
     // useEffect(()=>{
@@ -46,10 +44,8 @@ const HomePage = ()=>{
                 onClassPreCreate={onClassPreCreate}
                 onClassPostCreate={onClassPostCreate}
             />
-            {/* <LinearProgress sx={loading?{}:{display: 'none'}}/> */}
-            {/* <ClassroomsGrid 
-                classes={classes}
-            /> */}
+            <LinearProgress sx={loading?{}:{display: 'none'}}/>
+            <ClassroomsGrid/>
         </>
     )
 }

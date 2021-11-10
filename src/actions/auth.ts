@@ -1,9 +1,9 @@
 import { AuthRequestInfo } from "@/@types/model";
-import { userService } from "@/services/service";
+import { userService } from "@/services";
 import { useCookies } from "react-cookie";
 import { actionConstants } from "./actions.constant";
 import {all, call, put, takeLatest} from "redux-saga/effects";
-import { AuthSuccessPayload, AuthSuccess, AuthFailPayload, AuthFail, AuthAction, AuthRequest } from "@/@types/action.type";
+import { AuthSuccessPayload, AuthSuccess, AuthFailPayload, AuthFail, AuthAction, AuthRequest } from "@/@types/auth.action";
 
 
 export const loginRequest = (auth: AuthRequestInfo) => ({

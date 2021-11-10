@@ -7,9 +7,7 @@ type AppRoute = {
     name:string,
     component: React.FC,
     exact:boolean,
-    props?:any,
-    condition?: ()=>boolean,
-    redirect?: string
+    props?:any
 }
 
 const routes: AppRoute[] = [

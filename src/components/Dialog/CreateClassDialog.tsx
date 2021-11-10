@@ -1,5 +1,5 @@
 import { CreateClassDialogProps } from "@/@types/props";
-import { userService } from "@/services/service";
+import { userService } from "@/services";
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import React, { SyntheticEvent } from "react";
 
@@ -14,6 +14,7 @@ export const CreateClassDialog: React.FC<CreateClassDialogProps> = ({
             classroomTopic: { value: string };
             classroomRoom: { value: string };
         };
+
         handleClose();
         onPreCreate();
         let classroom = await userService.addClassroom({

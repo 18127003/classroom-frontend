@@ -22,3 +22,7 @@ export interface AuthRequestInfo {
     username: string,
     password: string
 }
+
+export interface GetClassroomsCriteria {
+    reload: boolean
+}

@@ -1,10 +1,10 @@
 
-import { AuthRequestInfo, Classroom } from "@/@types/model"
+import { AuthRequestInfo, Classroom, GetClassroomsCriteria } from "@/@types/model"
 import { api } from "./api"
 
-const getClassrooms = async (forceLoad: boolean) =>{
+const getClassrooms = async (criteria: GetClassroomsCriteria) =>{
     let localData = localStorage.getItem("classes")
-    if(!localData || forceLoad){
+    if(!localData || criteria.reload){
         const res = await api.getData()
         if (res.status===200){
             saveLocal("classes", res.data)

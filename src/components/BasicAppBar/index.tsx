@@ -9,7 +9,7 @@ import { AppState } from '@/reducers';
 
 const BasicAppBar: React.FC<BasicAppBarProps> = ({onClassPreCreate, onClassPostCreate}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const auth = useSelector((state:AppState)=>state.authReducer.user);
+  const auth = useSelector((state:AppState)=>state.auth.user);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

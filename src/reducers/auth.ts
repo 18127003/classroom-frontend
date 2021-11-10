@@ -1,4 +1,4 @@
-import { AuthState, AuthAction, AuthSuccess, AuthFail } from "@/@types/action.type";
+import { AuthState, AuthAction, AuthSuccess, AuthFail } from "@/@types/auth.action";
 import { actionConstants } from "@/actions/actions.constant";
 
 const initState:AuthState = {loading:false, user: null, error:null}

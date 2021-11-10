@@ -1,5 +1,5 @@
 
-import LoginForm from "@/components/LoginForm/LoginForm";
+import LoginForm from "@/components/Form/LoginForm";
 import { Box } from "@mui/material";
 import React from "react";
 

@@ -25,9 +25,3 @@ type CreateClassDialogProps = {
     onPostCreate: (classroom: AssignedClassroom)=>void
     onPreCreate: ()=>void
 }
-
-type ClassroomAction = {
-    type: string,
-    data?: AssignedClassroom[],
-    error?: string
-}
