@@ -1,21 +1,22 @@
 export interface Classroom{
     name: string,
-    code: string|undefined,
-    part: string,
-    id: number|undefined,
-    room: string,
-    topic: string
+    code?: string,
+    part?: string,
+    id?: number,
+    room?: string,
+    topic?: string,
+    description?: string
 }
 
 export interface AssignedClassroom extends Classroom{
-    role: string,
-    creator:string
+    role: 'TEACHER'|'STUDENT',
+    creator: string
 }
 
 export interface Account {
     name: string,
     id: number,
-    role:string|null
+    role?:string
 }
 
 export interface AuthRequestInfo {

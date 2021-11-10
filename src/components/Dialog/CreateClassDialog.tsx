@@ -1,6 +1,5 @@
 import { CreateClassDialogProps } from "@/@types/props";
 import { addClassroomRequest } from "@/actions/classrooms";
-import { userService } from "@/services";
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import React, { SyntheticEvent } from "react";
 import { useDispatch } from "react-redux";
@@ -22,9 +21,7 @@ export const CreateClassDialog: React.FC<CreateClassDialogProps> = ({isOpen, han
           name: target.classroomName.value,
           part: target.classroomPart.value,
           topic: target.classroomTopic.value,
-          room: target.classroomRoom.value,
-          code: undefined,
-          id: undefined
+          room: target.classroomRoom.value
         }));
     }
 
