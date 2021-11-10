@@ -1,10 +1,13 @@
 import { CreateClassDialogProps } from "@/@types/props";
+import { addClassroomRequest } from "@/actions/classrooms";
 import { userService } from "@/services";
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import React, { SyntheticEvent } from "react";
+import { useDispatch } from "react-redux";
 
 export const CreateClassDialog: React.FC<CreateClassDialogProps> = ({
     isOpen, handleClose, onPostCreate, onPreCreate}) => {
+    const dispatch = useDispatch();
 
     const handleSubmit = async (event: SyntheticEvent) => {
         event.preventDefault();
@@ -16,16 +19,14 @@ export const CreateClassDialog: React.FC<CreateClassDialogProps> = ({
         };
 
         handleClose();
-        onPreCreate();
-        let classroom = await userService.addClassroom({
+        dispatch(addClassroomRequest({
           name: target.classroomName.value,
           part: target.classroomPart.value,
           topic: target.classroomTopic.value,
           room: target.classroomRoom.value,
           code: undefined,
           id: undefined
-        });
-        onPostCreate(classroom.data);
+        }));
     }
 
     return (

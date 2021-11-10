@@ -1,30 +1,41 @@
-import { ClassroomsState, GetClassroomsAction, GetClassroomsFail, GetClassroomsSuccess } from "@/@types/classroom.action";
-import { actionConstants } from "@/actions/actions.constant";
+import { AddClassroomsFail, ClassroomAction, ClassroomsState, GetClassroomsFail, GetClassroomsSuccess } from "@/@types/classroom.action";
+import { classroomActions } from "@/constants/actions";
 
 const initState:ClassroomsState = {loading:false, classes: [], error:null}
 
-export const classroomsReducer = (state: ClassroomsState = initState, action: GetClassroomsAction):ClassroomsState=>{
+export const classroomsReducer = (state: ClassroomsState = initState, action: ClassroomAction):ClassroomsState=>{
     console.log(action.type)
     switch(action.type){
-        case actionConstants.GETALL_REQUEST:
+        case classroomActions.GETALL_REQUEST:
             return {
                 ...state,
                 loading: true
             };
-        case actionConstants.GETALL_SUCCESS:
+        case classroomActions.GETALL_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 classes: (action as GetClassroomsSuccess).payload.classes,
                 error:null
             };
-        case actionConstants.GETALL_FAILURE:
+        case classroomActions.GETALL_FAILURE:
             return {
                 ...state,
                 loading: false,
                 classes: [],
                 error: (action as GetClassroomsFail).payload.error
             };
+        case classroomActions.ADD_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case classroomActions.ADD_FAILURE:
+            return{
+                ...state,
+                loading: false,
+                error: (action as AddClassroomsFail).payload.error
+            }
         default:
             return state;
     }

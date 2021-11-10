@@ -1,4 +1,4 @@
-import { actionConstants } from "@/actions/actions.constant";
+import { authActions } from "@/constants/actions";
 import { Account, AuthRequestInfo } from "./model";
 
 export interface AuthSuccessPayload {
@@ -16,17 +16,17 @@ export interface AuthState {
 }
 
 export interface AuthRequest{
-    type: typeof actionConstants.LOGIN_REQUEST
+    type: typeof authActions.LOGIN_REQUEST
     payload: AuthRequestInfo
 }
 
 export interface AuthSuccess {
-    type: typeof actionConstants.LOGIN_SUCCESS
+    type: typeof authActions.LOGIN_SUCCESS
     payload: AuthSuccessPayload
 }
 
 export interface AuthFail {
-    type: typeof actionConstants.LOGIN_FAIL
+    type: typeof authActions.LOGIN_FAIL
     payload: AuthFailPayload
 }
 
