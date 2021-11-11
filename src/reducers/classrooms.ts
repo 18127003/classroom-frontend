@@ -1,5 +1,5 @@
 import { AddClassroomsFail, ClassroomAction, ClassroomsState, GetClassroomsFail, GetClassroomsSuccess } from "@/@types/classroom.action";
-import { classroomActions } from "@/constants/actions";
+import { authActions, classroomActions } from "@/constants/actions";
 
 const initState:ClassroomsState = {loading:false, classes: [], error:null}
 
@@ -36,6 +36,8 @@ export const classroomsReducer = (state: ClassroomsState = initState, action: Cl
                 loading: false,
                 error: (action as AddClassroomsFail).payload.error
             }
+        case authActions.LOGOUT_SUCCESS:
+            return initState;
         default:
             return state;
     }

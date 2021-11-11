@@ -1,4 +1,4 @@
-import { AuthRequestInfo, Classroom } from '@/@types/model';
+import { Account, AuthRequestInfo, Classroom } from '@/@types/model';
 import axios from 'axios';
 
 const instance = axios.create({
@@ -30,8 +30,22 @@ const login = (auth: AuthRequestInfo) => instance({
     transformResponse: [(data) => JSON.parse(data)]
 })
 
+const logout = () => instance({
+    'method':'POST',
+    'url':'/auth/logout'
+})
+
+const signup = (account: Account)=>instance({
+    'method':'POST',
+    'url':'/account/create',
+    'data': account,
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
 export const api = {
     getData,
     createClassroom,
-    login
+    login,
+    logout,
+    signup
 }

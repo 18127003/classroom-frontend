@@ -3,7 +3,7 @@ import { authService, commonService } from "@/services";
 import { authActions } from "../constants/actions";
 import {all, call, put, takeLatest} from "redux-saga/effects";
 import { AuthSuccessPayload, AuthSuccess, AuthFailPayload, AuthFail, AuthRequest, 
-    AuthRefresh, LogoutSuccess, LogoutFail, LogoutFailPayload } from "@/@types/auth.action";
+    AuthRefresh, LogoutSuccess, LogoutFail, LogoutFailPayload, SignupSuccess, SignupFailPayload, SignupFail, SignupRequest } from "@/@types/auth.action";
 import { COOKIES_AUTH_NAME } from "@/constants/common";
 
 
@@ -62,14 +62,54 @@ export const logoutFail = (payload: LogoutFailPayload):LogoutFail =>({
 
  
 function* logoutSaga() {
-    yield put(logoutSuccess())
+    try{
+        yield call(authService.logout)
+        // localStorage.clear()
+        yield put(logoutSuccess())
+    } catch(e){
+        yield put(logoutFail({
+            error: 'Logout Failed'
+        }))
+    }
+}
+
+export const signupRequest = (account: Account): SignupRequest => ({
+    type: authActions.SIGNUP_REQUEST,
+    payload: account
+});
+
+export const signupSuccess = ():SignupSuccess =>({
+    type: authActions.SIGNUP_SUCCESS
+});
+
+export const signupFail = (payload: SignupFailPayload):SignupFail =>({
+    type: authActions.SIGNUP_FAIL,
+    payload: payload
+});
+
+ 
+function* signupSaga(action: SignupRequest) {
+    try{
+        const res = yield call(authService.signup, action.payload)
+        const user: Account = res.data
+        yield put(signupSuccess())
+        yield put(loginRequest({
+            username: user.name,
+            password: action.payload.password
+        }))
+    } catch(e){
+        yield put(signupFail({
+            error: 'Signup Failed'
+        }))
+    }
 }
 
 export function* authSaga() {
     yield all([
         takeLatest(authActions.LOGIN_REQUEST, loginSaga),
         takeLatest(authActions.LOGIN_REFRESH, refreshLoginSaga),
-        takeLatest(authActions.LOGOUT_REQUEST, logoutSaga)
+        takeLatest(authActions.LOGOUT_REQUEST, logoutSaga),
+        takeLatest(authActions.SIGNUP_REQUEST, signupSaga)
     ]);
 }
 

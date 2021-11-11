@@ -15,8 +15,10 @@ export interface AssignedClassroom extends Classroom{
 
 export interface Account {
     name: string,
-    id: number,
-    role?:string
+    id?: number,
+    email?: string,
+    role?:string,
+    password?:string
 }
 
 export interface AuthRequestInfo {

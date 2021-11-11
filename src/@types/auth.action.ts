@@ -52,6 +52,29 @@ export interface LogoutFail {
     payload: LogoutFailPayload
 }
 
+export interface SignupFailPayload{
+    error: string
+}
+
+export interface SignupRequest{
+    type: typeof authActions.SIGNUP_REQUEST
+    payload: Account
+}
+
+export interface SignupSuccess {
+    type: typeof authActions.SIGNUP_SUCCESS
+}
+
+export interface SignupFail {
+    type: typeof authActions.SIGNUP_FAIL
+    payload: SignupFailPayload
+}
+
+type SignupAction = 
+    | SignupRequest
+    | SignupSuccess
+    | SignupFail
+
 type LoginAction = 
     | AuthRequest
     | AuthSuccess
@@ -63,5 +86,5 @@ type LogoutAction =
     | LogoutSuccess
     | LogoutFail
 
-export type AuthAction = LoginAction | LogoutAction
+export type AuthAction = LoginAction | LogoutAction | SignupAction
     

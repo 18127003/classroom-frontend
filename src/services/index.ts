@@ -1,5 +1,5 @@
 
-import { AssignedClassroom, AuthRequestInfo, Classroom, GetClassroomsCriteria } from "@/@types/model"
+import { Account, AssignedClassroom, AuthRequestInfo, Classroom, GetClassroomsCriteria } from "@/@types/model"
 import { LOCAL_STORAGE_CLASSES_NAME } from "@/constants/common"
 import Cookies from "universal-cookie"
 import { api } from "./api"
@@ -51,11 +51,18 @@ const login = async (auth: AuthRequestInfo)=>{
     return await api.login(auth);
 }
 
-const logout = ()=>{
+const logout = async ()=>{
+    return await api.logout();
+}
+
+const signup = async (account: Account)=>{
+    return await api.signup(account);
 }
 
 export const authService = {
-    login
+    login,
+    logout,
+    signup
 }
 
 export const classroomService = {

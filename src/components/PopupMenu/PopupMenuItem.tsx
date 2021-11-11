@@ -15,7 +15,7 @@ const ClassJoinButton: React.FC<PopupMenuButtonProps> = ({onMenuItemClick, child
     const handleClose = () => {
       setOpen(false);
     };
-  
+
     return (
       <div>
         <MenuItem onClick={handleClickOpen}>{title}</MenuItem>

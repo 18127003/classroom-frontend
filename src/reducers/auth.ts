@@ -30,17 +30,27 @@ export const authReducer = (state: AuthState = initState, action: AuthAction):Au
                 loading: true
             };
         case authActions.LOGOUT_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                user:null,
-                error:null
-            }
+            return initState;
         case authActions.LOGOUT_FAIL:
             return {
                 ...state,
                 loading:false,
                 error: (action as LogoutFail).payload.error
+            }
+        case authActions.SIGNUP_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case authActions.SIGNUP_SUCCESS:
+            return {
+                ...state,
+                loading: false
+            }
+        case authActions.SIGNUP_FAIL:
+            return {
+                ...state,
+                loading: false
             }
         default:
             return state;

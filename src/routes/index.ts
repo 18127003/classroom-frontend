@@ -1,5 +1,6 @@
 import HomePage from "@/views/HomePage";
 import LoginPage from "@/views/LoginPage";
+import SignupPage from "@/views/SignupPage";
 import React from "react";
 
 type AppRoute = {
@@ -25,7 +26,15 @@ const routes: AppRoute[] = [
         component: LoginPage,
         protected: false,
         exact: true,
+    },
+    {
+        path: '/signup',
+        name: 'Signup Page',
+        component: SignupPage,
+        protected: false,
+        exact: true,
     }
+
 ]
 
 export default routes;

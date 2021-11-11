@@ -1,11 +1,11 @@
-import { loginRequest } from "@/actions/auth";
+import { signupRequest } from "@/actions/auth";
 import { AppState } from "@/reducers";
 import { Box, Button, CircularProgress, Stack, TextField } from "@mui/material";
 import React, { SyntheticEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-const LoginForm = () => {
+const SignupForm = () => {
     const dispatch = useDispatch();
     const loading = useSelector((state: AppState) => state.auth.loading);
     const error = useSelector((state: AppState)=>state.auth.error);
@@ -15,11 +15,13 @@ const LoginForm = () => {
         const target = event.target as typeof event.target & {
             username: { value: string };
             password: { value: string };
+            email: {value:string};
         };
 
-        dispatch(loginRequest({
-            username: target.username.value,
-            password: target.password.value
+        dispatch(signupRequest({
+            name: target.username.value,
+            password: target.password.value,
+            email: target.email.value
         }))
     }
 
@@ -41,6 +43,13 @@ const LoginForm = () => {
                 />
                 <TextField
                     required
+                    id="email"
+                    label="Email"
+                    name="email"
+                    type="email"
+                />
+                <TextField
+                    required
                     type="password"
                     id="password"
                     label="Password"
@@ -48,7 +57,7 @@ const LoginForm = () => {
                 />
                 
                 <Button variant="outlined" type="submit" sx={{m:2}} disabled={loading}>
-                        Login
+                        Sign Up
                 </Button>
                 {loading && (
                     <CircularProgress
@@ -57,12 +66,12 @@ const LoginForm = () => {
                             position: 'absolute',
                             top: '91%',
                             left: '45%',
-                            marginTop: '-19%',
+                            marginTop: '-17%',
                         }}
                     />
-                )} 
-                <Link to="/signup" style={{ textDecoration: 'none' }}>
-                    Don't have an account? Signup
+                )}
+                <Link to="/login" style={{ textDecoration: 'none' }}>
+                    Login
                 </Link>
           
             </Stack>
@@ -70,4 +79,4 @@ const LoginForm = () => {
     )
 }
 
-export default LoginForm;
+export default SignupForm;
