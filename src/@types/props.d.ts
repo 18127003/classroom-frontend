@@ -9,13 +9,22 @@ type ClassroomCardProps = {
     classroom: AssignedClassroom
 }
 
-type ClassCreateButtonProps = {
-    onMenuItemClick: ()=>void
+interface PopupMenuButtonProps {
+    onMenuItemClick?: ()=>void
+    children?: React.ReactNode
+    title: string
 }
 
-type CreateClassDialogProps = {
-    isOpen: boolean
-    handleClose: ()=>void
+interface DialogProps {
+    isOpen?: boolean
+    handleClose?: ()=>void
+}
+
+interface CreateClassDialogProps extends DialogProps {   
+}
+
+interface LogoutDialogProps extends DialogProps{
+    
 }
 
 interface CustomRouteProps extends RouteProps {

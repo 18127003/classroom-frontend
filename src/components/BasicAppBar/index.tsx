@@ -1,21 +1,16 @@
 import React from 'react';
-import {AppBar, Box, Toolbar, Typography, IconButton, Menu, Avatar} from '@mui/material';
+import {AppBar, Box, Toolbar, Typography, IconButton, Avatar} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AddIcon from '@mui/icons-material/Add';
-import ClassCreateButton from './ClassCreateButton';
 import { useSelector } from 'react-redux';
 import { AppState } from '@/reducers';
+import PopupMenu from '../PopupMenu';
+import { CreateClassDialog } from '../Dialog/CreateClassdialog';
+import PopupMenuItem from '../PopupMenu/PopupMenuItem';
+import LogoutDialog from '../Dialog/LogoutDialog';
 
 const BasicAppBar: React.FC = () => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const auth = useSelector((state:AppState)=>state.auth.user);
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -33,37 +28,34 @@ const BasicAppBar: React.FC = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Classroom
           </Typography>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            onClick={handleClick}
-          >
-            <AddIcon />
-          </IconButton>
-          <Menu
+          <PopupMenu
             id="classroom-menu"
-            aria-labelledby="classroom-menu"
-            keepMounted
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
+            icon={<AddIcon />}
+            iconSz={{
+              size:"large",
+              edge:"start",
+              color:"inherit",
+              sx:{ mr: 2 }
             }}
           >
-            <ClassCreateButton 
-              onMenuItemClick={handleClose}
-            />
-          </Menu>
-          <Avatar sx={{ bgcolor: 'rgba(0, 128, 0, 0.3)' }}>{auth.name.slice(0,2)}</Avatar>
+            <PopupMenuItem title="Create Class">
+              <CreateClassDialog/>
+            </PopupMenuItem>
+            <PopupMenuItem title="Join Class">
+              <CreateClassDialog/>
+            </PopupMenuItem>
+          </PopupMenu>
+          <PopupMenu 
+            id="profile-menu"
+            icon={<Avatar sx={{ bgcolor: 'rgba(0, 128, 0, 0.3)' }}>{auth.name.slice(0,2)}</Avatar>}
+          >
+            <PopupMenuItem title="Profile">
+              <CreateClassDialog/>
+            </PopupMenuItem>
+            <PopupMenuItem title="Logout">
+              <LogoutDialog/>
+            </PopupMenuItem>
+          </PopupMenu>
         </Toolbar>
       </AppBar>
     </Box>

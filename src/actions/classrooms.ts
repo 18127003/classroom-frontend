@@ -2,7 +2,7 @@ import { ClassroomAction, AddClassroomFailPayload, AddClassroomRequest, AddClass
     AddClassroomSuccessPayload, GetClassroomsFail, GetClassroomsFailPayload, 
     GetClassroomsRequest, GetClassroomsSuccess, GetClassroomsSuccessPayload } from "@/@types/classroom.action";
 import { AssignedClassroom, Classroom, GetClassroomsCriteria } from "@/@types/model";
-import { userService } from "@/services";
+import { classroomService } from "@/services";
 import { all, call, put, takeEvery, takeLatest } from "@redux-saga/core/effects";
 import { classroomActions } from "../constants/actions";
 
@@ -22,7 +22,7 @@ export const getClassroomsFail = (payload: GetClassroomsFailPayload):GetClassroo
 });
  
 function* getClassroomsSaga(action: ClassroomAction) {
-    const classes = yield call(userService.getClassrooms, (action as GetClassroomsRequest).payload);
+    const classes = yield call(classroomService.getClassrooms, (action as GetClassroomsRequest).payload);
     if(classes) {
         yield put(getClassroomsSuccess({
             classes: classes
@@ -51,8 +51,8 @@ export const addClassroomFail = (payload: AddClassroomFailPayload):AddClassrooms
  
 function* addClassroomsSaga(action: ClassroomAction) {
     try{
-        const classroom = yield call(userService.addClassroom, (action as AddClassroomRequest).payload);
-        userService.addClassroomLocal(classroom.data)
+        const classroom = yield call(classroomService.addClassroom, (action as AddClassroomRequest).payload);
+        classroomService.addClassroomLocal(classroom.data)
         yield put(addClassroomSuccess({
             classroom: classroom.data
         }))

@@ -50,11 +50,21 @@ const addClassroomLocal = (classroom: AssignedClassroom)=>{
 const login = async (auth: AuthRequestInfo)=>{
     return await api.login(auth);
 }
-export const userService = {
+
+const logout = ()=>{
+}
+
+export const authService = {
+    login
+}
+
+export const classroomService = {
     getClassrooms,
     addClassroom,
+    addClassroomLocal,
+}
+
+export const commonService = {
     saveLocal,
     saveCookies,
-    addClassroomLocal,
-    login
 }

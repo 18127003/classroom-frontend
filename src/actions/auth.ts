@@ -1,9 +1,9 @@
 import { Account, AuthRequestInfo } from "@/@types/model";
-import { userService } from "@/services";
-import { useCookies } from "react-cookie";
+import { authService, commonService } from "@/services";
 import { authActions } from "../constants/actions";
 import {all, call, put, takeLatest} from "redux-saga/effects";
-import { AuthSuccessPayload, AuthSuccess, AuthFailPayload, AuthFail, AuthAction, AuthRequest, AuthRefresh } from "@/@types/auth.action";
+import { AuthSuccessPayload, AuthSuccess, AuthFailPayload, AuthFail, AuthRequest, 
+    AuthRefresh, LogoutSuccess, LogoutFail, LogoutFailPayload } from "@/@types/auth.action";
 import { COOKIES_AUTH_NAME } from "@/constants/common";
 
 
@@ -29,8 +29,8 @@ export const loginFail = (payload: AuthFailPayload):AuthFail =>({
  
 function* loginSaga(action: AuthRequest) {
     try{
-        const user = yield call(userService.login, action.payload);
-        userService.saveCookies(COOKIES_AUTH_NAME, user.data);
+        const user = yield call(authService.login, action.payload);
+        commonService.saveCookies(COOKIES_AUTH_NAME, user.data);
         yield put(loginSuccess({
             user: user.data
         }))
@@ -47,12 +47,32 @@ function* refreshLoginSaga(action: AuthRefresh) {
     }))
 }
 
+export const logoutRequest = () => ({
+    type: authActions.LOGOUT_REQUEST
+});
+
+export const logoutSuccess = ():LogoutSuccess =>({
+    type: authActions.LOGOUT_SUCCESS
+});
+
+export const logoutFail = (payload: LogoutFailPayload):LogoutFail =>({
+    type: authActions.LOGOUT_FAIL,
+    payload: payload
+});
+
+ 
+function* logoutSaga() {
+    yield put(logoutSuccess())
+}
+
 export function* authSaga() {
     yield all([
         takeLatest(authActions.LOGIN_REQUEST, loginSaga),
-        takeLatest(authActions.LOGIN_REFRESH, refreshLoginSaga)
+        takeLatest(authActions.LOGIN_REFRESH, refreshLoginSaga),
+        takeLatest(authActions.LOGOUT_REQUEST, logoutSaga)
     ]);
 }
+
 
 export default authSaga;
 
