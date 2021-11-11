@@ -42,10 +42,18 @@ const signup = (account: Account)=>instance({
     transformResponse: [(data) => JSON.parse(data)]
 })
 
+const socialLogin = (tokenId: string)=>instance({
+    'method':'POST',
+    'url':'/auth/socialLogin',
+    'data': tokenId,
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
 export const api = {
     getData,
     createClassroom,
     login,
     logout,
-    signup
+    signup,
+    socialLogin
 }

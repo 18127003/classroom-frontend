@@ -59,10 +59,15 @@ const signup = async (account: Account)=>{
     return await api.signup(account);
 }
 
+const socialLogin = async (tokenId: string)=>{
+    return await api.socialLogin(tokenId)
+}
+
 export const authService = {
     login,
     logout,
-    signup
+    signup,
+    socialLogin
 }
 
 export const classroomService = {

@@ -10,6 +10,11 @@ export const authReducer = (state: AuthState = initState, action: AuthAction):Au
                 ...state,
                 loading: true
             };
+        case authActions.SOCIAL_LOGIN_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
         case authActions.LOGIN_SUCCESS:
             return {
                 ...state,

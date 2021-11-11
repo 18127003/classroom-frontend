@@ -20,6 +20,11 @@ export interface AuthRequest{
     payload: AuthRequestInfo
 }
 
+export interface SocialAuthRequest{
+    type: typeof authActions.SOCIAL_LOGIN_REQUEST
+    payload: string // tokenId string
+}
+
 export interface AuthRefresh {
     type: typeof authActions.LOGIN_REFRESH
     payload: Account
@@ -76,6 +81,7 @@ type SignupAction =
     | SignupFail
 
 type LoginAction = 
+    | SocialAuthRequest
     | AuthRequest
     | AuthSuccess
     | AuthFail

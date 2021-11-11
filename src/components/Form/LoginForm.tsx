@@ -4,6 +4,7 @@ import { Box, Button, CircularProgress, Stack, TextField } from "@mui/material";
 import React, { SyntheticEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import GoogleLoginButton from "../GoogleLoginButton";
 
 const LoginForm = () => {
     const dispatch = useDispatch();
@@ -55,16 +56,16 @@ const LoginForm = () => {
                         size={24}
                         sx={{
                             position: 'absolute',
-                            top: '91%',
+                            top: '80%',
                             left: '45%',
-                            marginTop: '-19%',
+                            marginTop: '-22%',
                         }}
                     />
                 )} 
                 <Link to="/signup" style={{ textDecoration: 'none' }}>
                     Don't have an account? Signup
                 </Link>
-          
+                <GoogleLoginButton/>
             </Stack>
         </Box>
     )

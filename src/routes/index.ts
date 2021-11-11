@@ -1,3 +1,4 @@
+import ClassroomPage from "@/views/ClassroomPage";
 import HomePage from "@/views/HomePage";
 import LoginPage from "@/views/LoginPage";
 import SignupPage from "@/views/SignupPage";
@@ -17,6 +18,13 @@ const routes: AppRoute[] = [
         path: '/',
         name: 'Home Page',
         component: HomePage,
+        protected: true,
+        exact: true
+    },
+    {
+        path: '/classroom/:id',
+        name: 'Classroom Page',
+        component: ClassroomPage,
         protected: true,
         exact: true
     },

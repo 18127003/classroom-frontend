@@ -3,7 +3,7 @@ import { authService, commonService } from "@/services";
 import { authActions } from "../constants/actions";
 import {all, call, put, takeLatest} from "redux-saga/effects";
 import { AuthSuccessPayload, AuthSuccess, AuthFailPayload, AuthFail, AuthRequest, 
-    AuthRefresh, LogoutSuccess, LogoutFail, LogoutFailPayload, SignupSuccess, SignupFailPayload, SignupFail, SignupRequest } from "@/@types/auth.action";
+    AuthRefresh, LogoutSuccess, LogoutFail, LogoutFailPayload, SignupSuccess, SignupFailPayload, SignupFail, SignupRequest, SocialAuthRequest } from "@/@types/auth.action";
 import { COOKIES_AUTH_NAME } from "@/constants/common";
 
 
@@ -64,7 +64,6 @@ export const logoutFail = (payload: LogoutFailPayload):LogoutFail =>({
 function* logoutSaga() {
     try{
         yield call(authService.logout)
-        // localStorage.clear()
         yield put(logoutSuccess())
     } catch(e){
         yield put(logoutFail({
@@ -104,12 +103,32 @@ function* signupSaga(action: SignupRequest) {
     }
 }
 
+export const socialLoginRequest = (tokenId: string) => ({
+    type: authActions.SOCIAL_LOGIN_REQUEST,
+    payload: tokenId
+});
+
+function* socialLoginSaga(action: SocialAuthRequest){
+    try{
+        const user = yield call(authService.socialLogin, action.payload)
+        commonService.saveCookies(COOKIES_AUTH_NAME, user.data);
+        yield put(loginSuccess({
+            user: user.data
+        }))
+    } catch(e){
+        yield put(loginFail({
+            error: 'Login Failed'
+        }))
+    }
+}
+
 export function* authSaga() {
     yield all([
         takeLatest(authActions.LOGIN_REQUEST, loginSaga),
         takeLatest(authActions.LOGIN_REFRESH, refreshLoginSaga),
         takeLatest(authActions.LOGOUT_REQUEST, logoutSaga),
-        takeLatest(authActions.SIGNUP_REQUEST, signupSaga)
+        takeLatest(authActions.SIGNUP_REQUEST, signupSaga),
+        takeLatest(authActions.SOCIAL_LOGIN_REQUEST, socialLoginSaga)
     ]);
 }
 
