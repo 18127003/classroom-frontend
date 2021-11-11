@@ -93,7 +93,7 @@ function* signupSaga(action: SignupRequest) {
         const user: Account = res.data
         yield put(signupSuccess())
         yield put(loginRequest({
-            username: user.name,
+            email: user.email,
             password: action.payload.password
         }))
     } catch(e){

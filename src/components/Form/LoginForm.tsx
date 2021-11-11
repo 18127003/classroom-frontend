@@ -14,12 +14,12 @@ const LoginForm = () => {
     const handleLoginSubmit=async(event:SyntheticEvent)=>{
         event.preventDefault();
         const target = event.target as typeof event.target & {
-            username: { value: string };
+            email: { value: string };
             password: { value: string };
         };
 
         dispatch(loginRequest({
-            username: target.username.value,
+            email: target.email.value,
             password: target.password.value
         }))
     }
@@ -36,9 +36,10 @@ const LoginForm = () => {
                 <TextField
                     autoFocus
                     required
-                    id="username"
-                    label="Username"
-                    name="username"
+                    type="email"
+                    id="email"
+                    label="Email"
+                    name="email"
                 />
                 <TextField
                     required
