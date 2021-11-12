@@ -1,4 +1,5 @@
 import { AssignedClassroom } from "@/@types/model";
+import ClassroomAppBar from "@/components/ClassroomAppBar";
 import React from "react";
 import { useLocation, useParams } from "react-router";
 
@@ -11,7 +12,11 @@ const ClassroomPage: React.FC = ()=>{
     const location = useLocation();
 
     return (
-        <div>Classroom code: {(location.state as AssignedClassroom).code}</div>
+        <>
+            <ClassroomAppBar/>
+            <div>Classroom code: {(location.state as AssignedClassroom).code}</div>
+        </>
+        
     )
 }
 
