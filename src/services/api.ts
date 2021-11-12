@@ -49,11 +49,21 @@ const socialLogin = (tokenId: string)=>instance({
     transformResponse: [(data) => JSON.parse(data)]
 })
 
+const joinClassroom = (code: string)=>instance({
+    'method':'POST',
+    'url':'/classroom/join',
+    'params':{
+        'code': code
+    },
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
 export const api = {
     getData,
     createClassroom,
     login,
     logout,
     signup,
-    socialLogin
+    socialLogin,
+    joinClassroom
 }

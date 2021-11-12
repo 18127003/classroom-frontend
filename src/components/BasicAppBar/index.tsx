@@ -8,6 +8,7 @@ import PopupMenu from '../PopupMenu';
 import { CreateClassDialog } from '../Dialog/CreateClassdialog';
 import PopupMenuItem from '../PopupMenu/PopupMenuItem';
 import LogoutDialog from '../Dialog/LogoutDialog';
+import JoinClassDialog from '../Dialog/JoinClassDialog';
 
 const BasicAppBar: React.FC = () => {
   const auth = useSelector((state:AppState)=>state.auth.user);
@@ -42,7 +43,7 @@ const BasicAppBar: React.FC = () => {
               <CreateClassDialog/>
             </PopupMenuItem>
             <PopupMenuItem title="Join Class">
-              <CreateClassDialog/>
+              <JoinClassDialog/>
             </PopupMenuItem>
           </PopupMenu>
           <PopupMenu 

@@ -20,12 +20,11 @@ interface DialogProps {
     handleClose?: ()=>void
 }
 
-interface CreateClassDialogProps extends DialogProps {   
-}
+interface CreateClassDialogProps extends DialogProps {}
 
-interface LogoutDialogProps extends DialogProps{
-    
-}
+interface JoinClassDialogProps extends DialogProps {}
+
+interface LogoutDialogProps extends DialogProps{}
 
 interface CustomRouteProps extends RouteProps {
     protected?: boolean

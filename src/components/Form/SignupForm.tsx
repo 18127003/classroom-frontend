@@ -1,6 +1,7 @@
 import { signupRequest } from "@/actions/auth";
 import { AppState } from "@/reducers";
 import { Box, Button, CircularProgress, Stack, TextField } from "@mui/material";
+import Typography from '@mui/material/Typography';
 import React, { SyntheticEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -13,13 +14,15 @@ const SignupForm = () => {
     const handleLoginSubmit=async(event:SyntheticEvent)=>{
         event.preventDefault();
         const target = event.target as typeof event.target & {
-            username: { value: string };
+            firstName: { value: string };
+            lastName: { value: string };
             password: { value: string };
             email: {value:string};
         };
 
         dispatch(signupRequest({
-            name: target.username.value,
+            firstName: target.firstName.value,
+            lastName: target.lastName.value,
             password: target.password.value,
             email: target.email.value
         }))
@@ -37,9 +40,15 @@ const SignupForm = () => {
                 <TextField
                     autoFocus
                     required
-                    id="username"
-                    label="Username"
-                    name="username"
+                    id="firstName"
+                    label="First Name"
+                    name="firstName"
+                />
+                 <TextField
+                    required
+                    id="lastName"
+                    label="Last Name"
+                    name="lastName"
                 />
                 <TextField
                     required
@@ -66,7 +75,7 @@ const SignupForm = () => {
                             position: 'absolute',
                             top: '91%',
                             left: '45%',
-                            marginTop: '-17%',
+                            marginTop: '-14%',
                         }}
                     />
                 )}
@@ -75,6 +84,7 @@ const SignupForm = () => {
                 </Link>
           
             </Stack>
+            <Typography variant="body2" color="red">{error}</Typography>
         </Box>
     )
 }

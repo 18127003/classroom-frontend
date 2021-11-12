@@ -1,6 +1,6 @@
 import { loginRequest } from "@/actions/auth";
 import { AppState } from "@/reducers";
-import { Box, Button, CircularProgress, Stack, TextField } from "@mui/material";
+import { Box, Button, CircularProgress, Stack, TextField, Typography } from "@mui/material";
 import React, { SyntheticEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -68,6 +68,7 @@ const LoginForm = () => {
                 </Link>
                 <GoogleLoginButton/>
             </Stack>
+            <Typography variant="body2" color="red">{error}</Typography>
         </Box>
     )
 }

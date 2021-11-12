@@ -25,6 +25,10 @@ const addClassroom = async (classroom: Classroom)=>{
     return await api.createClassroom(classroom)
 }
 
+const joinClassroom = async (code: string)=>{
+    return await api.joinClassroom(code)
+}
+
 const saveLocal = (item: string, data: any[])=>{
     localStorage.setItem(item, JSON.stringify(data))
 }
@@ -74,6 +78,7 @@ export const classroomService = {
     getClassrooms,
     addClassroom,
     addClassroomLocal,
+    joinClassroom
 }
 
 export const commonService = {

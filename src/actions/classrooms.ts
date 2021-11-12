@@ -1,7 +1,8 @@
 import { ClassroomAction, AddClassroomFailPayload, AddClassroomRequest, AddClassroomsFail, AddClassroomSuccess, 
     AddClassroomSuccessPayload, GetClassroomsFail, GetClassroomsFailPayload, 
-    GetClassroomsRequest, GetClassroomsSuccess, GetClassroomsSuccessPayload } from "@/@types/classroom.action";
-import { AssignedClassroom, Classroom, GetClassroomsCriteria } from "@/@types/model";
+    GetClassroomsRequest, GetClassroomsSuccess, GetClassroomsSuccessPayload, JoinClassroomRequest, 
+    JoinClassroomSuccessPayload, JoinClassroomSuccess, JoinClassroomFailPayload, JoinClassroomsFail } from "@/@types/classroom.action";
+import { Classroom, GetClassroomsCriteria } from "@/@types/model";
 import { classroomService } from "@/services";
 import { all, call, put, takeEvery, takeLatest } from "@redux-saga/core/effects";
 import { classroomActions } from "../constants/actions";
@@ -21,8 +22,8 @@ export const getClassroomsFail = (payload: GetClassroomsFailPayload):GetClassroo
     payload: payload
 });
  
-function* getClassroomsSaga(action: ClassroomAction) {
-    const classes = yield call(classroomService.getClassrooms, (action as GetClassroomsRequest).payload);
+function* getClassroomsSaga(action: GetClassroomsRequest) {
+    const classes = yield call(classroomService.getClassrooms, action.payload);
     if(classes) {
         yield put(getClassroomsSuccess({
             classes: classes
@@ -49,9 +50,9 @@ export const addClassroomFail = (payload: AddClassroomFailPayload):AddClassrooms
     payload: payload
 });
  
-function* addClassroomsSaga(action: ClassroomAction) {
+function* addClassroomsSaga(action: AddClassroomRequest) {
     try{
-        const classroom = yield call(classroomService.addClassroom, (action as AddClassroomRequest).payload);
+        const classroom = yield call(classroomService.addClassroom, action.payload);
         classroomService.addClassroomLocal(classroom.data)
         yield put(addClassroomSuccess({
             classroom: classroom.data
@@ -66,10 +67,43 @@ function* addClassroomsSaga(action: ClassroomAction) {
     }
 }
 
+export const joinClassroomRequest = (code: string): JoinClassroomRequest => ({
+    type: classroomActions.JOIN_REQUEST,
+    payload: code
+});
+
+export const joinClassroomSuccess = (payload: JoinClassroomSuccessPayload):JoinClassroomSuccess =>({
+    type: classroomActions.JOIN_SUCCESS,
+    payload: payload
+});
+
+export const joinClassroomFail = (payload: JoinClassroomFailPayload):JoinClassroomsFail =>({
+    type: classroomActions.JOIN_FAILURE,
+    payload: payload
+});
+ 
+function* joinClassroomsSaga(action: JoinClassroomRequest) {
+    try{
+        const classroom = yield call(classroomService.joinClassroom, action.payload);
+        classroomService.addClassroomLocal(classroom.data)
+        yield put(joinClassroomSuccess({
+            classroom: classroom.data
+        }))
+        yield put(getClassroomsRequest({
+            reload: false
+        }))
+    } catch (e){
+        yield put(joinClassroomFail({
+            error: 'Join classroom failed'
+        }))
+    }
+}
+
 export function* classroomsSaga() {
     yield all([
         takeLatest(classroomActions.GETALL_REQUEST, getClassroomsSaga),
-        takeEvery(classroomActions.ADD_REQUEST, addClassroomsSaga)
+        takeEvery(classroomActions.ADD_REQUEST, addClassroomsSaga),
+        takeEvery(classroomActions.JOIN_REQUEST, joinClassroomsSaga)
     ]);
 }
 

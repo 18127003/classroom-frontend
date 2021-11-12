@@ -54,6 +54,29 @@ export interface AddClassroomsFail {
     payload: AddClassroomFailPayload
 }
 
+export interface JoinClassroomSuccessPayload {
+    classroom: AssignedClassroom;
+}
+
+export interface JoinClassroomFailPayload{
+    error: string
+}
+
+export interface JoinClassroomRequest{
+    type: typeof classroomActions.JOIN_REQUEST,
+    payload: string
+}
+
+export interface JoinClassroomSuccess {
+    type: typeof classroomActions.JOIN_SUCCESS
+    payload: JoinClassroomSuccessPayload
+}
+
+export interface JoinClassroomsFail {
+    type: typeof classroomActions.JOIN_FAILURE
+    payload: JoinClassroomFailPayload
+}
+
 export type ClassroomAction = 
     | GetClassroomsRequest
     | GetClassroomsSuccess
@@ -61,3 +84,6 @@ export type ClassroomAction =
     | AddClassroomRequest
     | AddClassroomSuccess
     | AddClassroomsFail
+    | JoinClassroomRequest
+    | JoinClassroomSuccess
+    | JoinClassroomsFail

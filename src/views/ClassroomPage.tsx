@@ -1,5 +1,6 @@
+import { AssignedClassroom } from "@/@types/model";
 import React from "react";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 
 type ClassroomPageParams = {
     id: string
@@ -7,9 +8,10 @@ type ClassroomPageParams = {
 
 const ClassroomPage: React.FC = ()=>{
     const {id} = useParams<ClassroomPageParams>()
+    const location = useLocation();
 
     return (
-        <div>Classroom id: {id}</div>
+        <div>Classroom code: {(location.state as AssignedClassroom).code}</div>
     )
 }
 

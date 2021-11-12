@@ -13,13 +13,25 @@ const ClassroomCard: React.FC<ClassroomCardProps> = ({classroom})=>{
     return (
         <Card sx={{height:"100%", minHeight:"300px",'&:hover':{boxShadow: '0 8px 24px 0 rgba(0,0,0,0.12)'}}}>
             <CardContent sx={{background:'rgba(0, 128, 0, 0.3)',height:"30%"}}>
-                <Link to={`/classroom/${classroom.id}`} style={{color:'white', textDecoration:'none'}}>
+                <Link 
+                    to={{
+                        pathname: `/classroom/${classroom.id}`,
+                        state: classroom
+                    }} 
+                    style={{color:'white', textDecoration:'none'}}
+                >
                     <Typography gutterBottom variant="h5" component="div">
                     {classroom.name}
                     </Typography>
                 </Link>
-                <Typography variant="body2" color="text.secondary">
-                {classroom.part?classroom.part:' '}
+                <Typography variant="body2" color="white">
+                    {classroom.part?classroom.part:''}
+                </Typography>
+                <Typography variant="body1" color="white" sx={{
+                            position: 'relative',
+                            top: '35%'
+                        }}>
+                    {classroom.role==='STUDENT'?classroom.creator:''}
                 </Typography>
             </CardContent>
             <CardContent sx={{height:"30%"}} >
