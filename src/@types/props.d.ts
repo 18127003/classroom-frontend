@@ -1,4 +1,4 @@
-import { AssignedClassroom } from "@/@types/model";
+import { Account, AssignedClassroom } from "@/@types/model";
 import { RouteProps } from "react-router-dom";
 
 type ClassroomGridProps = {
@@ -28,4 +28,11 @@ interface LogoutDialogProps extends DialogProps{}
 
 interface CustomRouteProps extends RouteProps {
     protected?: boolean
+}
+
+type ParticipantListProps={
+    title: "Teachers"|"Students",
+    hasCount: boolean,
+    isStudent?: boolean,
+    list: Account[]
 }

@@ -1,27 +1,12 @@
 import React, { useState } from "react"
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import { Avatar, Divider, IconButton } from "@mui/material";
-import ListItemText from '@mui/material/ListItemText';
+import { Avatar, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Stack, Typography } from "@mui/material";
 import {  Person } from "@mui/icons-material";
-import { Account } from "@/@types/model";
-import Stack from '@mui/material/Stack';
 import { COLORS } from "@/constants/common";
 import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
-import InviteDialog from "../Dialog/InvitePeople";
+import InviteDialog from "../Dialog/InviteParticipantDialog";
+import { ParticipantListProps } from "@/@types/props";
 
-
-type ParticipantListProps={
-    nameList: "Teachers"|"Students",
-    hasCount: boolean,
-    isStudent?: boolean,
-    list: Account[]
-}
-
-const ParticipantList: React.FC<ParticipantListProps> = ({nameList, list, hasCount, isStudent=false})=>{
+const ParticipantList: React.FC<ParticipantListProps> = ({title, list, hasCount, isStudent=false})=>{
     const [open, setOpen]=useState(false);
 
     const handleOpen = ()=>{
@@ -37,13 +22,13 @@ const ParticipantList: React.FC<ParticipantListProps> = ({nameList, list, hasCou
             <Grid item xs={3} sm={6} md={6}>
                 <Stack direction="row" spacing={2} justifyContent="space-between" alignItems="center" > 
                     <Typography sx={{ mt: 2, mb: 2, color:"teal",alignItems:"center" }} variant="h5" component="div">
-                        {nameList}
+                        {title}
                     </Typography>
 
                     <IconButton sx={{color:"teal",}} onClick={handleOpen}>
                         <PersonAddAlt1OutlinedIcon/>
                     </IconButton>
-                    <InviteDialog handleClose={handleClose} isOpen={open} nameDialog={hasCount?"Invite Student":"Invite Teacher"}/>
+                    <InviteDialog handleClose={handleClose} isOpen={open} title={hasCount?"Invite Student":"Invite Teacher"}/>
 
                     {hasCount && isStudent && (<Typography sx={{ mt: 2, mb: 2, color:"teal",alignItems:"center" }} variant="h6" component="div">
                         {`${list.length} students`}
@@ -56,7 +41,7 @@ const ParticipantList: React.FC<ParticipantListProps> = ({nameList, list, hasCou
                 <List >
                 {list.map(item=>(
                     <React.Fragment key={item.id}>
-                        <ListItem key={`${nameList}_${item.id}`}>
+                        <ListItem>
                             <ListItemAvatar>
                                 <Avatar sx={{background: COLORS[Math.floor(Math.random()*COLORS.length)]}}>
                                 <Person />

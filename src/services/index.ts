@@ -71,6 +71,10 @@ const getParticipants = async (classId: number)=>{
     return await api.getParticipants(classId)
 }
 
+const getClassroomDetail = async (classId: number)=>{
+    return await api.getClassroomDetail(classId)
+}
+
 export const authService = {
     login,
     logout,
@@ -83,7 +87,8 @@ export const classroomService = {
     addClassroom,
     addClassroomLocal,
     joinClassroom,
-    getParticipants
+    getParticipants,
+    getClassroomDetail
 }
 
 export const commonService = {

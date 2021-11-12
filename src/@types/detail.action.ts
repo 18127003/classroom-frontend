@@ -31,7 +31,33 @@ export interface GetParticipantsFail {
     payload: GetParticipantsFailPayload
 }
 
+export interface GetDetailSuccessPayload {
+    detail: AssignedClassroom;
+}
+
+export interface GetDetailFailPayload{
+    error: string
+}
+
+export interface GetDetailRequest{
+    type: typeof detailAction.GET_DETAIL_REQUEST,
+    payload: AssignedClassroom | number
+}
+
+export interface GetDetailSuccess {
+    type: typeof detailAction.GET_DETAIL_SUCCESS
+    payload: GetDetailSuccessPayload
+}
+
+export interface GetDetailFail {
+    type: typeof detailAction.GET_DETAIL_FAIL
+    payload: GetDetailFailPayload
+}
+
 export type DetailAction = 
     | GetParticipantsRequest
     | GetParticipantsSuccess
     | GetParticipantsFail
+    | GetDetailRequest
+    | GetDetailSuccess
+    | GetDetailFail

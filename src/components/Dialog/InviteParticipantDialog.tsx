@@ -1,14 +1,12 @@
-import { DialogProps, JoinClassDialogProps } from "@/@types/props";
-import { joinClassroomRequest } from "@/actions/classrooms";
+import { DialogProps } from "@/@types/props";
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import React, { SyntheticEvent } from "react";
-import { useDispatch } from "react-redux";
 
-interface InviteDialogProps extends DialogProps{
-    nameDialog: string,
+interface InviteParticipantDialogProps extends DialogProps{
+    title: string,
     isStudent?: boolean
 }
-const InviteDialog: React.FC<InviteDialogProps>=({nameDialog,isStudent, isOpen, handleClose})=>{
+const InviteParticipantDialog: React.FC<InviteParticipantDialogProps>=({title,isStudent, isOpen, handleClose})=>{
     const handleSubmit = (event: SyntheticEvent)=>{
         event.preventDefault();
         const target = event.target as typeof event.target & {
@@ -21,7 +19,7 @@ const InviteDialog: React.FC<InviteDialogProps>=({nameDialog,isStudent, isOpen, 
     }
     return (
         <Dialog open={isOpen} onClose={handleClose} maxWidth='sm' fullWidth={true}>
-            <DialogTitle>{nameDialog}</DialogTitle>
+            <DialogTitle>{title}</DialogTitle>
             <Box
             component="form"
             onSubmit={handleSubmit}
@@ -37,16 +35,15 @@ const InviteDialog: React.FC<InviteDialogProps>=({nameDialog,isStudent, isOpen, 
                 id="email"
                 label="Email or Name"
                 name="email"
-                
-                />
+            />
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button type='submit'>Join</Button>
+                <Button type='submit'>Invite</Button>
             </DialogActions>
             </Box>
         </Dialog>
     )
 }
 
-export default InviteDialog
+export default InviteParticipantDialog;

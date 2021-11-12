@@ -7,16 +7,18 @@ import ParticipantList from "./ParticipantList";
 const ParticipantTab: React.FC<{id: number}>=({id})=>{
     const dispatch = useDispatch();
     const participants = useSelector((state: AppState)=>state.detail.participants)
-    // const classId = useSelector((state: AppState)=>state.detail.detail.id)
+    const detail = useSelector((state: AppState)=>state.detail.detail)
 
     useEffect(()=>{
-        dispatch(getParticipantsRequest(id))
-    },[])
+        if(detail){
+            dispatch(getParticipantsRequest(detail.id))
+        }
+    },[detail])
 
     return (
         <>
-            <ParticipantList nameList={"Teachers"} list={participants.filter(p=>p.role==="TEACHER")} hasCount={false}/>
-            <ParticipantList nameList={"Students"} list={participants.filter(p=>p.role==="STUDENT")} hasCount={true}/>
+            <ParticipantList title={"Teachers"} list={participants.filter(p=>p.role==="TEACHER")} hasCount={false}/>
+            <ParticipantList title={"Students"} list={participants.filter(p=>p.role==="STUDENT")} hasCount={true}/>
         </>
     )
 }
