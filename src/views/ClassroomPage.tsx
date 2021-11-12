@@ -1,6 +1,10 @@
-import { AssignedClassroom } from "@/@types/model";
+import { Account, AssignedClassroom } from "@/@types/model";
 import ClassroomAppBar from "@/components/ClassroomAppBar";
-import React from "react";
+import ParticipantTab from "@/components/ParticipantTab";
+import ParticipantList from "@/components/ParticipantTab/ParticipantList";
+import { classroomService } from "@/services";
+import { AccountBalance } from "@mui/icons-material";
+import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
 
 type ClassroomPageParams = {
@@ -15,6 +19,7 @@ const ClassroomPage: React.FC = ()=>{
         <>
             <ClassroomAppBar/>
             <div>Classroom code: {(location.state as AssignedClassroom).code}</div>
+            <ParticipantTab id={+id}/>
         </>
         
     )

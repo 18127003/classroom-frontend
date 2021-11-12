@@ -2,8 +2,8 @@ import { Account, AuthRequestInfo, Classroom } from '@/@types/model';
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'https://classroom-spring.herokuapp.com/api',
-    // baseURL:'http://localhost:8080/api',
+    // baseURL: 'https://classroom-spring.herokuapp.com/api',
+    baseURL:'http://localhost:8080/api',
     withCredentials: true
 });
 
@@ -58,6 +58,12 @@ const joinClassroom = (code: string)=>instance({
     transformResponse: [(data) => JSON.parse(data)]
 })
 
+const getParticipants = (classId: number)=> instance({
+    'method':'GET',
+    'url':`/classroom/${classId}/participant`,
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
 export const api = {
     getData,
     createClassroom,
@@ -65,5 +71,6 @@ export const api = {
     logout,
     signup,
     socialLogin,
-    joinClassroom
+    joinClassroom,
+    getParticipants
 }

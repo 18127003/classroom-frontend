@@ -67,6 +67,10 @@ const socialLogin = async (tokenId: string)=>{
     return await api.socialLogin(tokenId)
 }
 
+const getParticipants = async (classId: number)=>{
+    return await api.getParticipants(classId)
+}
+
 export const authService = {
     login,
     logout,
@@ -78,7 +82,8 @@ export const classroomService = {
     getClassrooms,
     addClassroom,
     addClassroomLocal,
-    joinClassroom
+    joinClassroom,
+    getParticipants
 }
 
 export const commonService = {

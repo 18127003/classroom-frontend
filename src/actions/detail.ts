@@ -1,5 +1,6 @@
 import { GetParticipantsFail, GetParticipantsFailPayload, GetParticipantsRequest, GetParticipantsSuccess, GetParticipantsSuccessPayload } from "@/@types/detail.action";
 import { detailAction } from "@/constants/actions";
+import { classroomService } from "@/services";
 import { all, call, put, takeLatest } from "@redux-saga/core/effects";
 
 export const getParticipantsRequest = (classId: number): GetParticipantsRequest => ({
@@ -21,7 +22,7 @@ function* getParticipantsSaga(action: GetParticipantsRequest) {
     const participants = yield call(classroomService.getParticipants, action.payload);
     if(participants) {
         yield put(getParticipantsSuccess({
-            participants: participants
+            participants: participants.data
         }))
     } else {
         yield put(getParticipantsFail({
