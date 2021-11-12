@@ -28,7 +28,7 @@ const ParticipantList: React.FC<ParticipantListProps> = ({title, list, hasCount,
                     <IconButton sx={{color:"teal",}} onClick={handleOpen}>
                         <PersonAddAlt1OutlinedIcon/>
                     </IconButton>
-                    <InviteDialog handleClose={handleClose} isOpen={open} title={hasCount?"Invite Student":"Invite Teacher"}/>
+                    <InviteDialog handleClose={handleClose} isOpen={open} title={hasCount?"Invite Student":"Invite Teacher"} isStudent={hasCount}/>
 
                     {hasCount && isStudent && (<Typography sx={{ mt: 2, mb: 2, color:"teal",alignItems:"center" }} variant="h6" component="div">
                         {`${list.length} students`}

@@ -17,8 +17,8 @@ const ParticipantTab: React.FC<{id: number}>=({id})=>{
 
     return (
         <>
-            <ParticipantList title={"Teachers"} list={participants.filter(p=>p.role==="TEACHER")} hasCount={false}/>
-            <ParticipantList title={"Students"} list={participants.filter(p=>p.role==="STUDENT")} hasCount={true}/>
+            <ParticipantList title={"Teachers"} list={participants.filter(p=>p.role==="TEACHER")} hasCount={false} />
+            <ParticipantList title={"Students"} list={participants.filter(p=>p.role==="STUDENT")} hasCount={true} />
         </>
     )
 }
