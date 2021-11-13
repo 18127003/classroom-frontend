@@ -72,7 +72,12 @@ const getParticipants = async (classId: number)=>{
 }
 
 const getClassroomDetail = async (classId: number)=>{
-    return await api.getClassroomDetail(classId)
+    try{
+        const res = await api.getClassroomDetail(classId)
+        return res.data
+    } catch(e){
+        return null;
+    }
 }
 
 export const authService = {

@@ -6,12 +6,13 @@ import { Box } from "@mui/material";
 import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useLocation } from "react-router-dom";
 
 const LoginPage = ()=>{
     const auth = useSelector((state: AppState)=>state.auth.user);
     const [cookies]=useCookies(['user'])
     const dispatch = useDispatch();
+    const location = useLocation();
 
     useEffect(()=>{
         if(cookies.user){
@@ -20,7 +21,7 @@ const LoginPage = ()=>{
     },[])
 
     if(auth!==null && auth!==undefined){
-        return <Redirect to="/"/>
+        return <Redirect to={location.state??'/'}/>
     }
     
     return (

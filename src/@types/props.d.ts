@@ -30,6 +30,11 @@ interface CustomRouteProps extends RouteProps {
     protected?: boolean
 }
 
+interface InviteParticipantDialogProps extends DialogProps{
+    title: string,
+    isStudent?: boolean
+}
+
 type ParticipantListProps={
     title: "Teachers"|"Students",
     hasCount: boolean,

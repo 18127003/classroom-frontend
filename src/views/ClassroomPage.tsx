@@ -1,37 +1,38 @@
-import { AssignedClassroom } from "@/@types/model";
-import { getDetailRequest } from "@/actions/detail";
 import ClassroomAppBar from "@/components/ClassroomAppBar";
+import InvitationRespondDialog from "@/components/Dialog/InvitationRespondDialog";
 import ParticipantTab from "@/components/ParticipantTab";
+import useClassroomWrapper from "@/hooks/useClassroomWrapper";
 import { AppState } from "@/reducers";
 import { LinearProgress } from "@mui/material";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
-type ClassroomPageParams = {
-    id: string
-}
 
 const ClassroomPage: React.FC = ()=>{
-    const {id} = useParams<ClassroomPageParams>()
-    const location = useLocation();
+    const [acceptInvite, setAcceptInvite] = useState(false);
+    const {invite} = useClassroomWrapper(acceptInvite);
     const loading = useSelector((state: AppState)=>state.detail.loading);
-    const dispatch = useDispatch();
+    const classroom = useSelector((state: AppState)=>state.detail.detail);
+    const error = useSelector((state: AppState)=>state.detail.error)
+    
+    const handleAcceptInvite = () => {
+        setAcceptInvite(true)
+    }
 
-    useEffect(()=>{
-        if(location.state){
-            dispatch(getDetailRequest(location.state as AssignedClassroom))
-        } else {
-            dispatch(getDetailRequest(+id))
-        }
-    },[id])
+    if(error){
+        return <>No class found</>
+    }
+
+    if(invite){
+        return <InvitationRespondDialog handleAccept={handleAcceptInvite}/>
+    }
 
     return (
         <>
             <ClassroomAppBar/>
             <LinearProgress sx={loading?{}:{display: 'none'}}/>
-            <div>Classroom code: {(location.state as AssignedClassroom).code}</div>
-            <ParticipantTab id={+id}/>
+            <div>Classroom code: {classroom?classroom.code:''}</div>
+            <ParticipantTab/>
         </>
         
     )

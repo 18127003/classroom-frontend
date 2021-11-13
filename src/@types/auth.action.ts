@@ -12,7 +12,8 @@ export interface AuthFailPayload{
 export interface AuthState {
     loading: boolean,
     user: Account|null,
-    error: string|null
+    error: string|null,
+    loggedOut: boolean
 }
 
 export interface AuthRequest{

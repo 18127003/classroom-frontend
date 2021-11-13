@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ParticipantList from "./ParticipantList";
 
-const ParticipantTab: React.FC<{id: number}>=({id})=>{
+const ParticipantTab: React.FC=()=>{
     const dispatch = useDispatch();
     const participants = useSelector((state: AppState)=>state.detail.participants)
     const detail = useSelector((state: AppState)=>state.detail.detail)

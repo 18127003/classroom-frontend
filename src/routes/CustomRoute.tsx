@@ -9,8 +9,13 @@ import { AppState } from "@/reducers";
 const CustomRoute: React.FC<CustomRouteProps> = ({...rest}) => {
     if(rest.protected){
         const auth = useSelector((state:AppState)=>state.auth.user)
+        const loggedOut = useSelector((state:AppState)=>state.auth.loggedOut)
         if(!auth){
-            return <Redirect to={"/login"}/>
+            
+            return <Redirect to={{
+                pathname: '/login',
+                state: loggedOut?"/":rest.location.pathname
+            }}/>
         }
     }
     return (

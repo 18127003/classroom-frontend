@@ -1,7 +1,7 @@
 import { AuthState, AuthAction, AuthSuccess, AuthFail, LogoutFail } from "@/@types/auth.action";
 import { authActions } from "@/constants/actions";
 
-const initState:AuthState = {loading:false, user: null, error:null}
+const initState:AuthState = {loading:false, user: null, error:null, loggedOut:false}
 
 export const authReducer = (state: AuthState = initState, action: AuthAction):AuthState=>{
     switch(action.type){
@@ -35,7 +35,10 @@ export const authReducer = (state: AuthState = initState, action: AuthAction):Au
                 loading: true
             };
         case authActions.LOGOUT_SUCCESS:
-            return initState;
+            return {
+                ...initState,
+                loggedOut:true
+            };
         case authActions.LOGOUT_FAIL:
             return {
                 ...state,

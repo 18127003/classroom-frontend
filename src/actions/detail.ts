@@ -51,8 +51,8 @@ function* getDetailSaga(action: GetDetailRequest) {
     var detail: AssignedClassroom;
     if (typeof(action.payload)==="number"){
         const res = yield call(classroomService.getClassroomDetail, action.payload);
-        if(res.data){
-            detail = res.data;
+        if(res){
+            detail = res;
         }
     } else {
         detail = action.payload
