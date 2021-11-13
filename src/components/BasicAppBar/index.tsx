@@ -9,6 +9,7 @@ import { CreateClassDialog } from '../Dialog/CreateClassdialog';
 import PopupMenuItem from '../PopupMenu/PopupMenuItem';
 import LogoutDialog from '../Dialog/LogoutDialog';
 import JoinClassDialog from '../Dialog/JoinClassDialog';
+import { Link, NavLink } from 'react-router-dom';
 
 const BasicAppBar: React.FC = () => {
   const auth = useSelector((state:AppState)=>state.auth.user);
@@ -27,7 +28,9 @@ const BasicAppBar: React.FC = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <NavLink to="/" style={{textDecoration:'none'}}>
             Classroom
+            </NavLink>
           </Typography>
           <PopupMenu
             id="classroom-menu"

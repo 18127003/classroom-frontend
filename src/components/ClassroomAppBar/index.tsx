@@ -1,5 +1,5 @@
-import React from 'react';
-import {AppBar, Box, Toolbar, Typography, IconButton, Avatar, Tabs, Tab} from '@mui/material';
+import React, { SyntheticEvent } from 'react';
+import {AppBar, Box, Toolbar, Typography, IconButton, Avatar, Tab} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useSelector } from 'react-redux';
 import { AppState } from '@/reducers';
@@ -7,15 +7,15 @@ import PopupMenu from '../PopupMenu';
 import { CreateClassDialog } from '../Dialog/CreateClassdialog';
 import PopupMenuItem from '../PopupMenu/PopupMenuItem';
 import LogoutDialog from '../Dialog/LogoutDialog';
+import TabList from '@mui/lab/TabList';
+import { Link } from 'react-router-dom';
 
-const ClassroomAppBar: React.FC = () => {
+type ClassroomAppBarProps = {
+  handleChangeTab: (event: SyntheticEvent, newValue:string)=>void
+}
+
+const ClassroomAppBar: React.FC<ClassroomAppBarProps> = ({handleChangeTab}) => {
   const auth = useSelector((state:AppState)=>state.auth.user);
-  
-  const [tabValue, setTabValue] = React.useState(0);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue);
-  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -30,15 +30,18 @@ const ClassroomAppBar: React.FC = () => {
             >
                 <MenuIcon />
             </IconButton>
-            <Typography variant="h6" component="div">
-                Classroom
-            </Typography>
-            
-            <Tabs value={tabValue} onChange={handleChange} aria-label="classroom-tabs" centered sx={{flexGrow: 1}}>
-                <Tab label="News"/>
-                <Tab label="Assignments"/>
-                <Tab label="Participants"/>
-            </Tabs>
+            <Link to="/" style={{textDecoration:'none'}}>
+              <Typography variant="h6" component="div">
+                  Classroom
+              </Typography>
+            </Link>
+
+            <TabList onChange={handleChangeTab} aria-label="classroom-tabs" centered sx={{flexGrow:1}}>
+              <Tab label="News" value="1"/>
+              <Tab label="Assignments" value="2"/>
+              <Tab label="Participants" value="3"/>
+            </TabList>
+
 
             <PopupMenu 
                 id="profile-menu"

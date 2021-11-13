@@ -1,4 +1,5 @@
 import { InviteParticipantDialogProps } from "@/@types/props";
+import useChipEditor from "@/hooks/useChipEditor";
 import { AppState } from "@/reducers";
 import {  ContentCopy } from "@mui/icons-material";
 import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField } from "@mui/material";
@@ -7,8 +8,7 @@ import { useSelector } from "react-redux";
 
 
 const InviteParticipantDialog: React.FC<InviteParticipantDialogProps>=({title,isStudent, isOpen, handleClose})=>{
-    const [emails, setEmails]= React.useState([])
-    const [value, setValue]= React.useState("")
+    const {values,currentValue, handleDelete, handleChange, handleKeyDown} = useChipEditor();
     const classroom = useSelector((state: AppState)=>state.detail.detail)
 
     const handleSubmit = (event: SyntheticEvent)=>{
@@ -18,27 +18,6 @@ const InviteParticipantDialog: React.FC<InviteParticipantDialogProps>=({title,is
 
         // dispatch(joinClassroomRequest(target.classroomCode.value));
     }
-
-    const handleDelete = (chipToDelete) => () => {
-        setEmails((chips) => chips.filter((chip) => chip !== chipToDelete));
-      };
-
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>)=>{
-        if([ 'Space','Enter'].includes(event.code)){
-            event.preventDefault();
-
-            var email= value.trim()
-            if(email){
-                setEmails([...emails, email])
-                setValue("")
-            } 
-        }
-    }
-
-    const handleChange =(event)=>{
-        setValue(event.target.value)
-    }
-
     return (
         <Dialog open={isOpen} onClose={handleClose} maxWidth='sm' fullWidth={true}>
             <DialogTitle>{title}</DialogTitle>
@@ -54,9 +33,7 @@ const InviteParticipantDialog: React.FC<InviteParticipantDialogProps>=({title,is
             {isStudent&&(<TextField
                 id="link"
                 label="Invite Link"
-                //chỗ để link
-                defaultValue={classroom?`https://18127003.github.io/classroom-frontend/classroom/${classroom.id}?`:''}
-                //link anh ei
+                defaultValue={classroom?`https://18127003.github.io/classroom-frontend/classroom/${classroom.id}?invite=true&code=${classroom.code}`:''}
                 InputProps={{
                     readOnly: true,
                     endAdornment: (
@@ -67,9 +44,9 @@ const InviteParticipantDialog: React.FC<InviteParticipantDialogProps>=({title,is
                 }}
                 
             />)}
-            <Grid container rowSpacing={1} columnSpacing={{ xs: 4, sm:8, md: 8 }}> 
-                {emails.map((email, index)=>(
-                    <Grid item  md={4}  key={index}>
+            <Grid container rowSpacing={2} columnSpacing={1} columns={{ xs: 4, sm: 10, md: 10 }} sx={{m:1}}> 
+                {values.map((email, index)=>(
+                    <Grid item  key={index}>
                         <Chip
                             label={email}
                             onDelete={handleDelete(email)}
@@ -79,7 +56,7 @@ const InviteParticipantDialog: React.FC<InviteParticipantDialogProps>=({title,is
             </Grid>
             <TextField
                 placeholder="Type or paste email addresses and press `Enter`"
-                value={value}
+                value={currentValue}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}
             />
