@@ -29,7 +29,8 @@ const InviteParticipantDialog: React.FC<InviteParticipantDialogProps>=({title,is
 
             dispatch(sendInvitationRequest({
                 classId: classroom.id,
-                invitations: values
+                invitations: values,
+                role: isStudent?'STUDENT':'TEACHER'
             }));
         }
     }

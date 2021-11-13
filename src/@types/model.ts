@@ -30,7 +30,8 @@ export interface AuthRequestInfo {
 
 export interface InvitationRequestInfo {
     invitations: string[],
-    classId: number
+    classId: number,
+    role: 'TEACHER'|'STUDENT'
 }
 
 export interface GetClassroomsCriteria {

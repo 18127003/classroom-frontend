@@ -70,9 +70,9 @@ const getClassroomDetail = (classId: number)=>instance({
     transformResponse: [(data) => JSON.parse(data)]
 })
 
-const sendInvitationMail = (classId: number, invitations: string[])=>instance({
+const sendInvitationMail = (classId: number, invitations: string[], role: 'STUDENT'|'TEACHER')=>instance({
     'method':'POST',
-    'url':`/classroom/${classId}/invite`,
+    'url':`/classroom/${classId}/invite?role=${role}`,
     'data': invitations
 })
 

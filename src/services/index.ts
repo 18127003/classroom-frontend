@@ -81,7 +81,7 @@ const getClassroomDetail = async (classId: number)=>{
 }
 
 const sendInvitationMail = async (request: InvitationRequestInfo)=>{
-    await api.sendInvitationMail(request.classId, request.invitations)
+    await api.sendInvitationMail(request.classId, request.invitations, request.role)
 }
 
 export const authService = {
