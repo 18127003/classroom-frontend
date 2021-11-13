@@ -1,5 +1,5 @@
 import React from 'react';
-import {AppBar, Box, Toolbar, Typography, IconButton, Avatar} from '@mui/material';
+import {AppBar, Box, Toolbar, Typography, IconButton, Avatar, Stack} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AddIcon from '@mui/icons-material/Add';
 import { useSelector } from 'react-redux';
@@ -10,6 +10,10 @@ import PopupMenuItem from '../PopupMenu/PopupMenuItem';
 import LogoutDialog from '../Dialog/LogoutDialog';
 import JoinClassDialog from '../Dialog/JoinClassDialog';
 import { Link, NavLink } from 'react-router-dom';
+import Profile from '../Profile/profile';
+import { Edit, EditAttributesOutlined, ModeEdit } from '@mui/icons-material';
+import { EditProfileDialog } from '../Dialog/EditProfileDialog';
+import {ChangePasswordDialog } from '../Dialog/ChangePasswordDialog';
 
 const BasicAppBar: React.FC = () => {
   const auth = useSelector((state:AppState)=>state.auth.user);
@@ -53,8 +57,12 @@ const BasicAppBar: React.FC = () => {
             id="profile-menu"
             icon={<Avatar sx={{ bgcolor: 'rgba(0, 128, 0, 0.3)' }}>{auth.name.slice(0,2)}</Avatar>}
           >
-            <PopupMenuItem title="Profile">
-              <CreateClassDialog/>
+            <PopupMenuItem title="Profile" button={<IconButton><ModeEdit/></IconButton>}>
+            <Profile account={auth}/>
+            <EditProfileDialog />
+            </PopupMenuItem>
+            <PopupMenuItem title="Change Password">
+              <ChangePasswordDialog/>
             </PopupMenuItem>
             <PopupMenuItem title="Logout">
               <LogoutDialog/>

@@ -9,6 +9,8 @@ import PopupMenuItem from '../PopupMenu/PopupMenuItem';
 import LogoutDialog from '../Dialog/LogoutDialog';
 import TabList from '@mui/lab/TabList';
 import { Link } from 'react-router-dom';
+import Profile from '../Profile/profile';
+import { ModeEdit } from '@mui/icons-material';
 
 type ClassroomAppBarProps = {
   handleChangeTab: (event: SyntheticEvent, newValue:string)=>void
@@ -47,8 +49,8 @@ const ClassroomAppBar: React.FC<ClassroomAppBarProps> = ({handleChangeTab}) => {
                 id="profile-menu"
                 icon={<Avatar sx={{ bgcolor: 'rgba(0, 128, 0, 0.3)' }}>{auth.name.slice(0,2)}</Avatar>}
             >
-                <PopupMenuItem title="Profile">
-                <CreateClassDialog/>
+                <PopupMenuItem title="Profile" button={<IconButton><ModeEdit/></IconButton>}>
+                <Profile account={auth}/>
                 </PopupMenuItem>
                 <PopupMenuItem title="Logout">
                 <LogoutDialog/>

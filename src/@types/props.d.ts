@@ -1,4 +1,5 @@
 import { Account, AssignedClassroom } from "@/@types/model";
+import React from "react";
 import { RouteProps } from "react-router-dom";
 
 type ClassroomGridProps = {
@@ -13,6 +14,7 @@ interface PopupMenuButtonProps {
     onMenuItemClick?: ()=>void
     children?: React.ReactNode
     title: string
+    button?: React.ReactNode
 }
 
 interface DialogProps {
@@ -34,10 +36,17 @@ interface InviteParticipantDialogProps extends DialogProps{
     title: string,
     isStudent?: boolean
 }
+interface EditProfileDialogProps extends DialogProps{
+}
+interface ChangePasswordDialogProps extends DialogProps{
+}
 
 type ParticipantListProps={
     title: "Teachers"|"Students",
     hasCount: boolean,
     isStudent?: boolean,
     list: Account[]
+}
+type ProfileProps={
+    account:Account
 }
