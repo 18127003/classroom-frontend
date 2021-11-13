@@ -1,14 +1,14 @@
 import { ChangePasswordDialogProps } from "@/@types/props";
-import { addClassroomRequest } from "@/actions/classrooms";
+import { changePasswordRequest } from "@/actions/account";
 import { AppState } from "@/reducers";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from "@mui/material";
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from "@mui/material";
+import React, { SyntheticEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export const ChangePasswordDialog: React.FC<ChangePasswordDialogProps> = ({isOpen=false, handleClose}) => {
-    const account = useSelector((state:AppState)=>state.auth.user)
+    const account = useSelector((state:AppState)=>state.account.detail)
     const [valid,setValid]=useState(true)
+    const dispatch = useDispatch()
 
     const close = ()=>{
         setValid(true)
@@ -23,13 +23,14 @@ export const ChangePasswordDialog: React.FC<ChangePasswordDialogProps> = ({isOpe
             newPassword: { value: string };
         };
         if(target.newPassword.value!==target.oldPassword.value){
-            close();
-        // dispatch(addClassroomRequest({
-        //   name: target.classroomName.value,
-        //   part: target.classroomPart.value,
-        //   topic: target.classroomTopic.value,
-        //   room: target.classroomRoom.value
-        // }));
+          close();
+          dispatch(changePasswordRequest({
+            id: account.id,
+            request: {
+              oldPassword: target.oldPassword.value,
+              newPassword: target.newPassword.value
+            }
+          }));
         }
         else{
             setValid(false)
@@ -49,20 +50,20 @@ export const ChangePasswordDialog: React.FC<ChangePasswordDialogProps> = ({isOpe
           autoComplete="off"
         >
           <DialogContent>
-          <TextField
-                    type="password"
-                    id="oldPassword"
-                    label="Your Current Password"
-                    name="oldPassword"
-                />
             <TextField
-                required
-                type="password"
-                id="newPassword"
-                label="New Password"
-                name="newPassword"
+              type="password"
+              id="oldPassword"
+              label="Current Password"
+              name="oldPassword"
             />
-            {!valid&&(<Typography color="red">Invalid New Password</Typography>)}
+            <TextField
+              required
+              type="password"
+              id="newPassword"
+              label="New Password"
+              name="newPassword"
+            />
+            {!valid&&(<Typography color="red" sx={{m:1}}>Invalid New Password</Typography>)}
           </DialogContent>
           <DialogActions>
             <Button onClick={close}>Cancel</Button>

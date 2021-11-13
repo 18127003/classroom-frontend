@@ -1,13 +1,13 @@
 import React from 'react';
 import {AppBar, Box, Toolbar, Typography, IconButton, Avatar} from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import { useSelector } from 'react-redux';
 import { AppState } from '@/reducers';
 import PopupMenu from '../PopupMenu';
 import PopupMenuItem from '../PopupMenu/PopupMenuItem';
 import LogoutDialog from '../Dialog/LogoutDialog';
 import { NavLink } from 'react-router-dom';
-import Profile from '../Profile/profile';
+import Profile from '../Profile';
 import { ModeEdit } from '@mui/icons-material';
 import { EditProfileDialog } from '../Dialog/EditProfileDialog';
 import {ChangePasswordDialog } from '../Dialog/ChangePasswordDialog';
@@ -20,17 +20,11 @@ const BasicAppBar: React.FC<BasicAppBarProps> = ({titleFlexGrow=true, children})
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="transparent">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={titleFlexGrow?{ flexGrow: 1 }:{}}>
-            <NavLink to="/" style={{textDecoration:'none'}}>
+          
+          <SchoolOutlinedIcon sx={{mr:2}} fontSize="large"/>
+        
+          <Typography variant="h5" component="div" sx={titleFlexGrow?{ flexGrow: 1 }:{}}>
+            <NavLink to="/" style={{textDecoration:'none', color:'black'}}>
             Classroom
             </NavLink>
           </Typography>

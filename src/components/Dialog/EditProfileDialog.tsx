@@ -1,6 +1,5 @@
-import { CreateClassDialogProps, EditProfileDialogProps } from "@/@types/props";
+import { EditProfileDialogProps } from "@/@types/props";
 import { updateRequest } from "@/actions/account";
-import { addClassroomRequest } from "@/actions/classrooms";
 import { AppState } from "@/reducers";
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import React, { SyntheticEvent } from "react";
@@ -60,7 +59,7 @@ export const EditProfileDialog: React.FC<EditProfileDialogProps> = ({isOpen=fals
               id="studentId"
               label="Student ID"
               name="studentId"
-              
+              defaultValue={account.studentId}
             />
             <TextField
               id="email"
@@ -72,7 +71,7 @@ export const EditProfileDialog: React.FC<EditProfileDialogProps> = ({isOpen=fals
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button type='submit'>Change</Button>
+            <Button type='submit'>Update</Button>
           </DialogActions>
         </Box>
       </Dialog>
