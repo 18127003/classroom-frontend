@@ -10,8 +10,7 @@ import { useSelector } from "react-redux";
 
 
 const ClassroomPage: React.FC = ()=>{
-    const [acceptInvite, setAcceptInvite] = useState(false);
-    const {invite} = useClassroomWrapper(acceptInvite);
+    const {invite, handleAcceptInvite} = useClassroomWrapper();
     const loading = useSelector((state: AppState)=>state.detail.loading);
     const classroom = useSelector((state: AppState)=>state.detail.detail);
     const error = useSelector((state: AppState)=>state.detail.error);
@@ -21,17 +20,10 @@ const ClassroomPage: React.FC = ()=>{
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setTabValue(newValue);
     };
-    
-    const handleAcceptInvite = () => {
-        setAcceptInvite(true)
-    }
+      
 
-    if(error){
-        return <>No class found</>
-    }
-
-    if(invite){
-        return <InvitationRespondDialog handleAccept={handleAcceptInvite}/>
+    if(invite || error){
+        return invite?<InvitationRespondDialog handleAccept={handleAcceptInvite}/>:<>No class found</>
     }
 
     return (

@@ -10,33 +10,40 @@ type ClassroomPageParams = {
     id: string
 }
 
-const useClassroomWrapper = (acceptInvitation: boolean)=>{
+const useClassroomWrapper = ()=>{
     const {id} = useParams<ClassroomPageParams>()
     const location = useLocation();
     const query = useQuery();
-    const [invite, setInvite] = useState(false)
+    const [invite, setInvite] = useState<boolean|null>(null)
     const dispatch = useDispatch();
+
+    const handleAcceptInvite = () => {
+        setInvite(false)
+    }
 
     useEffect(()=>{
         setInvite(query.get("invite")==='true'?true:false)
-        if(!invite){
-            if(location.state){
-                dispatch(getDetailRequest(location.state as AssignedClassroom))
-            } else {
-                dispatch(getDetailRequest(+id))
-            }
-        }
+        
     },[id])
 
     useEffect(()=>{
-        if(invite){
-            const code = query.get("code")
-            dispatch(joinClassroomRequest(code))
+        if(invite!==null){
+            if(invite===true){
+                const code = query.get("code")
+                dispatch(joinClassroomRequest(code))
+            } else {
+                if(location.state){
+                    dispatch(getDetailRequest(location.state as AssignedClassroom))
+                } else {
+                    dispatch(getDetailRequest(+id))
+                }
+            }
         }
-    },[acceptInvitation])
+    },[invite])
 
     return {
-        invite
+        invite,
+        handleAcceptInvite
     }
 }
 

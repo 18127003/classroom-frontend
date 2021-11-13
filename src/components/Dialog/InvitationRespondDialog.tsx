@@ -9,7 +9,7 @@ const InvitationRespondDialog: React.FC<InvitationRespondDialogProps> = ({handle
     return (
         <>
             <div>Invite Page</div>
-            <Button onClick={handleAccept}></Button>
+            <Button onClick={handleAccept}>Accept</Button>
         </>
     )
 }
