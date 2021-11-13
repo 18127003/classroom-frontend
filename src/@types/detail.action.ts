@@ -1,5 +1,5 @@
 import { detailAction } from "@/constants/actions";
-import { Account, AssignedClassroom } from "./model";
+import { Account, AssignedClassroom, InvitationRequestInfo } from "./model";
 
 export interface ClassroomDetailState {
     loading: boolean,
@@ -54,6 +54,11 @@ export interface GetDetailFail {
     payload: GetDetailFailPayload
 }
 
+export interface SendInvitationRequest{
+    type: typeof detailAction.SEND_INVITATION_REQUEST,
+    payload: InvitationRequestInfo
+}
+
 export type DetailAction = 
     | GetParticipantsRequest
     | GetParticipantsSuccess
@@ -61,3 +66,4 @@ export type DetailAction =
     | GetDetailRequest
     | GetDetailSuccess
     | GetDetailFail
+    | SendInvitationRequest

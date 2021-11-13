@@ -70,6 +70,12 @@ const getClassroomDetail = (classId: number)=>instance({
     transformResponse: [(data) => JSON.parse(data)]
 })
 
+const sendInvitationMail = (classId: number, invitations: string[])=>instance({
+    'method':'POST',
+    'url':`/classroom/${classId}/invite`,
+    'data': invitations
+})
+
 export const api = {
     getData,
     createClassroom,
@@ -79,5 +85,6 @@ export const api = {
     socialLogin,
     joinClassroom,
     getParticipants,
-    getClassroomDetail
+    getClassroomDetail,
+    sendInvitationMail
 }

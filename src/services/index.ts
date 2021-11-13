@@ -1,5 +1,5 @@
 
-import { Account, AssignedClassroom, AuthRequestInfo, Classroom, GetClassroomsCriteria } from "@/@types/model"
+import { Account, AssignedClassroom, AuthRequestInfo, Classroom, GetClassroomsCriteria, InvitationRequestInfo } from "@/@types/model"
 import { LOCAL_STORAGE_CLASSES_NAME } from "@/constants/common"
 import Cookies from "universal-cookie"
 import { api } from "./api"
@@ -80,6 +80,10 @@ const getClassroomDetail = async (classId: number)=>{
     }
 }
 
+const sendInvitationMail = async (request: InvitationRequestInfo)=>{
+    await api.sendInvitationMail(request.classId, request.invitations)
+}
+
 export const authService = {
     login,
     logout,
@@ -93,7 +97,8 @@ export const classroomService = {
     addClassroomLocal,
     joinClassroom,
     getParticipants,
-    getClassroomDetail
+    getClassroomDetail,
+    sendInvitationMail
 }
 
 export const commonService = {

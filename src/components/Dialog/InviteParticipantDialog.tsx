@@ -1,10 +1,11 @@
 import { InviteParticipantDialogProps } from "@/@types/props";
+import { sendInvitationRequest } from "@/actions/detail";
 import useChipEditor from "@/hooks/useChipEditor";
 import { AppState } from "@/reducers";
 import {  ContentCopy } from "@mui/icons-material";
 import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, IconButton, TextField, Typography } from "@mui/material";
 import React, { SyntheticEvent, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const InviteParticipantDialog: React.FC<InviteParticipantDialogProps>=({title,isStudent, isOpen, handleClose})=>{
@@ -12,6 +13,7 @@ const InviteParticipantDialog: React.FC<InviteParticipantDialogProps>=({title,is
     const classroom = useSelector((state: AppState)=>state.detail.detail);
     const [inviteLink, setInviteLink] = useState("");
     const [copied, setCopied]=useState(false);
+    const dispatch = useDispatch();
 
     useEffect(()=>{
         if(classroom){
@@ -22,9 +24,14 @@ const InviteParticipantDialog: React.FC<InviteParticipantDialogProps>=({title,is
     const handleSubmit = (event: SyntheticEvent)=>{
         event.preventDefault();
 
-        handleClose();
+        if(classroom){
+            handleClose();
 
-        // dispatch(joinClassroomRequest(target.classroomCode.value));
+            dispatch(sendInvitationRequest({
+                classId: classroom.id,
+                invitations: values
+            }));
+        }
     }
 
     const handleCopyClick = ()=>{

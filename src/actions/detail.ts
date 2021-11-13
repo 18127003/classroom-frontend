@@ -1,5 +1,5 @@
-import { GetDetailFail, GetDetailFailPayload, GetDetailRequest, GetDetailSuccess, GetDetailSuccessPayload, GetParticipantsFail, GetParticipantsFailPayload, GetParticipantsRequest, GetParticipantsSuccess, GetParticipantsSuccessPayload } from "@/@types/detail.action";
-import { AssignedClassroom } from "@/@types/model";
+import { GetDetailFail, GetDetailFailPayload, GetDetailRequest, GetDetailSuccess, GetDetailSuccessPayload, GetParticipantsFail, GetParticipantsFailPayload, GetParticipantsRequest, GetParticipantsSuccess, GetParticipantsSuccessPayload, SendInvitationRequest } from "@/@types/detail.action";
+import { AssignedClassroom, InvitationRequestInfo } from "@/@types/model";
 import { detailAction } from "@/constants/actions";
 import { classroomService } from "@/services";
 import { all, call, put, takeLatest } from "@redux-saga/core/effects";
@@ -69,10 +69,20 @@ function* getDetailSaga(action: GetDetailRequest) {
     }
 }
 
+export const sendInvitationRequest = (request: InvitationRequestInfo): SendInvitationRequest => ({
+    type: detailAction.SEND_INVITATION_REQUEST,
+    payload: request
+});
+
+function* sendInvitationSaga(action: SendInvitationRequest) {
+    yield call(classroomService.sendInvitationMail, action.payload)
+}
+
 export function* detailSaga() {
     yield all([
         takeLatest(detailAction.GET_PARTICIPANT_REQUEST, getParticipantsSaga),
         takeLatest(detailAction.GET_DETAIL_REQUEST, getDetailSaga),
+        takeLatest(detailAction.SEND_INVITATION_REQUEST, sendInvitationSaga),
     ]);
 }
 

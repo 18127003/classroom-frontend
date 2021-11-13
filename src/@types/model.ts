@@ -28,6 +28,11 @@ export interface AuthRequestInfo {
     password: string
 }
 
+export interface InvitationRequestInfo {
+    invitations: string[],
+    classId: number
+}
+
 export interface GetClassroomsCriteria {
     reload: boolean
 }
