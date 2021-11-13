@@ -1,4 +1,5 @@
 import { CreateClassDialogProps, EditProfileDialogProps } from "@/@types/props";
+import { updateRequest } from "@/actions/account";
 import { addClassroomRequest } from "@/actions/classrooms";
 import { AppState } from "@/reducers";
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
@@ -7,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 export const EditProfileDialog: React.FC<EditProfileDialogProps> = ({isOpen=false, handleClose}) => {
     const account = useSelector((state:AppState)=>state.auth.user)
+    const dispatch = useDispatch()
 
 
     const handleSubmit = async (event: SyntheticEvent) => {
@@ -15,16 +17,17 @@ export const EditProfileDialog: React.FC<EditProfileDialogProps> = ({isOpen=fals
             firstName: { value: string };
             lastName: { value: string };
             email: { value: string };
-            // classroomRoom: { value: string };
+            studentId: { value: string };
         };
 
         handleClose();
-        // dispatch(addClassroomRequest({
-        //   firstName: target.firstName.value,
-        //   lastName: target.lastName.value,
-        //   email: target.email.value,
-        //   room: target.classroomRoom.value
-        // }));
+        dispatch(updateRequest({
+          id: account.id,
+          firstName: target.firstName.value,
+          lastName: target.lastName.value,
+          email: target.email.value,
+          studentId: target.studentId.value
+        }));
     }
 
     return (
@@ -54,9 +57,9 @@ export const EditProfileDialog: React.FC<EditProfileDialogProps> = ({isOpen=fals
               defaultValue={account.lastName}
             />
             <TextField
-              id="studentID"
+              id="studentId"
               label="Student ID"
-              name="studentID"
+              name="studentId"
               
             />
             <TextField

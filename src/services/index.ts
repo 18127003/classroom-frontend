@@ -1,5 +1,5 @@
 
-import { Account, AssignedClassroom, AuthRequestInfo, Classroom, GetClassroomsCriteria, InvitationRequestInfo } from "@/@types/model"
+import { Account, AssignedClassroom, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GetClassroomsCriteria, InvitationRequestInfo } from "@/@types/model"
 import { LOCAL_STORAGE_CLASSES_NAME } from "@/constants/common"
 import Cookies from "universal-cookie"
 import { api } from "./api"
@@ -84,11 +84,24 @@ const sendInvitationMail = async (request: InvitationRequestInfo)=>{
     await api.sendInvitationMail(request.classId, request.invitations, request.role)
 }
 
+const updateAccount = async (account: Account)=>{
+    return await api.updateAccount(account.id, account)
+}
+
+const changePassword = async (id:number, request: ChangePasswordRequestInfo)=>{
+    return await api.changePassword(id, request)
+}
+
 export const authService = {
     login,
     logout,
     signup,
     socialLogin
+}
+
+export const accountService = {
+    updateAccount,
+    changePassword
 }
 
 export const classroomService = {

@@ -1,22 +1,20 @@
 import React from 'react';
-import {AppBar, Box, Toolbar, Typography, IconButton, Avatar, Stack} from '@mui/material';
+import {AppBar, Box, Toolbar, Typography, IconButton, Avatar} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import AddIcon from '@mui/icons-material/Add';
 import { useSelector } from 'react-redux';
 import { AppState } from '@/reducers';
 import PopupMenu from '../PopupMenu';
-import { CreateClassDialog } from '../Dialog/CreateClassdialog';
 import PopupMenuItem from '../PopupMenu/PopupMenuItem';
 import LogoutDialog from '../Dialog/LogoutDialog';
-import JoinClassDialog from '../Dialog/JoinClassDialog';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Profile from '../Profile/profile';
-import { Edit, EditAttributesOutlined, ModeEdit } from '@mui/icons-material';
+import { ModeEdit } from '@mui/icons-material';
 import { EditProfileDialog } from '../Dialog/EditProfileDialog';
 import {ChangePasswordDialog } from '../Dialog/ChangePasswordDialog';
+import { BasicAppBarProps } from '@/@types/props';
 
-const BasicAppBar: React.FC = () => {
-  const auth = useSelector((state:AppState)=>state.auth.user);
+const BasicAppBar: React.FC<BasicAppBarProps> = ({titleFlexGrow=true, children}) => {
+  const user = useSelector((state:AppState)=>state.account.detail);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -31,35 +29,21 @@ const BasicAppBar: React.FC = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div" sx={titleFlexGrow?{ flexGrow: 1 }:{}}>
             <NavLink to="/" style={{textDecoration:'none'}}>
             Classroom
             </NavLink>
           </Typography>
-          <PopupMenu
-            id="classroom-menu"
-            icon={<AddIcon />}
-            iconSz={{
-              size:"large",
-              edge:"start",
-              color:"inherit",
-              sx:{ mr: 2 }
-            }}
-          >
-            <PopupMenuItem title="Create Class">
-              <CreateClassDialog/>
-            </PopupMenuItem>
-            <PopupMenuItem title="Join Class">
-              <JoinClassDialog/>
-            </PopupMenuItem>
-          </PopupMenu>
+          {
+            children
+          }
           <PopupMenu 
             id="profile-menu"
-            icon={<Avatar sx={{ bgcolor: 'rgba(0, 128, 0, 0.3)' }}>{auth.name.slice(0,2)}</Avatar>}
+            icon={<Avatar sx={{ bgcolor: 'rgba(0, 128, 0, 0.3)' }}>{user.lastName.slice(0,2)}</Avatar>}
           >
             <PopupMenuItem title="Profile" button={<IconButton><ModeEdit/></IconButton>}>
-            <Profile account={auth}/>
-            <EditProfileDialog />
+              <Profile/>
+              <EditProfileDialog />
             </PopupMenuItem>
             <PopupMenuItem title="Change Password">
               <ChangePasswordDialog/>

@@ -5,6 +5,7 @@ import {all, call, put, takeLatest} from "redux-saga/effects";
 import { AuthSuccessPayload, AuthSuccess, AuthFailPayload, AuthFail, AuthRequest, 
     AuthRefresh, LogoutSuccess, LogoutFail, LogoutFailPayload, SignupSuccess, SignupFailPayload, SignupFail, SignupRequest, SocialAuthRequest } from "@/@types/auth.action";
 import { COOKIES_AUTH_NAME } from "@/constants/common";
+import { initAccountRequest } from "./account";
 
 
 export const loginRequest = (auth: AuthRequestInfo) => ({
@@ -31,6 +32,7 @@ function* loginSaga(action: AuthRequest) {
     try{
         const user = yield call(authService.login, action.payload);
         commonService.saveCookies(COOKIES_AUTH_NAME, user.data);
+        yield put(initAccountRequest(user.data))
         yield put(loginSuccess({
             user: user.data
         }))
@@ -42,6 +44,7 @@ function* loginSaga(action: AuthRequest) {
 }
 
 function* refreshLoginSaga(action: AuthRefresh) {
+    yield put(initAccountRequest(action.payload))
     yield put(loginSuccess({
         user:action.payload
     }))
@@ -112,9 +115,10 @@ function* socialLoginSaga(action: SocialAuthRequest){
     try{
         const user = yield call(authService.socialLogin, action.payload)
         commonService.saveCookies(COOKIES_AUTH_NAME, user.data);
+        yield put(initAccountRequest(user.data))
         yield put(loginSuccess({
             user: user.data
-        }))
+        }))        
     } catch(e){
         yield put(loginFail({
             error: 'Login Failed'

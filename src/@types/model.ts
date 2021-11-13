@@ -20,7 +20,8 @@ export interface Account {
     role?:string,
     password?:string,
     firstName?:string,
-    lastName?:string
+    lastName?:string,
+    studentId?:string
 }
 
 export interface AuthRequestInfo {
@@ -32,6 +33,11 @@ export interface InvitationRequestInfo {
     invitations: string[],
     classId: number,
     role: 'TEACHER'|'STUDENT'
+}
+
+export interface ChangePasswordRequestInfo{
+    oldPassword: string,
+    newPassword:string
 }
 
 export interface GetClassroomsCriteria {

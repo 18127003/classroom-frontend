@@ -36,8 +36,10 @@ interface InviteParticipantDialogProps extends DialogProps{
     title: string,
     isStudent?: boolean
 }
+
 interface EditProfileDialogProps extends DialogProps{
 }
+
 interface ChangePasswordDialogProps extends DialogProps{
 }
 
@@ -47,6 +49,8 @@ type ParticipantListProps={
     isStudent?: boolean,
     list: Account[]
 }
-type ProfileProps={
-    account:Account
+
+interface BasicAppBarProps {
+    titleFlexGrow?: boolean
+    children?: React.ReactNode 
 }

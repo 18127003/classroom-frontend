@@ -1,4 +1,4 @@
-import { Account, AuthRequestInfo, Classroom } from '@/@types/model';
+import { Account, AuthRequestInfo, ChangePasswordRequestInfo, Classroom } from '@/@types/model';
 import axios from 'axios';
 
 const instance = axios.create({
@@ -10,9 +10,6 @@ const instance = axios.create({
 const getData = () => instance({
     'method':'GET',
     'url':'/classroom/all',
-    // 'params': {
-    //     'search':'parameter',
-    // },
     transformResponse: [(data) => JSON.parse(data)]
 })
 
@@ -76,6 +73,20 @@ const sendInvitationMail = (classId: number, invitations: string[], role: 'STUDE
     'data': invitations
 })
 
+const updateAccount = (id:number, account: Account)=>instance({
+    'method':'PUT',
+    'url':`/account/${id}/update`,
+    'data':account,
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
+const changePassword = (id:number, request: ChangePasswordRequestInfo)=>instance({
+    'method':'PATCH',
+    'url':`/account/${id}/change_password`,
+    'data':request,
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
 export const api = {
     getData,
     createClassroom,
@@ -86,5 +97,7 @@ export const api = {
     joinClassroom,
     getParticipants,
     getClassroomDetail,
-    sendInvitationMail
+    sendInvitationMail,
+    updateAccount,
+    changePassword
 }

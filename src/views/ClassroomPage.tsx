@@ -1,11 +1,11 @@
-import ClassroomAppBar from "@/components/ClassroomAppBar";
+import BasicAppBar from "@/components/BasicAppBar";
 import InvitationRespondDialog from "@/components/Dialog/InvitationRespondDialog";
 import ParticipantTab from "@/components/ParticipantTab";
 import useClassroomWrapper from "@/hooks/useClassroomWrapper";
 import { AppState } from "@/reducers";
-import { TabContext, TabPanel } from "@mui/lab";
-import { LinearProgress } from "@mui/material";
-import React, { useState } from "react";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { LinearProgress, Tab } from "@mui/material";
+import React from "react";
 import { useSelector } from "react-redux";
 
 
@@ -29,7 +29,13 @@ const ClassroomPage: React.FC = ()=>{
     return (
         <>
             <TabContext value={tabValue}>
-                <ClassroomAppBar handleChangeTab={handleChange}/>
+                <BasicAppBar titleFlexGrow={false}>
+                    <TabList onChange={handleChange} aria-label="classroom-tabs" centered sx={{flexGrow:1}}>
+                        <Tab label="News" value="1"/>
+                        <Tab label="Assignments" value="2"/>
+                        <Tab label="Participants" value="3"/>
+                    </TabList>
+                </BasicAppBar>
                 <LinearProgress sx={loading?{}:{display: 'none'}}/>
                 <TabPanel value="1"><div>Classroom code: {classroom?classroom.code:''}</div></TabPanel>
                 <TabPanel value="2">Item Two</TabPanel>
