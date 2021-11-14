@@ -44,10 +44,16 @@ function* loginSaga(action: AuthRequest) {
 }
 
 function* refreshLoginSaga(action: AuthRefresh) {
-    yield put(initAccountRequest(action.payload))
-    yield put(loginSuccess({
-        user:action.payload
-    }))
+    try{
+        yield call(authService.testConnection)
+        yield put(initAccountRequest(action.payload))
+        yield put(loginSuccess({
+            user:action.payload
+        }))
+    } catch (e){
+        
+    }
+   
 }
 
 export const logoutRequest = () => ({

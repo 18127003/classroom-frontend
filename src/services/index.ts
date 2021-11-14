@@ -33,11 +33,15 @@ const saveLocal = (item: string, data: any[])=>{
     localStorage.setItem(item, JSON.stringify(data))
 }
 
+const testConnection = async ()=>{
+    return await api.testConnection()
+}
+
 const saveCookies = (name:string, value:any)=>{
     const cookies = new Cookies();
     cookies.set(name,value,{
         'path':'/',
-        'maxAge':3600000
+        'maxAge':3600
     })
 }
 
@@ -96,7 +100,8 @@ export const authService = {
     login,
     logout,
     signup,
-    socialLogin
+    socialLogin,
+    testConnection
 }
 
 export const accountService = {
