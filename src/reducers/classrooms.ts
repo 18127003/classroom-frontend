@@ -1,7 +1,7 @@
 import { AddClassroomsFail, ClassroomAction, ClassroomsState, GetClassroomsFail, GetClassroomsSuccess, JoinClassroomsFail } from "@/@types/classroom.action";
 import { authActions, classroomActions } from "@/constants/actions";
 
-const initState:ClassroomsState = {loading:false, classes: [], error:null}
+const initState:ClassroomsState = {loading:false, classes: [], error:null, reload: true}
 
 export const classroomsReducer = (state: ClassroomsState = initState, action: ClassroomAction):ClassroomsState=>{
     console.log(action.type)
@@ -15,6 +15,7 @@ export const classroomsReducer = (state: ClassroomsState = initState, action: Cl
             return {
                 ...state,
                 loading: false,
+                reload: false,
                 classes: (action as GetClassroomsSuccess).payload.classes,
                 error:null
             };
@@ -25,6 +26,11 @@ export const classroomsReducer = (state: ClassroomsState = initState, action: Cl
                 classes: [],
                 error: (action as GetClassroomsFail).payload.error
             };
+        case classroomActions.RELOAD_REQUEST:
+            return {
+                ...state,
+                reload: true
+            }
         case classroomActions.ADD_REQUEST:
             return {
                 ...state,

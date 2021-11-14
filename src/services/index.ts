@@ -1,5 +1,5 @@
 
-import { Account, AssignedClassroom, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GetClassroomsCriteria, InvitationRequestInfo } from "@/@types/model"
+import { Account, AssignedClassroom, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GetClassroomsCriteria, InvitationRequestInfo, JoinRequestInfo } from "@/@types/model"
 import { LOCAL_STORAGE_CLASSES_NAME } from "@/constants/common"
 import Cookies from "universal-cookie"
 import { api } from "./api"
@@ -25,8 +25,8 @@ const addClassroom = async (classroom: Classroom)=>{
     return await api.createClassroom(classroom)
 }
 
-const joinClassroom = async (code: string)=>{
-    return await api.joinClassroom(code)
+const joinClassroom = async (request: JoinRequestInfo)=>{
+    return await api.joinClassroom(request.code, request.role)
 }
 
 const saveLocal = (item: string, data: any[])=>{

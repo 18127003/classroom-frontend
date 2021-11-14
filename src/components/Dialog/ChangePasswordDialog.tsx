@@ -13,7 +13,6 @@ export const ChangePasswordDialog: React.FC<ChangePasswordDialogProps> = ({isOpe
     const close = ()=>{
         setValid(true)
         handleClose()
-        console.log(valid)
     }
 
     const handleSubmit = async (event: SyntheticEvent) => {

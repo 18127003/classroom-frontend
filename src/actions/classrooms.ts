@@ -1,8 +1,8 @@
 import { ClassroomAction, AddClassroomFailPayload, AddClassroomRequest, AddClassroomsFail, AddClassroomSuccess, 
     AddClassroomSuccessPayload, GetClassroomsFail, GetClassroomsFailPayload, 
     GetClassroomsRequest, GetClassroomsSuccess, GetClassroomsSuccessPayload, JoinClassroomRequest, 
-    JoinClassroomSuccessPayload, JoinClassroomSuccess, JoinClassroomFailPayload, JoinClassroomsFail } from "@/@types/classroom.action";
-import { Classroom, GetClassroomsCriteria } from "@/@types/model";
+    JoinClassroomSuccessPayload, JoinClassroomSuccess, JoinClassroomFailPayload, JoinClassroomsFail, ReloadClassroomsRequest } from "@/@types/classroom.action";
+import { Classroom, GetClassroomsCriteria, JoinRequestInfo } from "@/@types/model";
 import { classroomService } from "@/services";
 import { all, call, put, takeEvery, takeLatest } from "@redux-saga/core/effects";
 import { classroomActions } from "../constants/actions";
@@ -67,9 +67,9 @@ function* addClassroomsSaga(action: AddClassroomRequest) {
     }
 }
 
-export const joinClassroomRequest = (code: string): JoinClassroomRequest => ({
+export const joinClassroomRequest = (request: JoinRequestInfo): JoinClassroomRequest => ({
     type: classroomActions.JOIN_REQUEST,
-    payload: code
+    payload: request
 });
 
 export const joinClassroomSuccess = (payload: JoinClassroomSuccessPayload):JoinClassroomSuccess =>({
@@ -98,6 +98,11 @@ function* joinClassroomsSaga(action: JoinClassroomRequest) {
         }))
     }
 }
+
+export const reloadClassroomRequest = (): ReloadClassroomsRequest => ({
+    type: classroomActions.RELOAD_REQUEST
+});
+
 
 export function* classroomsSaga() {
     yield all([

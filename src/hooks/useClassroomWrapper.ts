@@ -30,7 +30,9 @@ const useClassroomWrapper = ()=>{
         if(invite!==null){
             if(invite===true){
                 const code = query.get("code")
-                dispatch(joinClassroomRequest(code))
+                dispatch(joinClassroomRequest({
+                    code: code
+                }))
             } else {
                 if(location.state){
                     dispatch(getDetailRequest(location.state as AssignedClassroom))

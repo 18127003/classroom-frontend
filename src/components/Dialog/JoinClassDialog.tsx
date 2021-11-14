@@ -15,7 +15,9 @@ const JoinClassDialog: React.FC<JoinClassDialogProps> = ({isOpen, handleClose}) 
 
         handleClose();
 
-        dispatch(joinClassroomRequest(target.classroomCode.value));
+        dispatch(joinClassroomRequest({
+            code: target.classroomCode.value
+        }));
     }
 
     return (

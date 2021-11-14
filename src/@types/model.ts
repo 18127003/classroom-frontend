@@ -35,6 +35,11 @@ export interface InvitationRequestInfo {
     role: 'TEACHER'|'STUDENT'
 }
 
+export interface JoinRequestInfo {
+    code: string,
+    role?: string
+}
+
 export interface ChangePasswordRequestInfo{
     oldPassword: string,
     newPassword:string

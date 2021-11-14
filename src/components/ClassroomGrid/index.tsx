@@ -7,12 +7,15 @@ import { getClassroomsRequest } from "@/actions/classrooms";
 
 const ClassroomsGrid: React.FC = ()=>{
     const classes = useSelector((state: AppState)=>state.classrooms.classes);
+    const reload = useSelector((state: AppState)=>state.classrooms.reload);
     const dispatch = useDispatch();
 
     useEffect(()=>{
-        dispatch(getClassroomsRequest({
-            reload: true
-        }))
+        if(reload){
+            dispatch(getClassroomsRequest({
+                reload: true
+            }))
+        }
     },[])
 
     return (

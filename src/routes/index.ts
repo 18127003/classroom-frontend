@@ -1,3 +1,4 @@
+import AcceptTokenPage from "@/views/AcceptTokenPage";
 import ClassroomPage from "@/views/ClassroomPage";
 import HomePage from "@/views/HomePage";
 import LoginPage from "@/views/LoginPage";
@@ -41,8 +42,14 @@ const routes: AppRoute[] = [
         component: SignupPage,
         protected: false,
         exact: true,
+    },
+    {
+        path: '/invite/accept_token/:id',
+        name: 'Accept Mail Page',
+        component: AcceptTokenPage,
+        protected: true,
+        exact: true,
     }
-
 ]
 
 export default routes;
