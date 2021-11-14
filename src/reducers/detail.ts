@@ -1,11 +1,15 @@
 import { ClassroomDetailState, DetailAction, GetDetailFail, GetDetailSuccess, GetParticipantsFail, GetParticipantsSuccess } from "@/@types/detail.action";
-import { authActions, detailAction } from "@/constants/actions";
+import { authActions, commonAction, detailAction } from "@/constants/actions";
 
 const initState:ClassroomDetailState = {
     loading: false, 
-    participants: [], 
+    participants: {
+        data: [],
+        reload: true
+    }, 
     error: null,
-    detail: undefined
+    detail: undefined,
+    redirect: false
 }
 
 export const detailReducer = (state: ClassroomDetailState = initState, action: DetailAction):ClassroomDetailState=>{
@@ -19,20 +23,38 @@ export const detailReducer = (state: ClassroomDetailState = initState, action: D
             return {
                 ...state,
                 loading: false,
-                participants: (action as GetParticipantsSuccess).payload.participants,
+                participants: {
+                    data: (action as GetParticipantsSuccess).payload.participants,
+                    reload: false
+                },
                 error:null
             };
         case detailAction.GET_PARTICIPANT_FAIL:
             return {
                 ...state,
                 loading: false,
-                participants: [],
+                participants: {
+                    data: [],
+                    reload: true
+                },
                 error: (action as GetParticipantsFail).payload.error
             };
+        case detailAction.RELOAD_PARTICIPANT_REQUEST:
+            return {
+                ...state,
+                participants: {
+                    data: state.participants.data,
+                    reload: true
+                }
+            }
         case detailAction.GET_DETAIL_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                participants:{
+                    data:[],
+                    reload:true
+                }
             };
         case detailAction.GET_DETAIL_SUCCESS:
             return {
@@ -47,6 +69,16 @@ export const detailReducer = (state: ClassroomDetailState = initState, action: D
                 loading: false,
                 error: (action as GetDetailFail).payload.error
             };
+        case commonAction.REDIRECT_REQUEST:
+            return {
+                ...state,
+                redirect: true
+            }
+        case commonAction.REDIRECT_SUCCESS:
+            return {
+                ...state,
+                redirect: false
+            }
         case authActions.LOGOUT_SUCCESS:
             return initState;
         default:

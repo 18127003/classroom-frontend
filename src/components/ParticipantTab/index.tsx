@@ -7,11 +7,12 @@ import ParticipantList from "./ParticipantList";
 
 const ParticipantTab: React.FC=()=>{
     const dispatch = useDispatch();
-    const participants = useSelector((state: AppState)=>state.detail.participants)
+    const participants = useSelector((state: AppState)=>state.detail.participants.data)
+    const reload = useSelector((state: AppState)=>state.detail.participants.reload)
     const detail = useSelector((state: AppState)=>state.detail.detail)
 
     useEffect(()=>{
-        if(detail){
+        if(detail && reload){
             dispatch(getParticipantsRequest(detail.id))
         }
     },[detail])

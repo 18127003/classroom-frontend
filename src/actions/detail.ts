@@ -1,4 +1,4 @@
-import { GetDetailFail, GetDetailFailPayload, GetDetailRequest, GetDetailSuccess, GetDetailSuccessPayload, GetParticipantsFail, GetParticipantsFailPayload, GetParticipantsRequest, GetParticipantsSuccess, GetParticipantsSuccessPayload, SendInvitationRequest } from "@/@types/detail.action";
+import { GetDetailFail, GetDetailFailPayload, GetDetailRequest, GetDetailSuccess, GetDetailSuccessPayload, GetParticipantsFail, GetParticipantsFailPayload, GetParticipantsRequest, GetParticipantsSuccess, GetParticipantsSuccessPayload, ReloadParticipantsRequest, SendInvitationRequest } from "@/@types/detail.action";
 import { AssignedClassroom, InvitationRequestInfo } from "@/@types/model";
 import { detailAction } from "@/constants/actions";
 import { classroomService } from "@/services";
@@ -17,6 +17,10 @@ export const getParticipantsSuccess = (payload: GetParticipantsSuccessPayload):G
 export const getParticipantsFail = (payload: GetParticipantsFailPayload):GetParticipantsFail =>({
     type: detailAction.GET_PARTICIPANT_FAIL,
     payload: payload
+});
+
+export const reloadParticipantsRequest = (): ReloadParticipantsRequest => ({
+    type: detailAction.RELOAD_PARTICIPANT_REQUEST
 });
  
 function* getParticipantsSaga(action: GetParticipantsRequest) {
@@ -62,6 +66,7 @@ function* getDetailSaga(action: GetDetailRequest) {
         yield put(getDetailSuccess({
             detail: detail
         }))
+        
     } else {
         yield put(getDetailFail({
             error: 'Get classroom detail failed'

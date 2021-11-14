@@ -1,9 +1,11 @@
 import { AssignedClassroom } from "@/@types/model";
 import { joinClassroomRequest } from "@/actions/classrooms";
+import { redirectSuccess } from "@/actions/common";
 import { getDetailRequest } from "@/actions/detail";
 import { useQuery } from "@/hooks/useQuery";
+import { AppState } from "@/reducers";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 
 type ClassroomPageParams = {
@@ -16,6 +18,7 @@ const useClassroomWrapper = ()=>{
     const query = useQuery();
     const [invite, setInvite] = useState<boolean|null>(null)
     const dispatch = useDispatch();
+    const redirect = useSelector((state: AppState)=>state.detail.redirect)
 
     const handleAcceptInvite = () => {
         setInvite(false)
@@ -42,6 +45,12 @@ const useClassroomWrapper = ()=>{
             }
         }
     },[invite])
+
+    useEffect(()=>{
+        if(redirect){
+            dispatch(redirectSuccess())
+        }
+    },[])
 
     return {
         invite,

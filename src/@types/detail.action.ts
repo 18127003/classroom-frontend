@@ -3,9 +3,13 @@ import { Account, AssignedClassroom, InvitationRequestInfo } from "./model";
 
 export interface ClassroomDetailState {
     loading: boolean,
-    participants: Account[],
+    participants: {
+        data: Account[],
+        reload: boolean
+    }
     detail: AssignedClassroom|null,
-    error: string|null
+    error: string|null,
+    redirect: boolean
 }
 
 export interface GetParticipantsSuccessPayload {
@@ -29,6 +33,10 @@ export interface GetParticipantsSuccess {
 export interface GetParticipantsFail {
     type: typeof detailAction.GET_PARTICIPANT_FAIL
     payload: GetParticipantsFailPayload
+}
+
+export interface ReloadParticipantsRequest{
+    type: typeof detailAction.RELOAD_PARTICIPANT_REQUEST
 }
 
 export interface GetDetailSuccessPayload {
@@ -67,3 +75,4 @@ export type DetailAction =
     | GetDetailSuccess
     | GetDetailFail
     | SendInvitationRequest
+    | ReloadParticipantsRequest

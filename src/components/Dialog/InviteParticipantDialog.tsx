@@ -24,7 +24,7 @@ const InviteParticipantDialog: React.FC<InviteParticipantDialogProps>=({title,is
     const handleSubmit = (event: SyntheticEvent)=>{
         event.preventDefault();
 
-        if(classroom){
+        if(classroom && values.length > 0){
             handleClose();
 
             dispatch(sendInvitationRequest({
