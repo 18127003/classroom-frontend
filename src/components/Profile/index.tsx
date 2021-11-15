@@ -24,4 +24,4 @@ const Profile:React.FC=()=>{
       </List>
     )
 }
-export default Profile
+export default Profile;

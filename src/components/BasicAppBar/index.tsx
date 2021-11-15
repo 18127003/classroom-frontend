@@ -1,6 +1,5 @@
 import React from 'react';
 import {AppBar, Box, Toolbar, Typography, IconButton, Avatar} from '@mui/material';
-import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import { useSelector } from 'react-redux';
 import { AppState } from '@/reducers';
 import PopupMenu from '../PopupMenu';

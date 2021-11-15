@@ -1,4 +1,5 @@
-import { Account, AssignedClassroom, Classroom } from "@/@types/model";
+import { Account, AssignedClassroom } from "@/@types/model";
+import { IconButtonProps } from "@mui/material";
 import React from "react";
 import { RouteProps } from "react-router-dom";
 
@@ -50,11 +51,23 @@ type ParticipantListProps={
     hasManage?:boolean,
     data: Account[]
 }
-type DetailClassProps={
+type DetailClassTabProps={
     detailClass:AssignedClassroom
-    account:Account
 }
 interface BasicAppBarProps {
     titleFlexGrow?: boolean
     children?: React.ReactNode 
+}
+
+interface CodeCardProps {
+    code:string
+}
+
+
+interface DetailCardProps {
+    detailClass:AssignedClassroom
+}
+
+interface ExpandMoreProps extends IconButtonProps {
+    expand: boolean;
 }
