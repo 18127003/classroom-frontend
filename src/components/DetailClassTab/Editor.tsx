@@ -6,11 +6,7 @@ const Editor = ({}) => {
 	const [content, setContent] = useState('')
 	
 	const config = {
-		readonly: false,
-        // style:true,
-        styleValues:{
-            'color-text': 'red'
-        }
+		readonly: false
 	}
 
     useEffect(()=>{

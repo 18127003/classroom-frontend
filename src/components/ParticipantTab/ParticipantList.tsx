@@ -1,13 +1,15 @@
 import React, { useState } from "react"
-import { Avatar, Checkbox, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemText, Stack, TextField, Typography } from "@mui/material";
-import {  Person } from "@mui/icons-material";
-import { COLORS } from "@/constants/common";
+import {Divider, Grid, IconButton, List, Stack, Typography } from "@mui/material";
 import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
 import InviteDialog from "../Dialog/InviteParticipantDialog";
 import { ParticipantListProps } from "@/@types/props";
-
-const ParticipantList: React.FC<ParticipantListProps> = ({title, data, hasCount, hasAddIcon=false})=>{
+import TaskBar from "./TaskBar";
+import ParticipantItem from "./ParticipantItem";
+import useCheckboxes from "@/hooks/useCheckboxes";
+ 
+const ParticipantList: React.FC<ParticipantListProps> = ({title, data, hasManage=false, hasCount, hasAddIcon=false})=>{
     const [open, setOpen]=useState(false);
+    const {select, getSelected, allSelected, selectAll, anySelected, getSelectedAt} = useCheckboxes(data)
 
     const handleOpen = ()=>{
         setOpen(true)
@@ -32,7 +34,7 @@ const ParticipantList: React.FC<ParticipantListProps> = ({title, data, hasCount,
                                     {title}
                                 </Typography>
 
-                                {hasCount && data.length>0 && (
+                                {hasCount && (
                                     <Typography 
                                         sx={{ mt: 2, mb: 2, color:"teal",alignItems:"center" }} 
                                         variant="h6" 
@@ -59,38 +61,27 @@ const ParticipantList: React.FC<ParticipantListProps> = ({title, data, hasCount,
                             
                             </Stack>
                             <Divider sx={{background:"teal"}}/>
-                            <Stack direction="row" spacing={2} justifyContent="space-between" alignItems="center" >
-                                <Checkbox/>
-                                {/* <TextField
-                                    id="outlined-select-currency"
-                                    select
-                                    label="Select"
-                                    value={currency}
-                                    onChange={handleChange}
-                                    helperText="Please select your currency"
-                                    >
-                                    {currencies.map((option) => (
-                                        <MenuItem key={option.value} value={option.value}>
-                                        {option.label}
-                                        </MenuItem>
-                                    ))}
-                                </TextField> */}
-                            </Stack>
+                            {
+                                hasManage && (
+                                    <TaskBar 
+                                        onCheck={selectAll} 
+                                        checked={allSelected()}
+                                        disabledTask={!anySelected()}
+                                    />
+                                )
+                            }
                             <List >
-                            {data.map(item=>(
-                                <React.Fragment key={item.id}>
-                                    <ListItem>
-                                        <ListItemAvatar>
-                                            <Avatar sx={{background: COLORS[Math.floor(Math.random()*COLORS.length)]}}>
-                                            <Person />
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText primary={item.name}/>
-                                    </ListItem>
-                                    <Divider/>
-                                </React.Fragment>
-                                
-                            ))}
+                            {
+                                data.map(item=>(
+                                    <ParticipantItem 
+                                        key={item.id}
+                                        item={item} 
+                                        task={hasManage}
+                                        onCheck={select}
+                                        checked={getSelectedAt(item.id)}
+                                    />
+                                ))
+                            }
                             </List>
                             {
                                 data.length===0 && hasAddIcon && (<Typography variant="body2">Invite a student for your class</Typography>)

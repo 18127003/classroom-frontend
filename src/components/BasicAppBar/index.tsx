@@ -16,16 +16,12 @@ import ClassroomDrawer from './ClassroomDrawer';
 
 const BasicAppBar: React.FC<BasicAppBarProps> = ({titleFlexGrow=true, children}) => {
   const user = useSelector((state:AppState)=>state.account.detail);
-  const handleDrawer=()=>{
-
-  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="transparent">
         <Toolbar>
-          
-          {/* <SchoolOutlinedIcon sx={{mr:2}} fontSize="large" onClick={()=>{}}/> */}
+        
           <ClassroomDrawer/>
         
           <Typography variant="h5" component="div" sx={titleFlexGrow?{ flexGrow: 1 }:{}}>
@@ -38,7 +34,7 @@ const BasicAppBar: React.FC<BasicAppBarProps> = ({titleFlexGrow=true, children})
           }
           <PopupMenu 
             id="profile-menu"
-            icon={<Avatar sx={{ bgcolor: 'rgba(0, 128, 0, 0.3)' }}>{user.lastName.slice(0,2)}</Avatar>}
+            button={<IconButton><Avatar sx={{ bgcolor: 'rgba(0, 128, 0, 0.3)' }}>{user.lastName.slice(0,2)}</Avatar></IconButton>}
           >
             <PopupMenuItem title="Profile" button={<IconButton><ModeEdit/></IconButton>}>
               <Profile/>

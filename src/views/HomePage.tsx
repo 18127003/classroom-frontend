@@ -1,6 +1,6 @@
 import BasicAppBar from "@/components/BasicAppBar"
 import ClassroomsGrid from "@/components/ClassroomGrid"
-import { LinearProgress } from "@mui/material"
+import { IconButton, LinearProgress } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add'
 import React from "react"
 import { useSelector } from "react-redux"
@@ -27,13 +27,16 @@ const HomePage = ()=>{
             <BasicAppBar>
                 <PopupMenu
                     id="classroom-menu"
-                    icon={<AddIcon />}
-                    iconSz={{
-                    size:"large",
-                    edge:"start",
-                    color:"inherit",
-                    sx:{ mr: 2 }
-                    }}
+                    button={
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            sx={{ mr: 2 }}
+                        >
+                            <AddIcon />
+                        </IconButton>
+                    }
                 >
                     <PopupMenuItem title="Create Class">
                         <CreateClassDialog/>

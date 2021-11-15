@@ -47,6 +47,7 @@ type ParticipantListProps={
     title: "Teachers"|"Students",
     hasCount: boolean,
     hasAddIcon?: boolean,
+    hasManage?:boolean,
     data: Account[]
 }
 type DetailClassProps={

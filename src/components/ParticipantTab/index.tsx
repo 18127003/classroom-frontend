@@ -30,7 +30,8 @@ const ParticipantTab: React.FC=()=>{
             <ParticipantList 
                 title={"Students"} 
                 data={students} 
-                hasCount={true} 
+                hasCount={students.length>0} 
+                hasManage={students.length>0}
                 hasAddIcon={detail.role==="TEACHER"?true:false}
             />
         </>

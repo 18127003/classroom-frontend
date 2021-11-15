@@ -85,7 +85,7 @@ export const DetailClass: React.FC<DetailClassProps> = ({ detailClass,account })
                 action={
                   <PopupMenu 
                     id="profile-menu"
-                    icon={<MoreVertOutlined/>}
+                    button={<IconButton><MoreVertOutlined/></IconButton>}
                   >
                     <PopupMenuItem title="Copy invited link" button={<IconButton><LinkOutlined/></IconButton>}>
                     </PopupMenuItem>
@@ -121,7 +121,7 @@ export const DetailClass: React.FC<DetailClassProps> = ({ detailClass,account })
               {!showEditor &&(
               <CardContent onClick={()=>{handleEditorClick()}}>
                  <Stack direction="row" spacing={1} alignItems="center">
-                  <Avatar sx={{color:"teal"}}>{account.name.slice(0,2)}</Avatar>
+                  <Avatar sx={{color:"teal"}}>{account.lastName.slice(0,2)}</Avatar>
                   <Typography variant="body2">Notice to your class</Typography>
                 </Stack>
               </CardContent>)}

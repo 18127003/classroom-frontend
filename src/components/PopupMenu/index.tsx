@@ -1,14 +1,14 @@
-import { IconButton, Menu } from "@mui/material";
+import { Box, IconButton, Menu } from "@mui/material";
 import React, { ReactElement, ReactNode } from "react";
 
 interface PopupMenuProps {
     children: ReactElement| ReactElement[],
     id: string,
-    icon: ReactNode,
-    iconSz?: any
+    button: ReactElement,
+    buttonWrapperSx?: any
 }
 
-const PopupMenu: React.FC<PopupMenuProps> = ({children, id, icon, iconSz})=>{
+const PopupMenu: React.FC<PopupMenuProps> = ({children, id, button, buttonWrapperSx})=>{
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -23,12 +23,11 @@ const PopupMenu: React.FC<PopupMenuProps> = ({children, id, icon, iconSz})=>{
 
     return (
         <>
-            <IconButton 
-                onClick={handleClick}
-                {...iconSz}
-            >
-                {icon}
-            </IconButton>
+            <Box sx={buttonWrapperSx}>
+            {
+                React.cloneElement(button, {'onClick': handleClick})
+            }
+            </Box>
             <Menu
                 id={id}
                 aria-labelledby={id}
