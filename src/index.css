@@ -12,6 +12,11 @@ code {
     monospace;
 }
 
-.classroomContainer {
-  margin: 50;
-}
+
+#editor:root {
+  --jd-color-background-default: #ffffff;
+  --jd-color-border: #000000;
+  --jd-color-panel: #b8e986;
+  --jd-color-icon: #000000;
+  }
+  

@@ -1,4 +1,5 @@
 import BasicAppBar from "@/components/BasicAppBar";
+import { DetailClass } from "@/components/DetailClassTab";
 import InvitationRespondDialog from "@/components/Dialog/InvitationRespondDialog";
 import ParticipantTab from "@/components/ParticipantTab";
 import useClassroomWrapper from "@/hooks/useClassroomWrapper";
@@ -14,6 +15,7 @@ const ClassroomPage: React.FC = ()=>{
     const loading = useSelector((state: AppState)=>state.detail.loading);
     const classroom = useSelector((state: AppState)=>state.detail.detail);
     const error = useSelector((state: AppState)=>state.detail.error);
+    const account=useSelector((state:AppState)=>state.auth.user)
     
     const [tabValue, setTabValue] = React.useState('1');
 
@@ -38,7 +40,8 @@ const ClassroomPage: React.FC = ()=>{
                     </TabList>
                 </BasicAppBar>
                 <LinearProgress sx={loading?{}:{display: 'none'}}/>
-                <TabPanel value="1"><div>Classroom code: {classroom?classroom.code:''}</div></TabPanel>
+                {/* <TabPanel value="1"><div>Classroom code: {classroom?classroom.code:''}</div></TabPanel> */}
+                <TabPanel value="1">{classroom && <DetailClass detailClass={classroom} account={account}/>}</TabPanel>
                 <TabPanel value="2">Assignments</TabPanel>
                 <TabPanel value="3"><ParticipantTab/></TabPanel>
                 {classroom && classroom.role==="TEACHER" && (<TabPanel value="4">Grade book</TabPanel>)}

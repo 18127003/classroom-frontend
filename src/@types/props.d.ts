@@ -1,4 +1,4 @@
-import { Account, AssignedClassroom } from "@/@types/model";
+import { Account, AssignedClassroom, Classroom } from "@/@types/model";
 import React from "react";
 import { RouteProps } from "react-router-dom";
 
@@ -49,7 +49,10 @@ type ParticipantListProps={
     hasAddIcon?: boolean,
     data: Account[]
 }
-
+type DetailClassProps={
+    detailClass:AssignedClassroom
+    account:Account
+}
 interface BasicAppBarProps {
     titleFlexGrow?: boolean
     children?: React.ReactNode 
