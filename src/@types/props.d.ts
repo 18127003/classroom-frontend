@@ -1,4 +1,4 @@
-import { Account, AssignedClassroom } from "@/@types/model";
+import { Account, AssignedClassroom, Classroom } from "@/@types/model";
 import { IconButtonProps } from "@mui/material";
 import React from "react";
 import { RouteProps } from "react-router-dom";
@@ -66,6 +66,12 @@ interface CodeCardProps {
 
 interface DetailCardProps {
     detailClass:AssignedClassroom
+}
+interface DrawerItemProps{
+    title:string
+    toggleDrawer:any
+    items:Classroom[]
+    key: any
 }
 
 interface ExpandMoreProps extends IconButtonProps {
