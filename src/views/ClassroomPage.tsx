@@ -34,12 +34,14 @@ const ClassroomPage: React.FC = ()=>{
                         <Tab label="News" value="1"/>
                         <Tab label="Assignments" value="2"/>
                         <Tab label="Participants" value="3"/>
+                        {classroom && classroom.role==="TEACHER" && (<Tab label="Grade Book" value="4"/>)}
                     </TabList>
                 </BasicAppBar>
                 <LinearProgress sx={loading?{}:{display: 'none'}}/>
                 <TabPanel value="1"><div>Classroom code: {classroom?classroom.code:''}</div></TabPanel>
-                <TabPanel value="2">Item Two</TabPanel>
+                <TabPanel value="2">Assignments</TabPanel>
                 <TabPanel value="3"><ParticipantTab/></TabPanel>
+                {classroom && classroom.role==="TEACHER" && (<TabPanel value="4">Grade book</TabPanel>)}
             </TabContext>
         </>
         

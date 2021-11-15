@@ -1,4 +1,5 @@
 import { getParticipantsRequest } from "@/actions/detail";
+import useParticipantFilter from "@/hooks/useParticipantFilter";
 import { AppState } from "@/reducers";
 import { Paper } from "@mui/material";
 import React, { useEffect } from "react";
@@ -7,7 +8,7 @@ import ParticipantList from "./ParticipantList";
 
 const ParticipantTab: React.FC=()=>{
     const dispatch = useDispatch();
-    const participants = useSelector((state: AppState)=>state.detail.participants.data)
+    const {students, teachers} = useParticipantFilter()
     const reload = useSelector((state: AppState)=>state.detail.participants.reload)
     const detail = useSelector((state: AppState)=>state.detail.detail)
 
@@ -19,9 +20,19 @@ const ParticipantTab: React.FC=()=>{
 
     return (
         <>
-            <ParticipantList title={"Teachers"} list={participants.filter(p=>p.role==="TEACHER")} hasCount={false} />
+            <ParticipantList 
+                title={"Teachers"} 
+                data={teachers} 
+                hasCount={false} 
+                hasAddIcon={detail.role==="TEACHER"?true:false}
+            />
             <Paper elevation={0} sx={{height:'50px'}} />
-            <ParticipantList title={"Students"} list={participants.filter(p=>p.role==="STUDENT")} hasCount={true} />
+            <ParticipantList 
+                title={"Students"} 
+                data={students} 
+                hasCount={true} 
+                hasAddIcon={detail.role==="TEACHER"?true:false}
+            />
         </>
     )
 }
