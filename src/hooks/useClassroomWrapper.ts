@@ -19,6 +19,7 @@ const useClassroomWrapper = ()=>{
     const [invite, setInvite] = useState<boolean|null>(null)
     const dispatch = useDispatch();
     const redirect = useSelector((state: AppState)=>state.detail.redirect)
+    const [load, setLoad]=useState(false)
 
     const handleAcceptInvite = () => {
         setInvite(false)
@@ -26,8 +27,22 @@ const useClassroomWrapper = ()=>{
 
     useEffect(()=>{
         setInvite(query.get("invite")==='true'?true:false)
+        if(!invite){
+            setLoad(true)
+        }
         
     },[id])
+
+    useEffect(()=>{
+        if(load){
+            if(location.state){
+                dispatch(getDetailRequest(location.state as AssignedClassroom))
+            } else {
+                dispatch(getDetailRequest(+id))
+            }
+        }
+        setLoad(false)
+    },[load])
 
     useEffect(()=>{
         if(invite!==null){
@@ -37,11 +52,7 @@ const useClassroomWrapper = ()=>{
                     code: code
                 }))
             } else {
-                if(location.state){
-                    dispatch(getDetailRequest(location.state as AssignedClassroom))
-                } else {
-                    dispatch(getDetailRequest(+id))
-                }
+                setLoad(true)
             }
         }
     },[invite])
