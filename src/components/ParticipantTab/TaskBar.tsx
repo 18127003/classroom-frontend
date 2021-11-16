@@ -1,7 +1,5 @@
 import { Stack, Checkbox, Button, IconButton } from "@mui/material";
 import React from "react";
-import { ChangePasswordDialog } from "../Dialog/ChangePasswordDialog";
-import LogoutDialog from "../Dialog/LogoutDialog";
 import PopupMenu from "../PopupMenu";
 import PopupMenuItem from "../PopupMenu/PopupMenuItem";
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -34,13 +32,10 @@ const TaskBar: React.FC<TaskbarProps> = ({checked, onCheck, disabledTask})=>{
                 }
             >
                 <PopupMenuItem title="Send email">
-                    <ChangePasswordDialog/>
                 </PopupMenuItem>
                 <PopupMenuItem title="Remove">
-                    <LogoutDialog/>
                 </PopupMenuItem>
                 <PopupMenuItem title="Hide">
-                    <LogoutDialog/>
                 </PopupMenuItem>
             </PopupMenu>
             <IconButton>

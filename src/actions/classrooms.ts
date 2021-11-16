@@ -60,7 +60,7 @@ function* addClassroomsSaga(action: AddClassroomRequest) {
             classroom: classroom.data
         }))
         yield put(getDetailRequest(classroom.data))
-        yield put(redirectRequest())
+        yield put(redirectRequest(classroom.data))
         yield put(getClassroomsRequest({
             reload: false
         }))
@@ -93,7 +93,7 @@ function* joinClassroomsSaga(action: JoinClassroomRequest) {
         yield put(joinClassroomSuccess({
             classroom: classroom.data
         }))
-        yield put(redirectRequest())
+        yield put(redirectRequest(classroom.data))
         yield put(getClassroomsRequest({
             reload: false
         }))

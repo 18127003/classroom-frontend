@@ -31,7 +31,7 @@ const LoginPage: React.FC<LoginPageProps> = ({tab})=>{
     if(auth!==null && auth!==undefined){
         return <Redirect to={location.state??'/'}/>
     }
-    
+   
     return (
         
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent:'center'}}>

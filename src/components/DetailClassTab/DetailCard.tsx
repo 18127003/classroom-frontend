@@ -1,6 +1,6 @@
 import { DetailCardProps } from "@/@types/props";
 import { InfoRounded } from "@mui/icons-material";
-import { Card, CardContent, Typography, CardActions, Collapse } from "@mui/material";
+import { Card, CardContent, Typography, CardActions, Collapse, Box, Grid } from "@mui/material";
 import React from "react";
 import ExpandMore from "../ExpandMore";
 
@@ -15,24 +15,37 @@ const DetailCard: React.FC<DetailCardProps> = ({detailClass})=>{
         <Card
             sx={{ background: "rgba(0, 128, 0, 0.3)" }}
         >
-            <CardContent sx={{minHeight:"150px"}}>
-            <Typography variant="h4" component="div">
-                {detailClass.name}
-            </Typography>
-            <Typography variant="h5" >
-                {detailClass.part}
-            </Typography>
-            </CardContent>
-            <CardActions disableSpacing sx={{ }}>
-            <ExpandMore
-                expand={expanded}
-                onClick={handleExpandClick}
-                aria-expanded={expanded}
-                aria-label="show more"
-                >
-                <InfoRounded />
-            </ExpandMore>
-            </CardActions>
+            <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="flex-end"
+                sx={{minHeight:"150px"}}
+                m={2}
+                columns={{md:12, sm:8, xs:4}}
+            >
+                <Grid item md={10} sm={6}>
+                    <Typography variant="h4" component="div" noWrap>
+                        {detailClass.name}
+                    </Typography>
+                    <Typography variant="h5" noWrap>
+                        {detailClass.part}
+                    </Typography>
+                </Grid>
+                <Grid item md={2} sm={2} xs={1}>
+                    <CardActions disableSpacing sx={{mr:2}}>
+                        <ExpandMore
+                            expand={expanded}
+                            onClick={handleExpandClick}
+                            aria-expanded={expanded}
+                            aria-label="show more"
+                        >
+                            <InfoRounded/>
+                        </ExpandMore>
+                    </CardActions>
+                </Grid>
+            </Grid> 
+            
             <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent sx={{background:"white"}}>
             {detailClass.role==="TEACHER"&&(<Typography paragraph>Classroom code: {detailClass.code}</Typography>)}

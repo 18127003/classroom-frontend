@@ -15,7 +15,7 @@ const Profile:React.FC=()=>{
             primary={account.name}
             secondary={
                 <>
-                  {`${account.studentId} - ${account.email}`}
+                  {`${account.studentId??''}`}<br/> {`${account.email}`}
                 </>
             }
           />

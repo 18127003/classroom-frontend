@@ -44,9 +44,9 @@ const ClassroomDrawer = () => {
             // onKeyDown={toggleDrawer(anchor, false)}
           >
             <List>
-              <DrawerItem title="Create" toggleDrawer={toggleDrawer(false)} items={teach} key={0}/>
+              <DrawerItem title="Teach" toggleDrawer={toggleDrawer(false)} items={teach} key={0}/>
               <Divider key={1}/>
-              <DrawerItem title="Register" toggleDrawer={toggleDrawer(false)} items={study} key={2}/>
+              <DrawerItem title="Study" toggleDrawer={toggleDrawer(false)} items={study} key={2}/>
             </List>
           </Box>
         </Drawer>

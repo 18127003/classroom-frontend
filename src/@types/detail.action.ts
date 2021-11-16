@@ -9,7 +9,10 @@ export interface ClassroomDetailState {
     }
     detail: AssignedClassroom|null,
     error: string|null,
-    redirect: boolean
+    redirect: {
+        redirect: boolean,
+        payload?: AssignedClassroom
+    }
 }
 
 export interface GetParticipantsSuccessPayload {

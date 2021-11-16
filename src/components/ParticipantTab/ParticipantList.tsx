@@ -1,13 +1,13 @@
 import React, { useState } from "react"
 import {Divider, Grid, IconButton, List, Stack, Typography } from "@mui/material";
 import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
-import InviteDialog from "../Dialog/InviteParticipantDialog";
+import InviteParticipantDialog from "../Dialog/InviteParticipantDialog";
 import { ParticipantListProps } from "@/@types/props";
 import TaskBar from "./TaskBar";
 import ParticipantItem from "./ParticipantItem";
 import useCheckboxes from "@/hooks/useCheckboxes";
  
-const ParticipantList: React.FC<ParticipantListProps> = ({title, data, hasManage=false, hasCount, hasAddIcon=false})=>{
+const ParticipantList: React.FC<ParticipantListProps> = ({mode, data, hasManage=false, hasCount, hasAddIcon=false})=>{
     const [open, setOpen]=useState(false);
     const {select, getSelected, allSelected, selectAll, anySelected, getSelectedAt} = useCheckboxes(data)
 
@@ -31,7 +31,7 @@ const ParticipantList: React.FC<ParticipantListProps> = ({title, data, hasManage
                                     variant="h5" 
                                     component="div"
                                 >
-                                    {title}
+                                    {mode}s
                                 </Typography>
 
                                 {hasCount && (
@@ -49,11 +49,11 @@ const ParticipantList: React.FC<ParticipantListProps> = ({title, data, hasManage
                                         <IconButton sx={{color:"teal",}} onClick={handleOpen}>
                                             <PersonAddAlt1OutlinedIcon/>
                                         </IconButton>
-                                        <InviteDialog 
+                                        <InviteParticipantDialog 
                                             handleClose={handleClose} 
                                             isOpen={open} 
-                                            title={hasCount?"Invite Student":"Invite Teacher"} 
-                                            isStudent={hasCount}
+                                            title={mode} 
+                                            isStudent={mode==="Student"?true:false}
                                         />
                                     </>
                                 )}

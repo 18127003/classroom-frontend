@@ -28,8 +28,8 @@ const ClassroomCard: React.FC<ClassroomCardProps> = ({classroom})=>{
                     {classroom.part?classroom.part:''}
                 </Typography>
                 <Typography variant="body1" color="white" sx={{
-                            position: 'relative',
-                            top: '35%'
+                            position: 'sticky',
+                            top: '45%'
                         }}>
                     {classroom.role==='STUDENT'?classroom.creator:''}
                 </Typography>

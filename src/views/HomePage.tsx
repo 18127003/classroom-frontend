@@ -14,12 +14,12 @@ import { Redirect } from "react-router"
 const HomePage = ()=>{
     const loading = useSelector((state: AppState)=>state.classrooms.loading);
     const redirect = useSelector((state: AppState)=>state.detail.redirect);
-    const detail = useSelector((state: AppState)=>state.detail.detail);
+    // const detail = useSelector((state: AppState)=>state.detail.detail);
     
-    if(redirect){
+    if(redirect.redirect){
         return <Redirect to={{
-            'pathname': `/classroom/${detail.id}`,
-            'state':detail
+            'pathname': `/classroom/${redirect.payload.id}`,
+            'state':redirect.payload
         }}/>
     }
     return (

@@ -42,7 +42,7 @@ const InviteParticipantDialog: React.FC<InviteParticipantDialogProps>=({title,is
 
     return (
         <Dialog open={isOpen} onClose={handleClose} maxWidth='sm' fullWidth={true}>
-            <DialogTitle>{title}</DialogTitle>
+            <DialogTitle>Invite {title}</DialogTitle>
             <Box
                 component="form"
                 onSubmit={handleSubmit}

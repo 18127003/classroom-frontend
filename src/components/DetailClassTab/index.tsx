@@ -20,7 +20,7 @@ const DetailClassTab: React.FC<DetailClassTabProps> = ({ detailClass }) => {
           container
           columns={{ md: 12, sm: 8, xs:4 }}
           columnSpacing={{ md: 4 }}
-          rowSpacing={{ md: 4, sm:2, xs:2 }}
+          rowSpacing={{ md: 6, sm:2, xs:2 }}
           sx={{ flexGrow: 1 }}
         >
           <Grid item md={12} sm={8} xs={4}>

@@ -49,9 +49,9 @@ interface ChangePasswordDialogProps extends DialogProps{
 }
 
 type ParticipantListProps={
-    title: "Teachers"|"Students",
     hasCount: boolean,
     hasAddIcon?: boolean,
+    mode: "Student"|"Teacher"
     hasManage?:boolean,
     data: Account[]
 }

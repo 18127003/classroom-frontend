@@ -21,14 +21,14 @@ const ParticipantTab: React.FC=()=>{
     return (
         <>
             <ParticipantList 
-                title={"Teachers"} 
+                mode="Teacher" 
                 data={teachers} 
                 hasCount={false} 
                 hasAddIcon={detail.role==="TEACHER"?true:false}
             />
             <Paper elevation={0} sx={{height:'50px'}} />
             <ParticipantList 
-                title={"Students"} 
+                mode="Student" 
                 data={students} 
                 hasCount={students.length>0} 
                 hasManage={students.length>0 && detail.role==="TEACHER"}

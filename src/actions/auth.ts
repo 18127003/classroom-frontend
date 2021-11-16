@@ -38,7 +38,7 @@ function* loginSaga(action: AuthRequest) {
             user: user.data
         }))
         yield put(getClassroomsRequest({
-            reload: false
+            reload: true
         }))
     } catch (e){
         yield put(loginFail({
@@ -133,7 +133,7 @@ function* socialLoginSaga(action: SocialAuthRequest){
             user: user.data
         }))        
         yield put(getClassroomsRequest({
-            reload: false
+            reload: true
         }))
     } catch(e){
         yield put(loginFail({
