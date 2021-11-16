@@ -1,5 +1,5 @@
 import { detailAction } from "@/constants/actions";
-import { Account, AssignedClassroom, InvitationRequestInfo } from "./model";
+import { Account, AssignedClassroom, InvitationRequestInfo, ModifyParticipantsInfo } from "./model";
 
 export interface ClassroomDetailState {
     loading: boolean,
@@ -70,10 +70,55 @@ export interface SendInvitationRequest{
     payload: InvitationRequestInfo
 }
 
-export type DetailAction = 
+export interface RemoveParticipantsFailPayload{
+    error: string
+}
+
+export interface RemoveParticipantsRequest{
+    type: typeof detailAction.REMOVE_PARTICIPANT_REQUEST,
+    payload: ModifyParticipantsInfo
+}
+
+export interface RemoveParticipantsSuccess {
+    type: typeof detailAction.REMOVE_PARTICIPANT_SUCCESS
+}
+
+export interface RemoveParticipantsFail {
+    type: typeof detailAction.REMOVE_PARTICIPANT_FAIL
+    payload: RemoveParticipantsFailPayload
+}
+
+export interface HideParticipantsFailPayload{
+    error: string
+}
+
+export interface HideParticipantsRequest{
+    type: typeof detailAction.HIDE_PARTICIPANT_REQUEST,
+    payload: ModifyParticipantsInfo
+}
+
+export interface HideParticipantsSuccess {
+    type: typeof detailAction.HIDE_PARTICIPANT_REQUEST
+}
+
+export interface HideParticipantsFail {
+    type: typeof detailAction.HIDE_PARTICIPANT_FAIL
+    payload: HideParticipantsFailPayload
+}
+
+export type ParticipantAction = 
+    | RemoveParticipantsRequest
+    | RemoveParticipantsFail
+    | RemoveParticipantsFail
+    | HideParticipantsRequest
+    | HideParticipantsFail
+    | HideParticipantsFail
     | GetParticipantsRequest
     | GetParticipantsSuccess
     | GetParticipantsFail
+
+export type DetailAction = 
+    | ParticipantAction
     | GetDetailRequest
     | GetDetailSuccess
     | GetDetailFail

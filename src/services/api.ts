@@ -93,6 +93,18 @@ const changePassword = (id:number, request: ChangePasswordRequestInfo)=>instance
     transformResponse: [(data) => JSON.parse(data)]
 })
 
+const removeParticipants = (id: number, removals: number[])=>instance({
+    'method':'DELETE',
+    'url':`/classroom/${id}/removeParticipants`,
+    'data':removals
+})
+
+const hideParticipants = (id: number, participants: number[])=>instance({
+    'method':'PATCH',
+    'url':`/classroom/${id}/hideParticipants`,
+    'data':participants
+})
+
 export const api = {
     getData,
     createClassroom,
@@ -106,5 +118,7 @@ export const api = {
     sendInvitationMail,
     updateAccount,
     changePassword,
-    testConnection
+    testConnection,
+    removeParticipants,
+    hideParticipants
 }

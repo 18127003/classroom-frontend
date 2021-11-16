@@ -2,20 +2,11 @@ import { LogoutDialogProps } from "@/@types/props";
 import { logoutRequest } from "@/actions/auth";
 import { COOKIES_AUTH_NAME } from "@/constants/common";
 import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
-import Slide from "@mui/material/Slide";
-import { TransitionProps } from "@mui/material/transitions";
 import React from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
+import Transition from "../Transition";
 
-const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & {
-      children: React.ReactElement<any, any>;
-    },
-    ref: React.Ref<unknown>,
-  ) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
 
 const LogoutDialog: React.FC<LogoutDialogProps> = ({isOpen, handleClose})=>{
     const [cookies, setCookies, removeCookies] = useCookies([COOKIES_AUTH_NAME])
@@ -32,9 +23,9 @@ const LogoutDialog: React.FC<LogoutDialogProps> = ({isOpen, handleClose})=>{
             TransitionComponent={Transition}
             keepMounted
             onClose={handleClose}
-            aria-describedby="alert-dialog-slide-description"
+            aria-describedby="logout-confirm-dialog"
         >
-            <DialogTitle>{"Do you want to logout?"}</DialogTitle>
+            <DialogTitle>Do you want to logout?</DialogTitle>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
                 <Button onClick={handleConfirm}>Confirm</Button>

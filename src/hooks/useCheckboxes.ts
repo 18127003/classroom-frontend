@@ -19,7 +19,7 @@ const useCheckboxes = (list: any[])=>{
     }
 
     const getSelected = ()=>{
-        return selectedList.filter(item=>item.value===true)
+        return selectedList.filter(item=>item.value===true).map(i=>i.key)
     }
 
     const getSelectedAt = (id:number)=>{

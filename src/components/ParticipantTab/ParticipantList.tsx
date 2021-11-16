@@ -67,6 +67,7 @@ const ParticipantList: React.FC<ParticipantListProps> = ({mode, data, hasManage=
                                         onCheck={selectAll} 
                                         checked={allSelected()}
                                         disabledTask={!anySelected()}
+                                        getSelected={getSelected}
                                     />
                                 )
                             }

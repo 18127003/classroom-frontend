@@ -1,5 +1,9 @@
-import { GetDetailFail, GetDetailFailPayload, GetDetailRequest, GetDetailSuccess, GetDetailSuccessPayload, GetParticipantsFail, GetParticipantsFailPayload, GetParticipantsRequest, GetParticipantsSuccess, GetParticipantsSuccessPayload, ReloadParticipantsRequest, SendInvitationRequest } from "@/@types/detail.action";
-import { AssignedClassroom, InvitationRequestInfo } from "@/@types/model";
+import { GetDetailFail, GetDetailFailPayload, GetDetailRequest, GetDetailSuccess, GetDetailSuccessPayload, 
+    GetParticipantsFail, GetParticipantsFailPayload, GetParticipantsRequest, GetParticipantsSuccess, 
+    GetParticipantsSuccessPayload, HideParticipantsFail, HideParticipantsFailPayload, HideParticipantsRequest, HideParticipantsSuccess, ReloadParticipantsRequest, RemoveParticipantsFail, RemoveParticipantsFailPayload, 
+    RemoveParticipantsRequest, RemoveParticipantsSuccess,
+     SendInvitationRequest } from "@/@types/detail.action";
+import { AssignedClassroom, InvitationRequestInfo, ModifyParticipantsInfo } from "@/@types/model";
 import { detailAction } from "@/constants/actions";
 import { classroomService } from "@/services";
 import { all, call, put, takeLatest } from "@redux-saga/core/effects";
@@ -83,11 +87,67 @@ function* sendInvitationSaga(action: SendInvitationRequest) {
     yield call(classroomService.sendInvitationMail, action.payload)
 }
 
+export const removeParticipantsRequest = (request: ModifyParticipantsInfo): RemoveParticipantsRequest => ({
+    type: detailAction.REMOVE_PARTICIPANT_REQUEST,
+    payload: request
+});
+
+export const removeParticipantsSuccess = ():RemoveParticipantsSuccess =>({
+    type: detailAction.REMOVE_PARTICIPANT_SUCCESS
+    // payload: payload
+});
+
+export const removeParticipantsFail = (payload: RemoveParticipantsFailPayload):RemoveParticipantsFail =>({
+    type: detailAction.REMOVE_PARTICIPANT_FAIL,
+    payload: payload
+});
+ 
+function* removeParticipantsSaga(action: RemoveParticipantsRequest) {
+    try {
+        yield call(classroomService.removeParticipants, action.payload)
+        yield put(removeParticipantsSuccess())
+        yield put(reloadParticipantsRequest())
+    } catch (e){
+        yield put(removeParticipantsFail({
+            error: 'Remove participants failed'
+        }))
+    }
+}
+
+export const hideParticipantsRequest = (request: ModifyParticipantsInfo): HideParticipantsRequest => ({
+    type: detailAction.HIDE_PARTICIPANT_REQUEST,
+    payload: request
+});
+
+export const hideParticipantsSuccess = ():HideParticipantsSuccess =>({
+    type: detailAction.HIDE_PARTICIPANT_SUCCESS
+    // payload: payload
+});
+
+export const hideParticipantsFail = (payload: HideParticipantsFailPayload):HideParticipantsFail =>({
+    type: detailAction.HIDE_PARTICIPANT_FAIL,
+    payload: payload
+});
+ 
+function* hideParticipantsSaga(action: HideParticipantsRequest) {
+    try {
+        yield call(classroomService.hideParticipants, action.payload)
+        yield put(hideParticipantsSuccess())
+        yield put(reloadParticipantsRequest())
+    } catch (e){
+        yield put(hideParticipantsFail({
+            error: 'Hide participants failed'
+        }))
+    }
+}
+
 export function* detailSaga() {
     yield all([
         takeLatest(detailAction.GET_PARTICIPANT_REQUEST, getParticipantsSaga),
         takeLatest(detailAction.GET_DETAIL_REQUEST, getDetailSaga),
         takeLatest(detailAction.SEND_INVITATION_REQUEST, sendInvitationSaga),
+        takeLatest(detailAction.REMOVE_PARTICIPANT_REQUEST, removeParticipantsSaga),
+        takeLatest(detailAction.HIDE_PARTICIPANT_REQUEST, hideParticipantsSaga)
     ]);
 }
 

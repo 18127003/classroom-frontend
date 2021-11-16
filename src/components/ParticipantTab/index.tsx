@@ -16,7 +16,7 @@ const ParticipantTab: React.FC=()=>{
         if(detail && reload){
             dispatch(getParticipantsRequest(detail.id))
         }
-    },[detail])
+    },[detail, reload])
 
     return (
         <>

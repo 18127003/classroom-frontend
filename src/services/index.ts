@@ -1,5 +1,5 @@
 
-import { Account, AssignedClassroom, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GetClassroomsCriteria, InvitationRequestInfo, JoinRequestInfo } from "@/@types/model"
+import { Account, AssignedClassroom, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GetClassroomsCriteria, InvitationRequestInfo, JoinRequestInfo, ModifyParticipantsInfo } from "@/@types/model"
 import { LOCAL_STORAGE_CLASSES_NAME } from "@/constants/common"
 import Cookies from "universal-cookie"
 import { api } from "./api"
@@ -96,6 +96,14 @@ const changePassword = async (id:number, request: ChangePasswordRequestInfo)=>{
     return await api.changePassword(id, request)
 }
 
+const removeParticipants = async (request: ModifyParticipantsInfo)=>{
+    return await api.removeParticipants(request.id, request.participants)
+}
+
+const hideParticipants = async (request: ModifyParticipantsInfo)=>{
+    return await api.hideParticipants(request.id, request.participants)
+}
+
 export const authService = {
     login,
     logout,
@@ -116,7 +124,9 @@ export const classroomService = {
     joinClassroom,
     getParticipants,
     getClassroomDetail,
-    sendInvitationMail
+    sendInvitationMail,
+    removeParticipants,
+    hideParticipants
 }
 
 export const commonService = {

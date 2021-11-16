@@ -1,6 +1,6 @@
 import { Account, AssignedClassroom, Classroom } from "@/@types/model";
 import { IconButtonProps } from "@mui/material";
-import React from "react";
+import React, { ReactNode } from "react";
 import { RouteProps } from "react-router-dom";
 
 type ClassroomGridProps = {
@@ -32,6 +32,12 @@ interface CreateClassDialogProps extends DialogProps {}
 interface JoinClassDialogProps extends DialogProps {}
 
 interface LogoutDialogProps extends DialogProps{}
+
+interface SimpleConfirmDialogProps extends DialogProps {
+    title: string,
+    onConfirm: ()=>void,
+    loading:boolean
+}
 
 interface CustomRouteProps extends RouteProps {
     protected?: boolean

@@ -21,7 +21,8 @@ export interface Account {
     password?:string,
     firstName?:string,
     lastName?:string,
-    studentId?:string
+    studentId?:string,
+    hidden?:boolean
 }
 
 export interface AuthRequestInfo {
@@ -38,6 +39,11 @@ export interface InvitationRequestInfo {
 export interface JoinRequestInfo {
     code: string,
     role?: string
+}
+
+export interface ModifyParticipantsInfo {
+    id: number,
+    participants: number[]
 }
 
 export interface ChangePasswordRequestInfo{

@@ -1,5 +1,5 @@
 import { RedirectRequest } from "@/@types/common.action";
-import { ClassroomDetailState, DetailAction, GetDetailFail, GetDetailSuccess, GetParticipantsFail, GetParticipantsSuccess } from "@/@types/detail.action";
+import { ClassroomDetailState, DetailAction, GetDetailFail, GetDetailSuccess, GetParticipantsFail, GetParticipantsSuccess, HideParticipantsFail, RemoveParticipantsFail } from "@/@types/detail.action";
 import { authActions, commonAction, detailAction } from "@/constants/actions";
 
 const initState:ClassroomDetailState = {
@@ -47,6 +47,28 @@ export const detailReducer = (state: ClassroomDetailState = initState, action: D
                     data: state.participants.data,
                     reload: true
                 }
+            }
+        case detailAction.REMOVE_PARTICIPANT_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case detailAction.REMOVE_PARTICIPANT_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: (action as RemoveParticipantsFail).payload.error
+            }
+        case detailAction.HIDE_PARTICIPANT_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case detailAction.HIDE_PARTICIPANT_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: (action as HideParticipantsFail).payload.error
             }
         case detailAction.GET_DETAIL_REQUEST:
             return {
