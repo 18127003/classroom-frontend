@@ -31,8 +31,8 @@ const ParticipantTab: React.FC=()=>{
                 title={"Students"} 
                 data={students} 
                 hasCount={students.length>0} 
-                hasManage={students.length>0}
-                hasAddIcon={detail.role==="TEACHER"?true:false}
+                hasManage={students.length>0 && detail.role==="TEACHER"}
+                hasAddIcon={detail.role==="TEACHER"}
             />
         </>
     )

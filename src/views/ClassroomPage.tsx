@@ -1,11 +1,12 @@
 import BasicAppBar from "@/components/BasicAppBar";
+import ClassNotFound from "@/components/ClassNotFound";
 import DetailClassTab from "@/components/DetailClassTab";
 import InvitationRespondDialog from "@/components/Dialog/InvitationRespondDialog";
 import ParticipantTab from "@/components/ParticipantTab";
 import useClassroomWrapper from "@/hooks/useClassroomWrapper";
 import { AppState } from "@/reducers";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { LinearProgress, Tab } from "@mui/material";
+import { Box, LinearProgress, Tab } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -24,20 +25,40 @@ const ClassroomPage: React.FC = ()=>{
       
 
     if(invite || error){
-        return invite?<InvitationRespondDialog handleAccept={handleAcceptInvite}/>:<>No class found</>
+        return invite?<InvitationRespondDialog handleAccept={handleAcceptInvite}/>:<ClassNotFound/>
     }
 
     return (
         <>
             <TabContext value={tabValue}>
-                <BasicAppBar titleFlexGrow={false}>
-                    <TabList onChange={handleChange} aria-label="classroom-tabs" centered sx={{flexGrow:1}}>
+                <BasicAppBar>
+                    <TabList 
+                        onChange={handleChange} 
+                        aria-label="classroom-tabs" 
+                        sx={{flexGrow:20, display:{md:'block',sm:'none', xs:'none'} , alignSelf:'flex-end'}} 
+                        centered
+                    >
                         <Tab label="News" value="1"/>
                         <Tab label="Assignments" value="2"/>
                         <Tab label="Participants" value="3"/>
                         {classroom && classroom.role==="TEACHER" && (<Tab label="Grade Book" value="4"/>)}
                     </TabList>
+                    
                 </BasicAppBar>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider', display:{md:'none',sm:'block', xs:'block'} }}>
+                    <TabList 
+                        onChange={handleChange} 
+                        aria-label="classroom-tabs" 
+                        sx={{flexGrow:1}} 
+                        centered
+                    >
+                        <Tab label="News" value="1"/>
+                        <Tab label="Assignments" value="2"/>
+                        <Tab label="Participants" value="3"/>
+                        {classroom && classroom.role==="TEACHER" && (<Tab label="Grade Book" value="4"/>)}
+                    </TabList>
+                </Box>
+                
                 <LinearProgress sx={loading?{}:{display: 'none'}}/>
                 <TabPanel value="1">{classroom && <DetailClassTab detailClass={classroom}/>}</TabPanel>
                 <TabPanel value="2">Assignments</TabPanel>

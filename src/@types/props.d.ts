@@ -56,7 +56,8 @@ type DetailClassTabProps={
 }
 interface BasicAppBarProps {
     titleFlexGrow?: boolean
-    children?: React.ReactNode 
+    children?: React.ReactNode,
+    hasDrawer?:boolean 
 }
 
 interface CodeCardProps {

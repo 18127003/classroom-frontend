@@ -13,7 +13,7 @@ import {ChangePasswordDialog } from '../Dialog/ChangePasswordDialog';
 import { BasicAppBarProps } from '@/@types/props';
 import ClassroomDrawer from './ClassroomDrawer';
 
-const BasicAppBar: React.FC<BasicAppBarProps> = ({titleFlexGrow=true, children}) => {
+const BasicAppBar: React.FC<BasicAppBarProps> = ({titleFlexGrow=true,hasDrawer=true, children}) => {
   const user = useSelector((state:AppState)=>state.account.detail);
 
   return (
@@ -21,7 +21,7 @@ const BasicAppBar: React.FC<BasicAppBarProps> = ({titleFlexGrow=true, children})
       <AppBar position="static" color="transparent">
         <Toolbar>
         
-          <ClassroomDrawer/>
+          {hasDrawer && <ClassroomDrawer/>}
         
           <Typography variant="h5" component="div" sx={titleFlexGrow?{ flexGrow: 1 }:{}}>
             <NavLink to="/" style={{textDecoration:'none', color:'black'}}>
@@ -38,12 +38,6 @@ const BasicAppBar: React.FC<BasicAppBarProps> = ({titleFlexGrow=true, children})
             <PopupMenuItem title="Profile" button={<IconButton><ModeEdit/></IconButton>}>
               <Profile/>
               <EditProfileDialog />
-            </PopupMenuItem>
-            <PopupMenuItem title="Create">
-              <ChangePasswordDialog/>
-            </PopupMenuItem>
-            <PopupMenuItem title="Register">
-              <ChangePasswordDialog/>
             </PopupMenuItem>
             <PopupMenuItem title="Change Password">
               <ChangePasswordDialog/>

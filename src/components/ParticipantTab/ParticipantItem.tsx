@@ -30,17 +30,22 @@ const ParticipantItem: React.FC<ParticipantItemProps> = ({item, task=false, onCh
                     </ListItemAvatar>
                     <ListItemText primary={item.name}/>
                 </ListItem>
-                <PopupMenu 
-                    id="profile-menu"
-                    button={<IconButton><MoreVertOutlined/></IconButton>}
-                >
-                    <PopupMenuItem title="Send email">
-                    </PopupMenuItem>
-                    <PopupMenuItem title="Remove">
-                    </PopupMenuItem>
-                    <PopupMenuItem title="Hide">
-                    </PopupMenuItem>
-                </PopupMenu>
+                {
+                    task && (
+                        <PopupMenu 
+                            id="profile-menu"
+                            button={<IconButton><MoreVertOutlined/></IconButton>}
+                        >
+                            <PopupMenuItem title="Send email">
+                            </PopupMenuItem>
+                            <PopupMenuItem title="Remove">
+                            </PopupMenuItem>
+                            <PopupMenuItem title="Hide">
+                            </PopupMenuItem>
+                        </PopupMenu>
+                    )
+                }
+                
             </Stack>
            
             <Divider/>

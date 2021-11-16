@@ -26,25 +26,8 @@ const ClassroomDrawer = () => {
         return;
       }
 
-      setLeft(open);
-    };
-
-  const list = () => (
-    <Box
-      sx={{ width:  250 }}
-      role="presentation"
-      // onClick={toggleDrawer(anchor, true)}
-      // onKeyDown={toggleDrawer(anchor, false)}
-    >
-     
-      <List>
-        <DrawerItem title="Create" toggleDrawer={toggleDrawer(false)} items={teach} key={0}/>
-        <Divider key={1}/>
-        <DrawerItem title="Register" toggleDrawer={toggleDrawer(false)} items={study} key={2}/>
-      </List>
-      
-    </Box>
-  );
+    setLeft(open);
+  };
 
   return (
     <div>
@@ -54,7 +37,18 @@ const ClassroomDrawer = () => {
           open={left}
           onClose={toggleDrawer(false)}
         >
-          {list()}
+          <Box
+            sx={{ width:  250 }}
+            role="presentation"
+            // onClick={toggleDrawer(anchor, true)}
+            // onKeyDown={toggleDrawer(anchor, false)}
+          >
+            <List>
+              <DrawerItem title="Create" toggleDrawer={toggleDrawer(false)} items={teach} key={0}/>
+              <Divider key={1}/>
+              <DrawerItem title="Register" toggleDrawer={toggleDrawer(false)} items={study} key={2}/>
+            </List>
+          </Box>
         </Drawer>
     </div>
   );

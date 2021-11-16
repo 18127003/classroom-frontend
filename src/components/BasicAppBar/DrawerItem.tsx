@@ -1,7 +1,8 @@
 import { DrawerItemProps } from "@/@types/props";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { Collapse, List, ListItemButton, ListItemText } from "@mui/material";
+import { Collapse, ListItemButton, ListItemText } from "@mui/material";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const DrawerItem:React.FC<DrawerItemProps>=({title,toggleDrawer,items})=>{
     const [open, setOpen] = React.useState(false);
@@ -22,17 +23,24 @@ const DrawerItem:React.FC<DrawerItemProps>=({title,toggleDrawer,items})=>{
                       return(
                         
                         <ListItemButton sx={{ pl: 4 }} onClick={toggleDrawer} key={index}>
-                            <ListItemText primary={item.name} />
+                            <Link 
+                              to={{
+                                pathname:`/classroom/${item.id}`,
+                                state: item
+                              }}
+                              style={{
+                                textDecoration:'none'
+                              }}
+                            >
+                              <ListItemText primary={item.name} />
+                            </Link>
                         </ListItemButton>
                         
                       )
                   })
               }
-              {/* <List component="div">
-                
-              </List> */}
           </Collapse>
-          </>
+        </>
     )
 }
 export default DrawerItem

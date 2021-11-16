@@ -6,6 +6,7 @@ import { AuthSuccessPayload, AuthSuccess, AuthFailPayload, AuthFail, AuthRequest
     AuthRefresh, LogoutSuccess, LogoutFail, LogoutFailPayload, SignupSuccess, SignupFailPayload, SignupFail, SignupRequest, SocialAuthRequest } from "@/@types/auth.action";
 import { COOKIES_AUTH_NAME } from "@/constants/common";
 import { initAccountRequest } from "./account";
+import { getClassroomsRequest } from "./classrooms";
 
 
 export const loginRequest = (auth: AuthRequestInfo) => ({
@@ -36,6 +37,9 @@ function* loginSaga(action: AuthRequest) {
         yield put(loginSuccess({
             user: user.data
         }))
+        yield put(getClassroomsRequest({
+            reload: false
+        }))
     } catch (e){
         yield put(loginFail({
             error: 'Login failed'
@@ -49,6 +53,9 @@ function* refreshLoginSaga(action: AuthRefresh) {
         yield put(initAccountRequest(action.payload))
         yield put(loginSuccess({
             user:action.payload
+        }))
+        yield put(getClassroomsRequest({
+            reload: false
         }))
     } catch (e){
         
@@ -125,6 +132,9 @@ function* socialLoginSaga(action: SocialAuthRequest){
         yield put(loginSuccess({
             user: user.data
         }))        
+        yield put(getClassroomsRequest({
+            reload: false
+        }))
     } catch(e){
         yield put(loginFail({
             error: 'Login Failed'

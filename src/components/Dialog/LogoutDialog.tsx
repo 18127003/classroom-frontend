@@ -15,7 +15,7 @@ const Transition = React.forwardRef(function Transition(
     ref: React.Ref<unknown>,
   ) {
     return <Slide direction="up" ref={ref} {...props} />;
-  });
+});
 
 const LogoutDialog: React.FC<LogoutDialogProps> = ({isOpen, handleClose})=>{
     const [cookies, setCookies, removeCookies] = useCookies([COOKIES_AUTH_NAME])

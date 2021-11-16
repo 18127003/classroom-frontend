@@ -1,4 +1,5 @@
 import { joinClassroomRequest } from "@/actions/classrooms";
+import InvitationRespondDialog from "@/components/Dialog/InvitationRespondDialog";
 import { useQuery } from "@/hooks/useQuery";
 import { AppState } from "@/reducers";
 import { Button, CircularProgress, Grid, Paper } from "@mui/material";
@@ -16,7 +17,7 @@ const AcceptTokenPage = ()=>{
     const {id} = useParams<AcceptTokenPageParams>();
     const error = useSelector((state:AppState)=>state.classrooms.error)
     const redirect = useSelector((state:AppState)=>state.detail.redirect)
-    const loading = useSelector((state:AppState)=>state.classrooms.loading)
+    const role = query.get("role")
 
     const handleAccept = ()=>{
         dispatch(joinClassroomRequest({
@@ -30,17 +31,10 @@ const AcceptTokenPage = ()=>{
     }
 
     return (
-        
-        <Grid container justifyContent="center" sx={{ flexGrow: 1 }}>
-            <Grid item>
-                <Paper sx={{ height: 140, width: 100 }}>
-                    <Button onClick={handleAccept}>
-                        Accept
-                    </Button>
-                    <CircularProgress sx={loading?{}:{display: 'none'}}/>
-                </Paper>
-            </Grid>
-        </Grid>
+        <InvitationRespondDialog 
+            handleAccept={handleAccept}
+            role={role && role.toLowerCase()==="student"?"Student":"Teacher"}
+        />
     )
 }
 
