@@ -3,7 +3,7 @@ import { loginRefresh } from "@/actions/auth";
 import LoginForm from "@/components/Form/LoginForm";
 import SignupForm from "@/components/Form/SignupForm";
 import { AppState } from "@/reducers";
-import { Box } from "@mui/material";
+import { Box, Card, CardContent } from "@mui/material";
 import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,7 +27,11 @@ const SignupPage = ()=>{
     return (
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent:'center'}}>
             <Box sx={{m:12, position: 'relative' }}>
-                <SignupForm/>
+                <Card>
+                    <CardContent>
+                        <SignupForm/>
+                    </CardContent>
+                </Card>
             </Box>
         </Box>
     )

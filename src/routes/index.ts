@@ -2,7 +2,6 @@ import AcceptTokenPage from "@/views/AcceptTokenPage";
 import ClassroomPage from "@/views/ClassroomPage";
 import HomePage from "@/views/HomePage";
 import LoginPage from "@/views/LoginPage";
-import SignupPage from "@/views/SignupPage";
 import React from "react";
 
 type AppRoute = {
@@ -35,13 +34,19 @@ const routes: AppRoute[] = [
         component: LoginPage,
         protected: false,
         exact: true,
+        props:{
+            tab: '1'
+        }
     },
     {
         path: '/signup',
         name: 'Signup Page',
-        component: SignupPage,
+        component: LoginPage,
         protected: false,
         exact: true,
+        props:{
+            tab: '2'
+        }
     },
     {
         path: '/invite/accept_token/:id',

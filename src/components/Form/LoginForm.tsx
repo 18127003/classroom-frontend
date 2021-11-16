@@ -1,15 +1,15 @@
 import { loginRequest } from "@/actions/auth";
 import { AppState } from "@/reducers";
-import { Box, Button, CircularProgress, Stack, TextField, Typography } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { Alert, Box, Stack, TextField } from "@mui/material";
 import React, { SyntheticEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import GoogleLoginButton from "../GoogleLoginButton";
 
 const LoginForm = () => {
     const dispatch = useDispatch();
     const loading = useSelector((state: AppState) => state.auth.loading);
-    const error = useSelector((state: AppState)=>state.auth.error);
+    const error = useSelector((state: AppState)=>state.auth.error.login);
 
     const handleLoginSubmit=async(event:SyntheticEvent)=>{
         event.preventDefault();
@@ -49,26 +49,12 @@ const LoginForm = () => {
                     name="password"
                 />
                 
-                <Button variant="outlined" type="submit" sx={{m:2}} disabled={loading}>
+                <LoadingButton variant="outlined" type="submit" sx={{m:2}} disabled={loading} loading={loading}>
                         Login
-                </Button>
-                {loading && (
-                    <CircularProgress
-                        size={24}
-                        sx={{
-                            position: 'absolute',
-                            top: '80%',
-                            left: '45%',
-                            marginTop: '-22%',
-                        }}
-                    />
-                )} 
-                <Link to="/signup" style={{ textDecoration: 'none' }}>
-                    Don't have an account? Signup
-                </Link>
+                </LoadingButton>
                 <GoogleLoginButton/>
             </Stack>
-            <Typography variant="body2" color="red">{error}</Typography>
+            {error && <Alert severity="error">{error}</Alert>}
         </Box>
     )
 }

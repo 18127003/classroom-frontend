@@ -11,6 +11,10 @@ type ClassroomCardProps = {
     classroom: AssignedClassroom
 }
 
+type LoginPageProps={
+    tab: "1"|"2"
+}
+
 interface PopupMenuButtonProps {
     onMenuItemClick?: ()=>void
     children?: React.ReactNode

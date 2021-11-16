@@ -5,6 +5,7 @@ import { useGoogleLogin } from "react-google-login";
 import { GOOGLE_AUTH_CLIENT_ID } from "@/constants/common";
 import { useDispatch } from "react-redux";
 import { socialLoginRequest } from "@/actions/auth";
+import googleLogo from "@/assets/google.png";
 
 const GoogleLoginButton = () => {
     const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const GoogleLoginButton = () => {
     
     return(
         <IconButton onClick={signIn}>
-            <GoogleIcon/>
+            <img src={googleLogo}/>
         </IconButton>
     )
 }
