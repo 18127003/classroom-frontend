@@ -3,6 +3,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const {WebpackManifestPlugin}  = require('webpack-manifest-plugin');
 
 const isProduction = process.env.NODE_ENV == 'production';
 
@@ -31,7 +32,8 @@ const config = {
         new HtmlWebpackPlugin({
             template: path.join(__dirname, "public", "index.html"),
             favicon: path.join(__dirname, 'public', 'favicon.ico')
-        })
+        }),
+        new WebpackManifestPlugin()
         // Add your plugins here
         // Learn more about plugins from https://webpack.js.org/configuration/plugins/
     ],
