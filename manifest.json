@@ -1,0 +1,7 @@
+{
+  "main.css": "automain.css",
+  "main.js": "automain.js",
+  "favicon.ico": "autofavicon.ico",
+  "src/assets/google.png": "autosrc/assets/google.png",
+  "index.html": "autoindex.html"
+}
