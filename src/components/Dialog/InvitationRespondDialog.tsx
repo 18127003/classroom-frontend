@@ -1,5 +1,6 @@
 import { AppState } from "@/reducers";
-import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, Typography } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -19,7 +20,7 @@ const Transition = React.forwardRef(function Transition(
 });
 
 const InvitationRespondDialog: React.FC<InvitationRespondDialogProps> = ({handleAccept, role="Student"}) =>{
-    const loading = useSelector((state: AppState)=>state.detail.loading)
+    const loading = useSelector((state: AppState)=>state.classrooms.loading)
     const account = useSelector((state:AppState)=>state.account.detail)
     return (
         <>
@@ -36,8 +37,7 @@ const InvitationRespondDialog: React.FC<InvitationRespondDialogProps> = ({handle
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <CircularProgress sx={loading?{}:{display: 'none'}}/>
-                    <Button onClick={handleAccept}>Accept</Button>
+                    <LoadingButton onClick={handleAccept} loading={loading} disabled={loading}>Accept</LoadingButton>
                 </DialogActions>
             </Dialog>
         </>

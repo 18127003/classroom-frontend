@@ -16,7 +16,7 @@ const AcceptTokenPage = ()=>{
     const query= useQuery();
     const {id} = useParams<AcceptTokenPageParams>();
     const error = useSelector((state:AppState)=>state.classrooms.error)
-    const redirect = useSelector((state:AppState)=>state.detail.redirect)
+    const redirect = useSelector((state:AppState)=>state.detail.redirect.redirect)
     const role = query.get("role")
 
     const handleAccept = ()=>{
