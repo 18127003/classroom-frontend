@@ -1,0 +1,76 @@
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import { Button, Divider, FormControlLabel,  IconButton, Stack, Switch, TextField } from '@mui/material';
+import { Add, ContentCopy, DeleteOutlined, Image, TitleOutlined, YouTube } from '@mui/icons-material';
+import { useDispatch, useSelector } from 'react-redux';
+import { addAssignmentRequest } from '@/actions/detail';
+import { AppState } from '@/reducers';
+import { EditAssignmentCardProps } from '@/@types/props';
+
+
+const EditAssignmentCard:React.FC<EditAssignmentCardProps>=({assignment})=> {
+  const dispatch=useDispatch()
+  const classId = useSelector((state:AppState)=>state.detail.detail.id)
+  const handleSubmit=(event:React.SyntheticEvent)=>{
+    event.preventDefault()
+    const target = event.target as typeof event.target & {
+      name: { value: string };
+      grade: { value: number };
+      
+    }
+    dispatch(addAssignmentRequest(
+      classId,
+      {
+        name: target.name.value,
+        points: target.grade.value,
+      }
+    ));
+  }
+
+  return (
+    <Stack direction="row" spacing={2}>
+       <Card sx={{width:"90%" }}>
+       <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{
+          
+          }}
+          autoComplete="off"
+          noValidate={false}
+        >
+      <CardContent>
+       
+        <Stack direction="row" spacing={2} mb={2}>
+            <TextField id="assignmentName" label="Name" variant="outlined" required sx={{width:"75%"}} name="name" defaultValue={assignment&&assignment.name}/>
+            <TextField id="assignmentGrade" label="Grade" variant="outlined" type="number" inputProps={{min:"0"}} name="grade" defaultValue={assignment&&assignment.points}  />
+        </Stack>
+        <Stack direction="row" sx={{justifyContent:"flex-end"}} spacing={1} mb={1}>
+          <IconButton><ContentCopy/></IconButton>
+          <Divider orientation="vertical" flexItem/>
+          <FormControlLabel control={<Switch defaultChecked={false} />} label="Required" labelPlacement="start"/>
+        </Stack>
+        <Divider/>
+      </CardContent>
+      <CardActions sx={{justifyContent:"flex-end",}}>
+        <Button>Delete</Button>
+        <Button type="submit" >Save</Button>
+      </CardActions>
+      </Box>
+    </Card>
+    <Card sx={{padding:0,alignItems:"center",justifyContent:"center",justifyItems:"center", alignContent:"center"}}>
+        <Stack sx={{alignItems:"center", flexDirection:'column', flexGrow:1}}>
+          <IconButton><Add/></IconButton>
+          <IconButton ><TitleOutlined/></IconButton>
+          <IconButton ><Image/></IconButton>
+          <IconButton ><YouTube/></IconButton>
+        </Stack>
+    </Card>
+    </Stack>
+   
+  );
+}
+export default EditAssignmentCard
