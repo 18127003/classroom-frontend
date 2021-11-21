@@ -1,12 +1,12 @@
-import { GetDetailFail, GetDetailFailPayload, GetDetailRequest, GetDetailSuccess, GetDetailSuccessPayload, 
+import { AddAssignmentFail, AddAssignmentFailPayload, AddAssignmentRequest, AddAssignmentSuccess, AddAssignmentSuccessPayload, GetAssignmentsFail, GetAssignmentsFailPayload, GetAssignmentsRequest, GetAssignmentsSuccess, GetAssignmentsSuccessPayload, GetDetailFail, GetDetailFailPayload, GetDetailRequest, GetDetailSuccess, GetDetailSuccessPayload, 
     GetParticipantsFail, GetParticipantsFailPayload, GetParticipantsRequest, GetParticipantsSuccess, 
-    GetParticipantsSuccessPayload, HideParticipantsFail, HideParticipantsFailPayload, HideParticipantsRequest, HideParticipantsSuccess, ReloadParticipantsRequest, RemoveParticipantsFail, RemoveParticipantsFailPayload, 
+    GetParticipantsSuccessPayload, HideParticipantsFail, HideParticipantsFailPayload, HideParticipantsRequest, HideParticipantsSuccess, ReloadAssignmentsRequest, ReloadParticipantsRequest, RemoveParticipantsFail, RemoveParticipantsFailPayload, 
     RemoveParticipantsRequest, RemoveParticipantsSuccess,
      SendInvitationRequest } from "@/@types/detail.action";
-import { AssignedClassroom, InvitationRequestInfo, ModifyParticipantsInfo } from "@/@types/model";
+import { AssignedClassroom, Assignment, InvitationRequestInfo, ModifyParticipantsInfo } from "@/@types/model";
 import { detailAction } from "@/constants/actions";
 import { classroomService } from "@/services";
-import { all, call, put, takeLatest } from "@redux-saga/core/effects";
+import { all, call, put, takeEvery, takeLatest } from "@redux-saga/core/effects";
 
 export const getParticipantsRequest = (classId: number): GetParticipantsRequest => ({
     type: detailAction.GET_PARTICIPANT_REQUEST,
@@ -28,12 +28,12 @@ export const reloadParticipantsRequest = (): ReloadParticipantsRequest => ({
 });
  
 function* getParticipantsSaga(action: GetParticipantsRequest) {
-    const participants = yield call(classroomService.getParticipants, action.payload);
-    if(participants) {
+    try {
+        const participants = yield call(classroomService.getParticipants, action.payload);
         yield put(getParticipantsSuccess({
             participants: participants.data
         }))
-    } else {
+    } catch (e){
         yield put(getParticipantsFail({
             error: 'Get participants failed'
         }))
@@ -141,13 +141,80 @@ function* hideParticipantsSaga(action: HideParticipantsRequest) {
     }
 }
 
+export const getAssignmentsRequest = (classId: number): GetAssignmentsRequest => ({
+    type: detailAction.GET_ASSIGNMENTS_REQUEST,
+    payload: classId
+});
+
+export const getAssignmentsSuccess = (payload: GetAssignmentsSuccessPayload):GetAssignmentsSuccess =>({
+    type: detailAction.GET_ASSIGNMENTS_SUCCESS,
+    payload: payload
+});
+
+export const getAssignmentsFail = (payload: GetAssignmentsFailPayload):GetAssignmentsFail =>({
+    type: detailAction.GET_ASSIGNMENTS_FAIL,
+    payload: payload
+});
+
+export const reloadAssignmentsRequest = (): ReloadAssignmentsRequest => ({
+    type: detailAction.RELOAD_ASSIGNMENTS_REQUEST
+});
+ 
+function* getAssignmentsSaga(action: GetAssignmentsRequest) {
+    try {
+        const assignments = yield call(classroomService.getAssignments, action.payload);
+        yield put(getAssignmentsSuccess({
+            assignments: assignments.data
+        }))
+    } catch (e) {
+        yield put(getAssignmentsFail({
+            error: 'Get assignments failed'
+        }))
+    }
+}
+
+export const addAssignmentRequest = (classId: number, assignment: Assignment): AddAssignmentRequest => ({
+    type: detailAction.ADD_ASSIGNMENT_REQUEST,
+    payload: {
+        id: classId,
+        assignment: assignment
+    }
+});
+
+export const addAssignmentSuccess = (payload: AddAssignmentSuccessPayload):AddAssignmentSuccess =>({
+    type: detailAction.ADD_ASSIGNMENT_SUCCESS,
+    payload: payload
+});
+
+export const addAssignmentFail = (payload: AddAssignmentFailPayload):AddAssignmentFail =>({
+    type: detailAction.ADD_ASSIGNMENT_FAIL,
+    payload: payload
+});
+
+function* addAssignmentSaga(action: AddAssignmentRequest) {
+    try {
+        const assignment = yield call(classroomService.addAssignment, action.payload.id, action.payload.assignment);
+        yield put(addAssignmentSuccess({
+            assignment: assignment.data
+        }))
+
+
+    } catch (e) {
+        yield put(addAssignmentFail({
+            error: 'Add assignment failed'
+        }))
+    }
+}
+
 export function* detailSaga() {
     yield all([
         takeLatest(detailAction.GET_PARTICIPANT_REQUEST, getParticipantsSaga),
         takeLatest(detailAction.GET_DETAIL_REQUEST, getDetailSaga),
         takeLatest(detailAction.SEND_INVITATION_REQUEST, sendInvitationSaga),
         takeLatest(detailAction.REMOVE_PARTICIPANT_REQUEST, removeParticipantsSaga),
-        takeLatest(detailAction.HIDE_PARTICIPANT_REQUEST, hideParticipantsSaga)
+        takeLatest(detailAction.HIDE_PARTICIPANT_REQUEST, hideParticipantsSaga),
+        takeLatest(detailAction.GET_ASSIGNMENTS_REQUEST, getAssignmentsSaga),
+        takeEvery(detailAction.ADD_ASSIGNMENT_REQUEST, addAssignmentSaga)
     ]);
 }
 

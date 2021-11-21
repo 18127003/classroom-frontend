@@ -1,5 +1,5 @@
 
-import { Account, AssignedClassroom, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GetClassroomsCriteria, InvitationRequestInfo, JoinRequestInfo, ModifyParticipantsInfo } from "@/@types/model"
+import { Account, AssignedClassroom, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GetClassroomsCriteria, InvitationRequestInfo, JoinRequestInfo, ModifyParticipantsInfo } from "@/@types/model"
 import { LOCAL_STORAGE_CLASSES_NAME } from "@/constants/common"
 import Cookies from "universal-cookie"
 import { api } from "./api"
@@ -104,6 +104,14 @@ const hideParticipants = async (request: ModifyParticipantsInfo)=>{
     return await api.hideParticipants(request.id, request.participants)
 }
 
+const getAssignments = async (id: number)=>{
+    return await api.getAssignments(id)
+}
+
+const addAssignment = async (id:number, assignment: Assignment)=>{
+    return await api.addAssignment(id, assignment)
+}
+
 export const authService = {
     login,
     logout,
@@ -126,7 +134,9 @@ export const classroomService = {
     getClassroomDetail,
     sendInvitationMail,
     removeParticipants,
-    hideParticipants
+    hideParticipants,
+    getAssignments,
+    addAssignment
 }
 
 export const commonService = {

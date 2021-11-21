@@ -1,10 +1,14 @@
 import { detailAction } from "@/constants/actions";
-import { Account, AssignedClassroom, InvitationRequestInfo, ModifyParticipantsInfo } from "./model";
+import { Account, AssignedClassroom, Assignment, InvitationRequestInfo, ModifyParticipantsInfo } from "./model";
 
 export interface ClassroomDetailState {
     loading: boolean,
     participants: {
         data: Account[],
+        reload: boolean
+    },
+    assignments: {
+        data: Assignment[],
         reload: boolean
     }
     detail: AssignedClassroom|null,
@@ -106,6 +110,59 @@ export interface HideParticipantsFail {
     payload: HideParticipantsFailPayload
 }
 
+export interface GetAssignmentsSuccessPayload {
+    assignments: Assignment[];
+}
+
+export interface GetAssignmentsFailPayload{
+    error: string
+}
+
+export interface GetAssignmentsRequest{
+    type: typeof detailAction.GET_ASSIGNMENTS_REQUEST,
+    payload: number //class ID
+}
+
+export interface GetAssignmentsSuccess {
+    type: typeof detailAction.GET_ASSIGNMENTS_SUCCESS
+    payload: GetAssignmentsSuccessPayload
+}
+
+export interface GetAssignmentsFail {
+    type: typeof detailAction.GET_ASSIGNMENTS_FAIL
+    payload: GetAssignmentsFailPayload
+}
+
+export interface ReloadAssignmentsRequest{
+    type: typeof detailAction.RELOAD_ASSIGNMENTS_REQUEST
+}
+
+export interface AddAssignmentSuccessPayload {
+    assignment: Assignment;
+}
+
+export interface AddAssignmentFailPayload{
+    error: string
+}
+
+export interface AddAssignmentRequest{
+    type: typeof detailAction.ADD_ASSIGNMENT_REQUEST,
+    payload: {
+        id: number,
+        assignment: Assignment
+    }
+}
+
+export interface AddAssignmentSuccess {
+    type: typeof detailAction.ADD_ASSIGNMENT_SUCCESS
+    payload: AddAssignmentSuccessPayload
+}
+
+export interface AddAssignmentFail {
+    type: typeof detailAction.ADD_ASSIGNMENT_FAIL
+    payload: AddAssignmentFailPayload
+}
+
 export type ParticipantAction = 
     | RemoveParticipantsRequest
     | RemoveParticipantsFail
@@ -116,11 +173,21 @@ export type ParticipantAction =
     | GetParticipantsRequest
     | GetParticipantsSuccess
     | GetParticipantsFail
+    | ReloadParticipantsRequest
+
+export type AssignmentAction = 
+    | GetAssignmentsRequest
+    | GetAssignmentsSuccess
+    | GetAssignmentsFail
+    | ReloadAssignmentsRequest
+    | AddAssignmentRequest
+    | AddAssignmentSuccess
+    | AddAssignmentFail
 
 export type DetailAction = 
     | ParticipantAction
+    | AssignmentAction
     | GetDetailRequest
     | GetDetailSuccess
     | GetDetailFail
     | SendInvitationRequest
-    | ReloadParticipantsRequest

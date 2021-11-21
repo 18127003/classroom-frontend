@@ -1,4 +1,4 @@
-import { Account, AuthRequestInfo, ChangePasswordRequestInfo, Classroom } from '@/@types/model';
+import { Account, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom } from '@/@types/model';
 import axios from 'axios';
 
 const instance = axios.create({
@@ -105,6 +105,19 @@ const hideParticipants = (id: number, participants: number[])=>instance({
     'data':participants
 })
 
+const getAssignments = (id:number)=>instance({
+    'method':'GET',
+    'url':`/classroom/${id}/assignment/all`,
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
+const addAssignment = (id:number, assignment: Assignment)=>instance({
+    'method':'POST',
+    'url':`/classroom/${id}/assignment/create`,
+    'data':assignment,
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
 export const api = {
     getData,
     createClassroom,
@@ -120,5 +133,7 @@ export const api = {
     changePassword,
     testConnection,
     removeParticipants,
-    hideParticipants
+    hideParticipants,
+    getAssignments,
+    addAssignment
 }

@@ -1,5 +1,5 @@
 import { RedirectRequest } from "@/@types/common.action";
-import { ClassroomDetailState, DetailAction, GetDetailFail, GetDetailSuccess, GetParticipantsFail, GetParticipantsSuccess, HideParticipantsFail, RemoveParticipantsFail } from "@/@types/detail.action";
+import { AddAssignmentFail, AddAssignmentSuccess, ClassroomDetailState, DetailAction, GetAssignmentsFail, GetAssignmentsSuccess, GetDetailFail, GetDetailSuccess, GetParticipantsFail, GetParticipantsSuccess, HideParticipantsFail, RemoveParticipantsFail } from "@/@types/detail.action";
 import { authActions, commonAction, detailAction } from "@/constants/actions";
 
 const initState:ClassroomDetailState = {
@@ -8,6 +8,10 @@ const initState:ClassroomDetailState = {
         data: [],
         reload: true
     }, 
+    assignments: {
+        data: [],
+        reload: true
+    },
     error: null,
     detail: undefined,
     redirect: {redirect:false}
@@ -106,6 +110,63 @@ export const detailReducer = (state: ClassroomDetailState = initState, action: D
                 redirect: {
                     redirect: false
                 }
+            }
+        case detailAction.GET_ASSIGNMENTS_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case detailAction.GET_ASSIGNMENTS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                assignments: {
+                    data: (action as GetAssignmentsSuccess).payload.assignments,
+                    reload: false
+                },
+                error:null
+            };
+        case detailAction.GET_ASSIGNMENTS_FAIL:
+            return {
+                ...state,
+                loading: false,
+                assignments: {
+                    data: [],
+                    reload: true
+                },
+                error: (action as GetAssignmentsFail).payload.error
+            };
+        case detailAction.RELOAD_ASSIGNMENTS_REQUEST:
+            return {
+                ...state,
+                assignments: {
+                    data: state.assignments.data,
+                    reload: true
+                }
+            }
+        case detailAction.ADD_ASSIGNMENT_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case detailAction.ADD_ASSIGNMENT_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                assignments:{
+                    data: [
+                        ...state.assignments.data,
+                        (action as AddAssignmentSuccess).payload.assignment
+                    ],
+                    reload: false
+                },
+                error: null
+            };
+        case detailAction.ADD_ASSIGNMENT_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: (action as AddAssignmentFail).payload.error
             }
         case authActions.LOGOUT_SUCCESS:
             return initState;

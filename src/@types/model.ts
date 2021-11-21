@@ -25,6 +25,17 @@ export interface Account {
     hidden?:boolean
 }
 
+export interface Assignment {
+    id?:number,
+    name: string,
+    description?: string,
+    points: number,
+    classroom?: string,
+    creator?: string,
+    deadline?: string,
+    createdAt?:string
+}
+
 export interface AuthRequestInfo {
     email: string,
     password: string
