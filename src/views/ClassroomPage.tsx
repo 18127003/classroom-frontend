@@ -2,6 +2,7 @@ import BasicAppBar from "@/components/BasicAppBar";
 import ClassNotFound from "@/components/ClassNotFound";
 import DetailClassTab from "@/components/DetailClassTab";
 import InvitationRespondDialog from "@/components/Dialog/InvitationRespondDialog";
+import GradeBookTab from "@/components/GradeBookTab";
 import ParticipantTab from "@/components/ParticipantTab";
 import useClassroomWrapper from "@/hooks/useClassroomWrapper";
 import { AppState } from "@/reducers";
@@ -63,7 +64,7 @@ const ClassroomPage: React.FC = ()=>{
                 <TabPanel value="1">{classroom && <DetailClassTab detailClass={classroom}/>}</TabPanel>
                 <TabPanel value="2">Assignments</TabPanel>
                 <TabPanel value="3"><ParticipantTab/></TabPanel>
-                {classroom && classroom.role==="TEACHER" && (<TabPanel value="4">Grade book</TabPanel>)}
+                {classroom && classroom.role==="TEACHER" && (<TabPanel value="4"><GradeBookTab/></TabPanel>)}
             </TabContext>
         </>
         

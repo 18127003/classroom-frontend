@@ -2,8 +2,8 @@ import { Account, AuthRequestInfo, ChangePasswordRequestInfo, Classroom } from '
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'https://classroom-spring.herokuapp.com/api',
-    // baseURL:'http://localhost:8080/api',
+    // baseURL: 'https://classroom-spring.herokuapp.com/api',
+    baseURL:'http://localhost:8080/api',
     withCredentials: true
 });
 
