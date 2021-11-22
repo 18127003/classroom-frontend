@@ -7,14 +7,13 @@ import { useSelector } from "react-redux"
 import { AppState } from "@/reducers"
 import PopupMenu from "@/components/PopupMenu"
 import PopupMenuItem from "@/components/PopupMenu/PopupMenuItem"
-import { CreateClassDialog } from "@/components/Dialog/CreateClassdialog"
 import JoinClassDialog from "@/components/Dialog/JoinClassDialog"
 import { Redirect } from "react-router"
+import { CreateClassDialog } from "@/components/Dialog/CreateClassDialog"
 
 const HomePage = ()=>{
     const loading = useSelector((state: AppState)=>state.classrooms.loading);
     const redirect = useSelector((state: AppState)=>state.detail.redirect);
-    // const detail = useSelector((state: AppState)=>state.detail.detail);
     
     if(redirect.redirect){
         return <Redirect to={{
