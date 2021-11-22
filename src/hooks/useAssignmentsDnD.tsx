@@ -10,6 +10,8 @@ const useAssignmentDnD = ()=>{
     const reload = useSelector((state:AppState)=>state.detail.assignments.reload)
     const dispatch = useDispatch()
     const [local, setLocal] = useState<Assignment[]>([])
+    const [editing,setEditing]=useState<number|null>(null)
+    const [migrateEditing,setMigrateEditing]=useState<number|null>(null)
 
     useEffect(()=>{
         if(reload){
@@ -31,8 +33,21 @@ const useAssignmentDnD = ()=>{
                 result.source.index,
                 result.destination.index
             ))
+            setEditing(null)
         }
-        
+    }
+
+    const onEdit=(value: number)=>{
+        setEditing(value)
+    }
+
+    const onAdd=()=>{
+        onCreateTemp(editing+1)
+        setEditing(editing+1)
+    }
+
+    const onPostAdd=()=>{
+        setEditing(null)
     }
 
     const onCreateTemp = (index:number)=>{
@@ -48,8 +63,11 @@ const useAssignmentDnD = ()=>{
 
     return {
         local,
+        editing,
         onDragEnd,
-        onCreateTemp
+        onAdd,
+        onEdit,
+        onPostAdd
     }
 }
 

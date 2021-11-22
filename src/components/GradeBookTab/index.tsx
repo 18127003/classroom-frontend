@@ -6,21 +6,8 @@ import EditAssignmentCard from "./EditAssignmentCard";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const GradeBookTab: React.FC = ()=>{
-    const [editing,setEditing]=useState<number|null>(null)
-    const {local, onDragEnd, onCreateTemp} = useAssignmentDnD()
-
-    const onEdit=(value: number)=>{
-        setEditing(value)
-    }
-
-    const onAdd=()=>{
-        onCreateTemp(editing+1)
-        setEditing(editing+1)
-    }
-
-    const onPostAdd=()=>{
-        setEditing(null)
-    }
+    
+    const {local,editing, onDragEnd, onAdd, onEdit, onPostAdd} = useAssignmentDnD()
 
     return (
         <Grid container columns={{md:12, sm:8, xs:4}} sx={{flexGrow:1, justifyContent:'center'}}>
@@ -49,7 +36,7 @@ const GradeBookTab: React.FC = ()=>{
                                         </Draggable>
                                     )}
                                     {local.map((assignment, index)=>(
-                                        <Draggable key={index} draggableId={`${assignment.id}`} index={index}>
+                                        <Draggable key={index} draggableId={`${index}`} index={index}>
                                             {(provided, snapshot)=>(
                                                 <div
                                                     ref={provided.innerRef}
@@ -59,7 +46,9 @@ const GradeBookTab: React.FC = ()=>{
                                                     {index===editing?(
                                                         <EditAssignmentCard assignment={assignment} index={index} onAdd={onAdd} onPostAdd={onPostAdd}/>
                                                     )
-                                                    :(<AssignmentCard assignment={assignment} onEdit={onEdit} index={index}/>)}
+                                                    :(
+                                                        <AssignmentCard assignment={assignment} onEdit={onEdit} index={index}/>
+                                                    )}
                                                 </div>
                                             )}    
                                         </Draggable>
