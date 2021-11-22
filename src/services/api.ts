@@ -118,6 +118,18 @@ const addAssignment = (id:number, assignment: Assignment)=>instance({
     transformResponse: [(data) => JSON.parse(data)]
 })
 
+const removeAssignment = (classId: number, id:number)=>instance({
+    'method':'DELETE',
+    'url':`/classroom/${classId}/assignment/${id}/remove`
+})
+
+const updateAssignment = (classId: number, id:number, assignment: Assignment)=>instance({
+    'method':'PUT',
+    'url':`/classroom/${classId}/assignment/${id}/update`,
+    'data':assignment,
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
 const updateAssignmentPosition = (id:number, update: number[])=>instance({
     'method':'PATCH',
     'url':`/classroom/${id}/assignment/updatePosition`,
@@ -142,5 +154,7 @@ export const api = {
     hideParticipants,
     getAssignments,
     addAssignment,
-    updateAssignmentPosition
+    updateAssignmentPosition,
+    removeAssignment,
+    updateAssignment
 }

@@ -1,5 +1,5 @@
 import { RedirectRequest } from "@/@types/common.action";
-import { AddAssignmentFail, AddAssignmentSuccess, ClassroomDetailState, DetailAction, GetAssignmentsFail, GetAssignmentsSuccess, GetDetailFail, GetDetailSuccess, GetParticipantsFail, GetParticipantsSuccess, HideParticipantsFail, RemoveParticipantsFail, UpdatePositionFail, UpdatePositionSuccess } from "@/@types/detail.action";
+import { AddAssignmentFail, AddAssignmentSuccess, ClassroomDetailState, DetailAction, GetAssignmentsFail, GetAssignmentsSuccess, GetDetailFail, GetDetailSuccess, GetParticipantsFail, GetParticipantsSuccess, HideParticipantsFail, RemoveAssignmentFail, RemoveAssignmentSuccess, RemoveParticipantsFail, UpdatePositionFail, UpdatePositionSuccess } from "@/@types/detail.action";
 import { authActions, commonAction, detailAction } from "@/constants/actions";
 
 const initState:ClassroomDetailState = {
@@ -182,6 +182,27 @@ export const detailReducer = (state: ClassroomDetailState = initState, action: D
             return {
                 ...state,
                 error: (action as UpdatePositionFail).payload.error
+            }
+        case detailAction.REMOVE_ASSIGNMENT_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case detailAction.REMOVE_ASSIGNMENT_SUCCESS:
+            var removeId = (action as RemoveAssignmentSuccess).payload.id
+            return {
+                ...state,
+                loading: false,
+                assignments: {
+                    data: state.assignments.data.filter(assignment=>assignment.id!==removeId),
+                    reload: false
+                }
+            }
+        case detailAction.REMOVE_ASSIGNMENT_FAIL:
+            return {
+                ...state,
+                loading:false,
+                error: (action as RemoveAssignmentFail).payload.error
             }
         case authActions.LOGOUT_SUCCESS:
             return initState;

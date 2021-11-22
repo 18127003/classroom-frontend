@@ -1,6 +1,6 @@
 import { AddAssignmentFail, AddAssignmentFailPayload, AddAssignmentRequest, AddAssignmentSuccess, AddAssignmentSuccessPayload, GetAssignmentsFail, GetAssignmentsFailPayload, GetAssignmentsRequest, GetAssignmentsSuccess, GetAssignmentsSuccessPayload, GetDetailFail, GetDetailFailPayload, GetDetailRequest, GetDetailSuccess, GetDetailSuccessPayload, 
     GetParticipantsFail, GetParticipantsFailPayload, GetParticipantsRequest, GetParticipantsSuccess, 
-    GetParticipantsSuccessPayload, HideParticipantsFail, HideParticipantsFailPayload, HideParticipantsRequest, HideParticipantsSuccess, ReloadAssignmentsRequest, ReloadParticipantsRequest, RemoveParticipantsFail, RemoveParticipantsFailPayload, 
+    GetParticipantsSuccessPayload, HideParticipantsFail, HideParticipantsFailPayload, HideParticipantsRequest, HideParticipantsSuccess, ReloadAssignmentsRequest, ReloadParticipantsRequest, RemoveAssignmentFail, RemoveAssignmentFailPayload, RemoveAssignmentRequest, RemoveAssignmentSuccess, RemoveAssignmentSuccessPayload, RemoveParticipantsFail, RemoveParticipantsFailPayload, 
     RemoveParticipantsRequest, RemoveParticipantsSuccess,
      SendInvitationRequest, 
      UpdatePositionFail, 
@@ -236,7 +236,7 @@ function* updatePositionSaga(action: UpdatePositionRequest) {
     
     const assignments: Assignment[] = yield select((state:AppState)=>state.detail.assignments.data)
     const result = Array.from(assignments);
-    if(action.payload){
+    if(action.payload.start && action.payload.end){
         const [removed] = result.splice(action.payload.start, 1);
         result.splice(action.payload.end, 0, removed);
         yield put(updatePositionSuccess({
@@ -253,6 +253,38 @@ function* updatePositionSaga(action: UpdatePositionRequest) {
     }
 }
 
+export const removeAssignmentRequest = (classId: number, id: number): RemoveAssignmentRequest => ({
+    type: detailAction.REMOVE_ASSIGNMENT_REQUEST,
+    payload: {
+        classId: classId,
+        id: id
+    }
+});
+
+export const removeAssignmentSuccess = (payload: RemoveAssignmentSuccessPayload):RemoveAssignmentSuccess =>({
+    type: detailAction.REMOVE_ASSIGNMENT_SUCCESS,
+    payload: payload
+});
+
+export const removeAssignmentFail = (payload: RemoveAssignmentFailPayload):RemoveAssignmentFail =>({
+    type: detailAction.REMOVE_ASSIGNMENT_FAIL,
+    payload: payload
+});
+
+function* removeAssignmentSaga(action: RemoveAssignmentRequest) {
+    try {
+        yield call(classroomService.removeAssignment, action.payload.classId, action.payload.id);
+        yield put(removeAssignmentSuccess({
+            id: action.payload.id
+        }))
+        yield put(updatePositionRequest(action.payload.classId))
+
+    } catch (e) {
+        yield put(removeAssignmentFail({
+            error: 'Remove assignment failed'
+        }))
+    }
+}
 
 export function* detailSaga() {
     yield all([
@@ -263,7 +295,8 @@ export function* detailSaga() {
         takeLatest(detailAction.HIDE_PARTICIPANT_REQUEST, hideParticipantsSaga),
         takeLatest(detailAction.GET_ASSIGNMENTS_REQUEST, getAssignmentsSaga),
         takeEvery(detailAction.ADD_ASSIGNMENT_REQUEST, addAssignmentSaga),
-        takeLatest(detailAction.UPDATE_POSITION_REQUEST, updatePositionSaga)
+        takeLatest(detailAction.UPDATE_POSITION_REQUEST, updatePositionSaga),
+        takeEvery(detailAction.REMOVE_ASSIGNMENT_REQUEST, removeAssignmentSaga)
     ]);
 }
 

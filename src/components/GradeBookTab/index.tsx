@@ -1,14 +1,14 @@
 import useAssignmentDnD from "@/hooks/useAssignmentsDnD";
 import { Grid, Stack } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import AssignmentCard from "./AssignmentCard";
 import EditAssignmentCard from "./EditAssignmentCard";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const GradeBookTab: React.FC = ()=>{
     
-    const {local,editing, onDragEnd, onAdd, onEdit, onPostAdd} = useAssignmentDnD()
-
+    const {getLocal,editing, onDragEnd, onAdd, onEdit, onPostAdd} = useAssignmentDnD()
+    const local = getLocal()
     return (
         <Grid container columns={{md:12, sm:8, xs:4}} sx={{flexGrow:1, justifyContent:'center'}}>
            

@@ -1,4 +1,3 @@
-import { Assignment } from "@/@types/model"
 import { getAssignmentsRequest, updatePositionRequest } from "@/actions/detail"
 import { AppState } from "@/reducers"
 import { useEffect, useState } from "react"
@@ -9,9 +8,8 @@ const useAssignmentDnD = ()=>{
     const classId = useSelector((state:AppState)=>state.detail.detail.id)
     const reload = useSelector((state:AppState)=>state.detail.assignments.reload)
     const dispatch = useDispatch()
-    const [local, setLocal] = useState<Assignment[]>([])
     const [editing,setEditing]=useState<number|null>(null)
-    const [migrateEditing,setMigrateEditing]=useState<number|null>(null)
+    const [temp, setTemp]=useState<number|null>(null)
 
     useEffect(()=>{
         if(reload){
@@ -19,21 +17,19 @@ const useAssignmentDnD = ()=>{
         }
     },[reload])
 
-    useEffect(()=>{
-        setLocal(assignments)
-    },[assignments])
-
     const onDragEnd = (result)=>{
         if (!result.destination) {
             return;
         }
-        if(result.source.index!==-1){
+        if(result.source.index!==temp){
             dispatch(updatePositionRequest(
                 classId,
                 result.source.index,
                 result.destination.index
             ))
-            setEditing(null)
+            if(result.source.index===editing){
+                setEditing(result.destination.index)
+            }
         }
     }
 
@@ -47,22 +43,36 @@ const useAssignmentDnD = ()=>{
     }
 
     const onPostAdd=()=>{
-        setEditing(null)
+        
+        setTemp(null)
     }
 
+    useEffect(()=>{
+        setEditing(null)
+    },[assignments])
+
     const onCreateTemp = (index:number)=>{
-        setLocal([
-            ...local.slice(0, index),
-            {
-                name: "",
-                points: 0
-            },
-            ...local.slice(index)
-        ])
+        setTemp(index)
+    }
+
+    const getLocal = ()=>{
+        if(temp){
+            return [
+                ...assignments.slice(0, temp),
+                {
+                    name: "",
+                    points: 0
+                },
+                ...assignments.slice(temp)
+            ]
+        } else {
+            return assignments
+        }
+        
     }
 
     return {
-        local,
+        getLocal,
         editing,
         onDragEnd,
         onAdd,

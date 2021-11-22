@@ -6,7 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import { Button, Divider, FormControlLabel, IconButton, Stack, Switch, TextField } from '@mui/material';
 import { Add, ContentCopy, Image, TitleOutlined, YouTube } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
-import { addAssignmentRequest } from '@/actions/detail';
+import { addAssignmentRequest, removeAssignmentRequest } from '@/actions/detail';
 import { AppState } from '@/reducers';
 import { EditAssignmentCardProps } from '@/@types/props';
 
@@ -21,15 +21,22 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
       points: { value: number };
 
     }
-    dispatch(addAssignmentRequest(
-      classId,
-      {
-        name: target.name.value,
-        points: target.points.value,
-        position: index
-      }
-    ));
-    onPostAdd();
+    if(!assignment.id){
+      dispatch(addAssignmentRequest(
+        classId,
+        {
+          name: target.name.value,
+          points: target.points.value,
+          position: index
+        }
+      ));
+      onPostAdd();
+    }
+    
+  }
+
+  const handleDelete = ()=>{
+    dispatch(removeAssignmentRequest(classId, assignment.id))
   }
 
   return (
@@ -74,7 +81,7 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
             <Divider />
           </CardContent>
           <CardActions sx={{ justifyContent: "flex-end", }}>
-            <Button>Delete</Button>
+            {assignment&&assignment.id&&<Button onClick={handleDelete}>Delete</Button>}
             <Button type="submit">Save</Button>
           </CardActions>
         </Box>

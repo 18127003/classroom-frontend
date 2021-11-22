@@ -191,6 +191,59 @@ export interface AddAssignmentFail {
     payload: AddAssignmentFailPayload
 }
 
+export interface RemoveAssignmentSuccessPayload{
+    id: number
+}
+
+export interface RemoveAssignmentFailPayload{
+    error: string
+}
+
+export interface RemoveAssignmentRequest{
+    type: typeof detailAction.REMOVE_ASSIGNMENT_REQUEST,
+    payload: {
+        classId: number,
+        id: number
+    }
+}
+
+export interface RemoveAssignmentSuccess {
+    type: typeof detailAction.REMOVE_ASSIGNMENT_SUCCESS,
+    payload: RemoveAssignmentSuccessPayload
+}
+
+export interface RemoveAssignmentFail {
+    type: typeof detailAction.REMOVE_ASSIGNMENT_FAIL
+    payload: RemoveAssignmentFailPayload
+}
+
+export interface UpdateAssignmentSuccessPayload {
+    assignment: Assignment;
+}
+
+export interface UpdateAssignmentFailPayload{
+    error: string
+}
+
+export interface UpdateAssignmentRequest{
+    type: typeof detailAction.UPDATE_ASSIGNMENT_REQUEST,
+    payload: {
+        classId: number,
+        id: number,
+        assignment: Assignment
+    }
+}
+
+export interface UpdateAssignmentSuccess {
+    type: typeof detailAction.UPDATE_ASSIGNMENT_SUCCESS
+    payload: UpdateAssignmentSuccessPayload
+}
+
+export interface UpdateAssignmentFail {
+    type: typeof detailAction.UPDATE_ASSIGNMENT_FAIL
+    payload: UpdateAssignmentFailPayload
+}
+
 export type ParticipantAction = 
     | RemoveParticipantsRequest
     | RemoveParticipantsFail
@@ -214,6 +267,12 @@ export type AssignmentAction =
     | UpdatePositionRequest
     | UpdatePositionSuccess
     | UpdatePositionFail
+    | RemoveAssignmentRequest
+    | RemoveAssignmentSuccess
+    | RemoveAssignmentFail
+    | UpdateAssignmentRequest
+    | UpdateAssignmentSuccess
+    | UpdateAssignmentFail
 
 export type DetailAction = 
     | ParticipantAction
