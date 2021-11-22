@@ -34,7 +34,7 @@ const ClassroomCard: React.FC<ClassroomCardProps> = ({classroom})=>{
                     {classroom.role==='STUDENT'?classroom.creator:''}
                 </Typography>
             </CardContent>
-            <CardContent sx={{height:"30%"}} >
+            <CardContent sx={{height:"50%"}} >
                 <Typography gutterBottom variant="body2" color="text.secondary">
                 {classroom.description}
                 </Typography>

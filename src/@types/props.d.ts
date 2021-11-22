@@ -90,9 +90,10 @@ interface ExpandMoreProps extends IconButtonProps {
 }
 
 interface AssignmentCardProps{
-    index: number
+    key?:number
+    index?: number
     assignment:Assignment
-    onEdit:(value:number)=>void
+    onEdit?:(value:number)=>void
 }
 
 interface EditAssignmentCardProps{

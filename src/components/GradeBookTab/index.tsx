@@ -1,8 +1,8 @@
 
 import usePointsSum from "@/hooks/usePointsSum";
-import { Card, CardHeader, Grid, Stack } from "@mui/material";
+import { Card, CardHeader, Grid } from "@mui/material";
 import React from "react";
-import AssignmentList from "./AssignmentList";
+import GradeStructure from "./GradeStructure";
 
 
 const GradeBookTab: React.FC = ()=>{
@@ -10,7 +10,6 @@ const GradeBookTab: React.FC = ()=>{
     
     return (
         <Grid container columns={{md:12, sm:8, xs:4}} sx={{flexGrow:1, justifyContent:'center'}}>
-           
             <Grid item md={8} sm={6} xs={4}>
                 <Card sx={{width:'90%'}}>
                     <CardHeader 
@@ -18,7 +17,7 @@ const GradeBookTab: React.FC = ()=>{
                         subheader={`Total points: ${total}`}
                     />
                 </Card>
-                <AssignmentList/>
+                <GradeStructure/>
             </Grid>
         </Grid>
         

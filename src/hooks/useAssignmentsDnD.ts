@@ -2,20 +2,13 @@ import { getAssignmentsRequest, updatePositionRequest } from "@/actions/detail"
 import { AppState } from "@/reducers"
 import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
+import useAssignments from "./useAssignments"
 
 const useAssignmentDnD = ()=>{
-    const assignments = useSelector((state: AppState)=>state.detail.assignments.data)
-    const classId = useSelector((state:AppState)=>state.detail.detail.id)
-    const reload = useSelector((state:AppState)=>state.detail.assignments.reload)
+    const {assignments, classId} = useAssignments()
     const dispatch = useDispatch()
     const [editing,setEditing]=useState<number|null>(null)
     const [temp, setTemp]=useState<number|null>(null)
-
-    useEffect(()=>{
-        if(reload){
-            dispatch(getAssignmentsRequest(classId))
-        }
-    },[reload])
 
     const onDragEnd = (result)=>{
         if (!result.destination) {

@@ -1,3 +1,4 @@
+import AssignmentsTab from "@/components/AssignmentsTab";
 import BasicAppBar from "@/components/BasicAppBar";
 import ClassNotFound from "@/components/ClassNotFound";
 import DetailClassTab from "@/components/DetailClassTab";
@@ -62,7 +63,7 @@ const ClassroomPage: React.FC = ()=>{
                 
                 <LinearProgress sx={loading?{}:{display: 'none'}}/>
                 <TabPanel value="1">{classroom && <DetailClassTab detailClass={classroom}/>}</TabPanel>
-                {classroom && classroom.role==="STUDENT" && (<TabPanel value="2">Assignments</TabPanel>)}
+                {classroom && classroom.role==="STUDENT" && (<TabPanel value="2"><AssignmentsTab/></TabPanel>)}
                 <TabPanel value="3"><ParticipantTab/></TabPanel>
                 {classroom && classroom.role==="TEACHER" && (<TabPanel value="4"><GradeBookTab/></TabPanel>)}
             </TabContext>

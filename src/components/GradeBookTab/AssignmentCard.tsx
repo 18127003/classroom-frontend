@@ -9,7 +9,9 @@ import {  AssignmentIndRounded } from '@mui/icons-material';
 const AssignmentCard:React.FC<AssignmentCardProps>=({assignment,onEdit, index})=> {
 
     const onClick = ()=>{
-        onEdit(index)
+        if(onEdit){
+            onEdit(index)
+        }
     }
 
     return (
