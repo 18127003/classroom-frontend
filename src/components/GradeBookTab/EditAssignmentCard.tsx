@@ -11,7 +11,7 @@ import { AppState } from '@/reducers';
 import { EditAssignmentCardProps } from '@/@types/props';
 
 
-const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment }) => {
+const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, index }) => {
   const dispatch = useDispatch()
   const classId = useSelector((state: AppState) => state.detail.detail.id)
   const handleSubmit = (event: React.SyntheticEvent) => {
@@ -26,6 +26,7 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment }) =
       {
         name: target.name.value,
         points: target.points.value,
+        position: index
       }
     ));
   }

@@ -16,7 +16,7 @@ const GradeBookTab: React.FC = ()=>{
         <Grid container columns={{md:12, sm:8, xs:4}} sx={{flexGrow:1, justifyContent:'center'}}>
            
             <Grid item md={8} sm={6} xs={4}>
-                {!editing&&assignments.length===0&&<EditAssignmentCard/>}
+                {!editing&&assignments.length===0&&<EditAssignmentCard index={assignments.length}/>}
                 <DragDropContext onDragEnd={onDragEnd}>
                     <Droppable droppableId="droppable">
                         {(provided, snapshot)=> (
@@ -33,7 +33,7 @@ const GradeBookTab: React.FC = ()=>{
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}
                                                 >
-                                                    {assignment.id===editing?(<EditAssignmentCard assignment={assignment}/>)
+                                                    {assignment.id===editing?(<EditAssignmentCard assignment={assignment} index={index}/>)
                                                     :(<AssignmentCard assignment={assignment} onEdit={onEdit}/>)}
                                                 </div>
                                             )}    

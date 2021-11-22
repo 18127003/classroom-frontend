@@ -1,6 +1,6 @@
 import { Account, AssignedClassroom, Assignment, Classroom } from "@/@types/model";
 import { IconButtonProps } from "@mui/material";
-import React, { ReactNode } from "react";
+import React from "react";
 import { RouteProps } from "react-router-dom";
 
 type ClassroomGridProps = {
@@ -93,5 +93,6 @@ interface AssignmentCardProps{
     onEdit:any
 }
 interface EditAssignmentCardProps{
-    assignment?:Assignment
+    assignment?:Assignment,
+    index: number
 }

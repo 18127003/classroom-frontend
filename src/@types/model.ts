@@ -33,7 +33,8 @@ export interface Assignment {
     classroom?: string,
     creator?: string,
     deadline?: string,
-    createdAt?:string
+    createdAt?:string,
+    position?:number
 }
 
 export interface AuthRequestInfo {
