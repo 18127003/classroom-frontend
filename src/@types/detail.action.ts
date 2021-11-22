@@ -149,9 +149,8 @@ export interface UpdatePositionRequest{
     type: typeof detailAction.UPDATE_POSITION_REQUEST
     payload: {
         classId: number,
-        start: number,
-        end: number,
-        assignments : Assignment[]
+        start?: number,
+        end?: number
     }
 }
 
@@ -167,6 +166,7 @@ export interface UpdatePositionFail{
 
 export interface AddAssignmentSuccessPayload {
     assignment: Assignment;
+    index: number;
 }
 
 export interface AddAssignmentFailPayload{

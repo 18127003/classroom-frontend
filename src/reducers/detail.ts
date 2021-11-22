@@ -150,13 +150,15 @@ export const detailReducer = (state: ClassroomDetailState = initState, action: D
                 loading: true
             };
         case detailAction.ADD_ASSIGNMENT_SUCCESS:
+            var parsed = action as AddAssignmentSuccess
             return {
                 ...state,
                 loading: false,
                 assignments:{
                     data: [
-                        ...state.assignments.data,
-                        (action as AddAssignmentSuccess).payload.assignment
+                        ...state.assignments.data.slice(0, parsed.payload.index),
+                        parsed.payload.assignment,
+                        ...state.assignments.data.slice(parsed.payload.index)
                     ],
                     reload: false
                 },

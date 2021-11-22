@@ -1,6 +1,7 @@
+import { Assignment } from "@/@types/model"
 import { getAssignmentsRequest, updatePositionRequest } from "@/actions/detail"
 import { AppState } from "@/reducers"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 
 const useAssignmentDnD = ()=>{
@@ -8,6 +9,7 @@ const useAssignmentDnD = ()=>{
     const classId = useSelector((state:AppState)=>state.detail.detail.id)
     const reload = useSelector((state:AppState)=>state.detail.assignments.reload)
     const dispatch = useDispatch()
+    const [local, setLocal] = useState<Assignment[]>([])
 
     useEffect(()=>{
         if(reload){
@@ -15,21 +17,39 @@ const useAssignmentDnD = ()=>{
         }
     },[reload])
 
+    useEffect(()=>{
+        setLocal(assignments)
+    },[assignments])
+
     const onDragEnd = (result)=>{
         if (!result.destination) {
             return;
         }
-        dispatch(updatePositionRequest(
-            classId,
-            assignments,
-            result.source.index,
-            result.destination.index
-        ))
+        if(result.source.index!==-1){
+            dispatch(updatePositionRequest(
+                classId,
+                result.source.index,
+                result.destination.index
+            ))
+        }
+        
+    }
+
+    const onCreateTemp = (index:number)=>{
+        setLocal([
+            ...local.slice(0, index),
+            {
+                name: "",
+                points: 0
+            },
+            ...local.slice(index)
+        ])
     }
 
     return {
-        assignments,
-        onDragEnd
+        local,
+        onDragEnd,
+        onCreateTemp
     }
 }
 

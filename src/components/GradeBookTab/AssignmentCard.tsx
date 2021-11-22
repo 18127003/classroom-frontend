@@ -6,10 +6,10 @@ import { AssignmentCardProps } from '@/@types/props';
 import {  AssignmentIndRounded } from '@mui/icons-material';
 
 
-const AssignmentCard:React.FC<AssignmentCardProps>=({assignment,onEdit})=> {
+const AssignmentCard:React.FC<AssignmentCardProps>=({assignment,onEdit, index})=> {
 
     const onClick = ()=>{
-        onEdit(assignment.id)
+        onEdit(index)
     }
 
     return (

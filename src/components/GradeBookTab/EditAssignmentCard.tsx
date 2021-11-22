@@ -11,7 +11,7 @@ import { AppState } from '@/reducers';
 import { EditAssignmentCardProps } from '@/@types/props';
 
 
-const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, index }) => {
+const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, index, onAdd, onPostAdd }) => {
   const dispatch = useDispatch()
   const classId = useSelector((state: AppState) => state.detail.detail.id)
   const handleSubmit = (event: React.SyntheticEvent) => {
@@ -29,6 +29,7 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
         position: index
       }
     ));
+    onPostAdd();
   }
 
   return (
@@ -80,7 +81,7 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
       </Card>
       <Card>
         <Stack>
-          <IconButton><Add/></IconButton>
+          <IconButton onClick={onAdd}><Add/></IconButton>
           <IconButton ><TitleOutlined/></IconButton>
           <IconButton ><Image/></IconButton>
           <IconButton ><YouTube/></IconButton>

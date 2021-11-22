@@ -10,8 +10,9 @@ import { AddAssignmentFail, AddAssignmentFailPayload, AddAssignmentRequest, AddA
      UpdatePositionSuccessPayload} from "@/@types/detail.action";
 import { AssignedClassroom, Assignment, InvitationRequestInfo, ModifyParticipantsInfo } from "@/@types/model";
 import { detailAction } from "@/constants/actions";
+import { AppState } from "@/reducers";
 import { classroomService } from "@/services";
-import { all, call, put, takeEvery, takeLatest } from "@redux-saga/core/effects";
+import { all, call, put, select, takeEvery, takeLatest } from "@redux-saga/core/effects";
 
 export const getParticipantsRequest = (classId: number): GetParticipantsRequest => ({
     type: detailAction.GET_PARTICIPANT_REQUEST,
@@ -200,9 +201,10 @@ function* addAssignmentSaga(action: AddAssignmentRequest) {
     try {
         const assignment = yield call(classroomService.addAssignment, action.payload.id, action.payload.assignment);
         yield put(addAssignmentSuccess({
-            assignment: assignment.data
+            assignment: assignment.data,
+            index: action.payload.assignment.position
         }))
-
+        yield put(updatePositionRequest(action.payload.id))
 
     } catch (e) {
         yield put(addAssignmentFail({
@@ -211,13 +213,12 @@ function* addAssignmentSaga(action: AddAssignmentRequest) {
     }
 }
 
-export const updatePositionRequest = (classId: number, assignments: Assignment[], start:number, end:number): UpdatePositionRequest => ({
+export const updatePositionRequest = (classId:number, start?:number, end?:number): UpdatePositionRequest => ({
     type: detailAction.UPDATE_POSITION_REQUEST,
     payload: {
-        classId: classId,
-        start: start,
-        end: end,
-        assignments: assignments
+        classId,
+        start,
+        end
     }
 });
 
@@ -232,12 +233,17 @@ export const updatePositionFail = (payload: UpdatePositionFailPayload):UpdatePos
 });
 
 function* updatePositionSaga(action: UpdatePositionRequest) {
-    const result = Array.from(action.payload.assignments);
-    const [removed] = result.splice(action.payload.start, 1);
-    result.splice(action.payload.end, 0, removed);
-    yield put(updatePositionSuccess({
-        assignments: result
-    }))
+    
+    const assignments: Assignment[] = yield select((state:AppState)=>state.detail.assignments.data)
+    const result = Array.from(assignments);
+    if(action.payload){
+        const [removed] = result.splice(action.payload.start, 1);
+        result.splice(action.payload.end, 0, removed);
+        yield put(updatePositionSuccess({
+            assignments: result
+        }))
+    }
+    
     try {
         yield call(classroomService.updateAssignmentPosition, action.payload.classId, result)
     } catch (e){
