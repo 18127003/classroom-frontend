@@ -21,6 +21,9 @@ const useAssignmentDnD = ()=>{
         if (!result.destination) {
             return;
         }
+        if(result.source.index===result.destination.index){
+            return;
+        }
         if(result.source.index!==temp){
             dispatch(updatePositionRequest(
                 classId,

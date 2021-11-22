@@ -241,7 +241,7 @@ function* updatePositionSaga(action: UpdatePositionRequest) {
     
     const assignments: Assignment[] = yield select((state:AppState)=>state.detail.assignments.data)
     const result = Array.from(assignments);
-    if(action.payload.start && action.payload.end){
+    if(action.payload.start!==undefined && action.payload.end!==undefined){
         const [removed] = result.splice(action.payload.start, 1);
         result.splice(action.payload.end, 0, removed);
         yield put(updatePositionSuccess({

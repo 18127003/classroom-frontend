@@ -9,6 +9,7 @@ const GradeBookTab: React.FC = ()=>{
     
     const {getLocal,editing, onDragEnd, onAdd, onEdit, onPostModify} = useAssignmentDnD()
     const local = getLocal()
+    // console.log(local)
     return (
         <Grid container columns={{md:12, sm:8, xs:4}} sx={{flexGrow:1, justifyContent:'center'}}>
            
@@ -23,7 +24,7 @@ const GradeBookTab: React.FC = ()=>{
                             >
                                 <Stack mt={4} spacing={4} ref={provided.innerRef}>
                                     {!editing&&local.length===0&&(
-                                        <Draggable key="none" draggableId="-1" index={-1}>
+                                        <Draggable key="none" draggableId="-1" index={0}>
                                             {(provided, snapshot)=>(
                                                 <div
                                                     ref={provided.innerRef}

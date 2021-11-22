@@ -10,11 +10,14 @@ import { addAssignmentRequest, removeAssignmentRequest, updateAssignmentRequest 
 import { AppState } from '@/reducers';
 import { EditAssignmentCardProps } from '@/@types/props';
 import { Assignment } from '@/@types/model';
+import { LoadingButton } from '@mui/lab';
 
 
 const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, index, onAdd, onPostModify }) => {
   const dispatch = useDispatch()
   const classId = useSelector((state: AppState) => state.detail.detail.id)
+  const loading = useSelector((state:AppState)=>state.detail.loading)
+
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault()
     const target = event.target as typeof event.target & {
@@ -27,7 +30,7 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
       points: target.points.value,
       position: index
     }
-    if(!assignment.id){
+    if(!assignment || !assignment.id){
       dispatch(addAssignmentRequest(
         classId,
         formAssignment
@@ -88,8 +91,14 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
             <Divider />
           </CardContent>
           <CardActions sx={{ justifyContent: "flex-end", }}>
-            {assignment&&assignment.id&&<Button onClick={handleDelete}>Delete</Button>}
-            <Button type="submit">Save</Button>
+            {assignment&&assignment.id&&(
+              <LoadingButton variant="outlined" onClick={handleDelete} sx={{m:2}} disabled={loading} loading={loading}>
+                Delete  
+              </LoadingButton>
+            )}
+            <LoadingButton variant="outlined" type="submit" sx={{m:2}} disabled={loading} loading={loading}>
+              Save  
+            </LoadingButton>
           </CardActions>
         </Box>
       </Card>
