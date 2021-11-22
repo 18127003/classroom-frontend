@@ -7,7 +7,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const GradeBookTab: React.FC = ()=>{
     
-    const {getLocal,editing, onDragEnd, onAdd, onEdit, onPostAdd} = useAssignmentDnD()
+    const {getLocal,editing, onDragEnd, onAdd, onEdit, onPostModify} = useAssignmentDnD()
     const local = getLocal()
     return (
         <Grid container columns={{md:12, sm:8, xs:4}} sx={{flexGrow:1, justifyContent:'center'}}>
@@ -30,7 +30,11 @@ const GradeBookTab: React.FC = ()=>{
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}
                                                 >
-                                                    <EditAssignmentCard index={local.length} onAdd={onAdd} onPostAdd={onPostAdd}/>
+                                                    <EditAssignmentCard 
+                                                        index={local.length} 
+                                                        onAdd={onAdd} 
+                                                        onPostModify={onPostModify}
+                                                    />
                                                 </div>
                                             )}
                                         </Draggable>
@@ -44,7 +48,12 @@ const GradeBookTab: React.FC = ()=>{
                                                     {...provided.dragHandleProps}
                                                 >
                                                     {index===editing?(
-                                                        <EditAssignmentCard assignment={assignment} index={index} onAdd={onAdd} onPostAdd={onPostAdd}/>
+                                                        <EditAssignmentCard 
+                                                            assignment={assignment} 
+                                                            index={index} 
+                                                            onAdd={onAdd} 
+                                                            onPostModify={onPostModify}
+                                                        />
                                                     )
                                                     :(
                                                         <AssignmentCard assignment={assignment} onEdit={onEdit} index={index}/>

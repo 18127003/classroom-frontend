@@ -97,5 +97,5 @@ interface EditAssignmentCardProps{
     assignment?:Assignment,
     index: number,
     onAdd: ()=>void,
-    onPostAdd:()=>void
+    onPostModify:()=>void
 }

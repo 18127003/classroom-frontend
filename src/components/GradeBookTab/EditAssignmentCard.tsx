@@ -6,12 +6,13 @@ import CardContent from '@mui/material/CardContent';
 import { Button, Divider, FormControlLabel, IconButton, Stack, Switch, TextField } from '@mui/material';
 import { Add, ContentCopy, Image, TitleOutlined, YouTube } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
-import { addAssignmentRequest, removeAssignmentRequest } from '@/actions/detail';
+import { addAssignmentRequest, removeAssignmentRequest, updateAssignmentRequest } from '@/actions/detail';
 import { AppState } from '@/reducers';
 import { EditAssignmentCardProps } from '@/@types/props';
+import { Assignment } from '@/@types/model';
 
 
-const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, index, onAdd, onPostAdd }) => {
+const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, index, onAdd, onPostModify }) => {
   const dispatch = useDispatch()
   const classId = useSelector((state: AppState) => state.detail.detail.id)
   const handleSubmit = (event: React.SyntheticEvent) => {
@@ -21,18 +22,24 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
       points: { value: number };
 
     }
+    const formAssignment: Assignment = {
+      name: target.name.value,
+      points: target.points.value,
+      position: index
+    }
     if(!assignment.id){
       dispatch(addAssignmentRequest(
         classId,
-        {
-          name: target.name.value,
-          points: target.points.value,
-          position: index
-        }
+        formAssignment
       ));
-      onPostAdd();
+    } else {
+      dispatch(updateAssignmentRequest(
+        classId,
+        assignment.id,
+        formAssignment
+      ))
     }
-    
+    onPostModify();
   }
 
   const handleDelete = ()=>{

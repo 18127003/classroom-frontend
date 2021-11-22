@@ -42,8 +42,7 @@ const useAssignmentDnD = ()=>{
         setEditing(editing+1)
     }
 
-    const onPostAdd=()=>{
-        
+    const onPostModify=()=>{
         setTemp(null)
     }
 
@@ -77,7 +76,7 @@ const useAssignmentDnD = ()=>{
         onDragEnd,
         onAdd,
         onEdit,
-        onPostAdd
+        onPostModify
     }
 }
 

@@ -3,6 +3,11 @@ import { AddAssignmentFail, AddAssignmentFailPayload, AddAssignmentRequest, AddA
     GetParticipantsSuccessPayload, HideParticipantsFail, HideParticipantsFailPayload, HideParticipantsRequest, HideParticipantsSuccess, ReloadAssignmentsRequest, ReloadParticipantsRequest, RemoveAssignmentFail, RemoveAssignmentFailPayload, RemoveAssignmentRequest, RemoveAssignmentSuccess, RemoveAssignmentSuccessPayload, RemoveParticipantsFail, RemoveParticipantsFailPayload, 
     RemoveParticipantsRequest, RemoveParticipantsSuccess,
      SendInvitationRequest, 
+     UpdateAssignmentFail, 
+     UpdateAssignmentFailPayload, 
+     UpdateAssignmentRequest, 
+     UpdateAssignmentSuccess, 
+     UpdateAssignmentSuccessPayload, 
      UpdatePositionFail, 
      UpdatePositionFailPayload, 
      UpdatePositionRequest,
@@ -286,6 +291,39 @@ function* removeAssignmentSaga(action: RemoveAssignmentRequest) {
     }
 }
 
+export const updateAssignmentRequest = (classId: number, id: number, assignment: Assignment): UpdateAssignmentRequest => ({
+    type: detailAction.UPDATE_ASSIGNMENT_REQUEST,
+    payload: {
+        classId: classId,
+        id: id,
+        assignment: assignment
+    }
+});
+
+export const updateAssignmentSuccess = (payload: UpdateAssignmentSuccessPayload):UpdateAssignmentSuccess =>({
+    type: detailAction.UPDATE_ASSIGNMENT_SUCCESS,
+    payload: payload
+});
+
+export const updateAssignmentFail = (payload: UpdateAssignmentFailPayload):UpdateAssignmentFail =>({
+    type: detailAction.UPDATE_ASSIGNMENT_FAIL,
+    payload: payload
+});
+
+function* updateAssignmentSaga(action: UpdateAssignmentRequest) {
+    try {
+        var assignment = yield call(classroomService.updateAssignment, action.payload.classId, action.payload.id, action.payload.assignment);
+        yield put(updateAssignmentSuccess({
+            assignment: assignment.data
+        }))
+
+    } catch (e) {
+        yield put(updateAssignmentFail({
+            error: 'Update assignment failed'
+        }))
+    }
+}
+
 export function* detailSaga() {
     yield all([
         takeLatest(detailAction.GET_PARTICIPANT_REQUEST, getParticipantsSaga),
@@ -296,7 +334,8 @@ export function* detailSaga() {
         takeLatest(detailAction.GET_ASSIGNMENTS_REQUEST, getAssignmentsSaga),
         takeEvery(detailAction.ADD_ASSIGNMENT_REQUEST, addAssignmentSaga),
         takeLatest(detailAction.UPDATE_POSITION_REQUEST, updatePositionSaga),
-        takeEvery(detailAction.REMOVE_ASSIGNMENT_REQUEST, removeAssignmentSaga)
+        takeEvery(detailAction.REMOVE_ASSIGNMENT_REQUEST, removeAssignmentSaga),
+        takeEvery(detailAction.UPDATE_ASSIGNMENT_REQUEST, updateAssignmentSaga)
     ]);
 }
 

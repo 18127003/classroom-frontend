@@ -1,5 +1,5 @@
 import { RedirectRequest } from "@/@types/common.action";
-import { AddAssignmentFail, AddAssignmentSuccess, ClassroomDetailState, DetailAction, GetAssignmentsFail, GetAssignmentsSuccess, GetDetailFail, GetDetailSuccess, GetParticipantsFail, GetParticipantsSuccess, HideParticipantsFail, RemoveAssignmentFail, RemoveAssignmentSuccess, RemoveParticipantsFail, UpdatePositionFail, UpdatePositionSuccess } from "@/@types/detail.action";
+import { AddAssignmentFail, AddAssignmentSuccess, ClassroomDetailState, DetailAction, GetAssignmentsFail, GetAssignmentsSuccess, GetDetailFail, GetDetailSuccess, GetParticipantsFail, GetParticipantsSuccess, HideParticipantsFail, RemoveAssignmentFail, RemoveAssignmentSuccess, RemoveParticipantsFail, UpdateAssignmentFail, UpdateAssignmentSuccess, UpdatePositionFail, UpdatePositionSuccess } from "@/@types/detail.action";
 import { authActions, commonAction, detailAction } from "@/constants/actions";
 
 const initState:ClassroomDetailState = {
@@ -203,6 +203,27 @@ export const detailReducer = (state: ClassroomDetailState = initState, action: D
                 ...state,
                 loading:false,
                 error: (action as RemoveAssignmentFail).payload.error
+            }
+        case detailAction.UPDATE_ASSIGNMENT_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case detailAction.UPDATE_ASSIGNMENT_SUCCESS:
+            var update = (action as UpdateAssignmentSuccess).payload.assignment
+            return {
+                ...state,
+                loading: false,
+                assignments: {
+                    data: state.assignments.data.map(assignment=>assignment.id===update.id?update:assignment),
+                    reload: false
+                }
+            }
+        case detailAction.UPDATE_ASSIGNMENT_FAIL:
+            return {
+                ...state,
+                loading:false,
+                error: (action as UpdateAssignmentFail).payload.error
             }
         case authActions.LOGOUT_SUCCESS:
             return initState;
