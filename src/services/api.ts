@@ -118,6 +118,12 @@ const addAssignment = (id:number, assignment: Assignment)=>instance({
     transformResponse: [(data) => JSON.parse(data)]
 })
 
+const updateAssignmentPosition = (id:number, update: number[])=>instance({
+    'method':'PATCH',
+    'url':`/classroom/${id}/assignment/updatePosition`,
+    'data': update
+})
+
 export const api = {
     getData,
     createClassroom,
@@ -135,5 +141,6 @@ export const api = {
     removeParticipants,
     hideParticipants,
     getAssignments,
-    addAssignment
+    addAssignment,
+    updateAssignmentPosition
 }

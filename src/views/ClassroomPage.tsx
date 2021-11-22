@@ -40,7 +40,7 @@ const ClassroomPage: React.FC = ()=>{
                         centered
                     >
                         <Tab label="News" value="1"/>
-                        <Tab label="Assignments" value="2"/>
+                        {classroom && classroom.role==="STUDENT" && (<Tab label="Assignments" value="2"/>)}
                         <Tab label="Participants" value="3"/>
                         {classroom && classroom.role==="TEACHER" && (<Tab label="Grade Book" value="4"/>)}
                     </TabList>
@@ -54,7 +54,7 @@ const ClassroomPage: React.FC = ()=>{
                         centered
                     >
                         <Tab label="News" value="1"/>
-                        <Tab label="Assignments" value="2"/>
+                        {classroom && classroom.role==="STUDENT" && (<Tab label="Assignments" value="2"/>)}
                         <Tab label="Participants" value="3"/>
                         {classroom && classroom.role==="TEACHER" && (<Tab label="Grade Book" value="4"/>)}
                     </TabList>
@@ -62,7 +62,7 @@ const ClassroomPage: React.FC = ()=>{
                 
                 <LinearProgress sx={loading?{}:{display: 'none'}}/>
                 <TabPanel value="1">{classroom && <DetailClassTab detailClass={classroom}/>}</TabPanel>
-                <TabPanel value="2">Assignments</TabPanel>
+                {classroom && classroom.role==="STUDENT" && (<TabPanel value="2">Assignments</TabPanel>)}
                 <TabPanel value="3"><ParticipantTab/></TabPanel>
                 {classroom && classroom.role==="TEACHER" && (<TabPanel value="4"><GradeBookTab/></TabPanel>)}
             </TabContext>

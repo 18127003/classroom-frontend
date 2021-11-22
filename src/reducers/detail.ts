@@ -1,5 +1,5 @@
 import { RedirectRequest } from "@/@types/common.action";
-import { AddAssignmentFail, AddAssignmentSuccess, ClassroomDetailState, DetailAction, GetAssignmentsFail, GetAssignmentsSuccess, GetDetailFail, GetDetailSuccess, GetParticipantsFail, GetParticipantsSuccess, HideParticipantsFail, RemoveParticipantsFail } from "@/@types/detail.action";
+import { AddAssignmentFail, AddAssignmentSuccess, ClassroomDetailState, DetailAction, GetAssignmentsFail, GetAssignmentsSuccess, GetDetailFail, GetDetailSuccess, GetParticipantsFail, GetParticipantsSuccess, HideParticipantsFail, RemoveParticipantsFail, UpdatePositionFail, UpdatePositionSuccess } from "@/@types/detail.action";
 import { authActions, commonAction, detailAction } from "@/constants/actions";
 
 const initState:ClassroomDetailState = {
@@ -167,6 +167,19 @@ export const detailReducer = (state: ClassroomDetailState = initState, action: D
                 ...state,
                 loading: false,
                 error: (action as AddAssignmentFail).payload.error
+            }
+        case detailAction.UPDATE_POSITION_SUCCESS:
+            return {
+                ...state,
+                assignments: {
+                    data: (action as UpdatePositionSuccess).payload.assignments,
+                    reload: false
+                }
+            }
+        case detailAction.UPDATE_POSITION_FAIL:
+            return {
+                ...state,
+                error: (action as UpdatePositionFail).payload.error
             }
         case authActions.LOGOUT_SUCCESS:
             return initState;

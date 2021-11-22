@@ -137,6 +137,34 @@ export interface ReloadAssignmentsRequest{
     type: typeof detailAction.RELOAD_ASSIGNMENTS_REQUEST
 }
 
+export interface UpdatePositionFailPayload{
+    error: string
+}
+
+export interface UpdatePositionSuccessPayload{
+    assignments: Assignment[]
+}
+
+export interface UpdatePositionRequest{
+    type: typeof detailAction.UPDATE_POSITION_REQUEST
+    payload: {
+        classId: number,
+        start: number,
+        end: number,
+        assignments : Assignment[]
+    }
+}
+
+export interface UpdatePositionSuccess {
+    type: typeof detailAction.UPDATE_POSITION_SUCCESS
+    payload: UpdatePositionSuccessPayload
+}
+
+export interface UpdatePositionFail{
+    type: typeof detailAction.UPDATE_POSITION_FAIL
+    payload: UpdatePositionFailPayload
+}
+
 export interface AddAssignmentSuccessPayload {
     assignment: Assignment;
 }
@@ -183,6 +211,9 @@ export type AssignmentAction =
     | AddAssignmentRequest
     | AddAssignmentSuccess
     | AddAssignmentFail
+    | UpdatePositionRequest
+    | UpdatePositionSuccess
+    | UpdatePositionFail
 
 export type DetailAction = 
     | ParticipantAction

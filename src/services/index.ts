@@ -112,6 +112,10 @@ const addAssignment = async (id:number, assignment: Assignment)=>{
     return await api.addAssignment(id, assignment)
 }
 
+const updateAssignmentPosition = async (id:number, update:Assignment[])=>{
+    await api.updateAssignmentPosition(id, update.map(assignment=>assignment.id))
+}
+
 export const authService = {
     login,
     logout,
@@ -136,7 +140,8 @@ export const classroomService = {
     removeParticipants,
     hideParticipants,
     getAssignments,
-    addAssignment
+    addAssignment,
+    updateAssignmentPosition
 }
 
 export const commonService = {

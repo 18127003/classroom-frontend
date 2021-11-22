@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import {  Avatar, CardHeader, Icon, Stack, Typography } from '@mui/material';
+import {  Avatar, CardHeader } from '@mui/material';
 import { AssignmentCardProps } from '@/@types/props';
 import {  AssignmentIndRounded } from '@mui/icons-material';
 
@@ -20,7 +20,7 @@ const AssignmentCard:React.FC<AssignmentCardProps>=({assignment,onEdit})=> {
                     `${assignment.creator} has posted a new assignment: ${assignment.name}`
                 }
                 subheader={
-                    `Grade: ${assignment.points}`
+                    `Points: ${assignment.points}`
                 }
                 >
             </CardHeader>
