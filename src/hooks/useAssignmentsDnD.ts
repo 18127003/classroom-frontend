@@ -1,5 +1,5 @@
 import { updatePositionRequest } from "@/actions/detail"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import useAssignments from "./useAssignments"
 
@@ -27,6 +27,12 @@ const useAssignmentDnD = ()=>{
             }
         }
     }
+
+    useEffect(()=>{
+        if(editing!==temp){
+            setTemp(null)
+        }
+    },[editing])
 
     const onEdit=(value: number)=>{
         setEditing(value)
