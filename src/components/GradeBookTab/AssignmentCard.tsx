@@ -1,9 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import {  Avatar, CardHeader } from '@mui/material';
+import {  Avatar, CardHeader, Divider } from '@mui/material';
 import { AssignmentCardProps } from '@/@types/props';
 import {  AssignmentIndRounded } from '@mui/icons-material';
+import parse from "html-react-parser";
 
 
 const AssignmentCard:React.FC<AssignmentCardProps>=({assignment,onEdit, index})=> {
@@ -22,14 +23,23 @@ const AssignmentCard:React.FC<AssignmentCardProps>=({assignment,onEdit, index})=
                     `${assignment.creator} has posted a new assignment: ${assignment.name}`
                 }
                 subheader={
-                    `Points: ${assignment.points}`
+                    (<>
+                        {`Points: ${assignment.points}`}
+                        <br/>
+                        {assignment.deadline && `Deadline: ${new Date(assignment.deadline).toLocaleString()}`}
+                    </>)
                 }
                 >
             </CardHeader>
-        <CardContent>
-            
-            
-        </CardContent>
+            {assignment.description&&(
+                <>
+                <Divider/>
+                <CardContent>
+                    {parse(assignment.description??'')}
+                </CardContent>
+                </>
+            )}
+           
         </Card>
     );
 }

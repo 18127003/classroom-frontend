@@ -1,9 +1,8 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
+import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import { Button, Divider, FormControlLabel, IconButton, Stack, Switch, TextField } from '@mui/material';
+import { Divider, FormControlLabel, IconButton, Stack, Switch, TextField, Box } from '@mui/material';
 import { Add, ContentCopy, Image, TitleOutlined, YouTube } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { addAssignmentRequest, removeAssignmentRequest, updateAssignmentRequest } from '@/actions/detail';
@@ -11,23 +10,32 @@ import { AppState } from '@/reducers';
 import { EditAssignmentCardProps } from '@/@types/props';
 import { Assignment } from '@/@types/model';
 import { LoadingButton } from '@mui/lab';
-
+import Editor from '../Editor';
 
 const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, index, onAdd, onPostModify }) => {
   const dispatch = useDispatch()
+  const [description, setDescription] = useState('')
   const classId = useSelector((state: AppState) => state.detail.detail.id)
   const loading = useSelector((state:AppState)=>state.detail.loading)
+
+  useEffect(()=>{
+    if(assignment){
+      setDescription(assignment.description??'')
+    }
+  },[assignment])
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault()
     const target = event.target as typeof event.target & {
       name: { value: string };
       points: { value: number };
-
+      deadline: {value: string};
     }
     const formAssignment: Assignment = {
       name: target.name.value,
       points: target.points.value,
+      deadline: target.deadline.value,
+      description: description,
       position: index
     }
     if(!assignment || !assignment.id){
@@ -50,7 +58,7 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
   }
 
   return (
-    <Stack direction="row" spacing={2}>
+    <Stack direction="row" spacing={2} alignItems="center">
       <Card sx={{ width: "90%" }}>
         <Box
           component="form"
@@ -65,6 +73,7 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
 
             <Stack direction="row" spacing={2} mb={2}>
               <TextField
+                autoFocus
                 id="assignmentName"
                 label="Name"
                 variant="outlined"
@@ -74,6 +83,7 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
                 defaultValue={assignment && assignment.name}
               />
               <TextField
+                required
                 id="assignmentPoints"
                 label="Points"
                 variant="outlined"
@@ -83,10 +93,21 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
                 defaultValue={assignment && assignment.points}
               />
             </Stack>
-            <Stack direction="row" sx={{ justifyContent: "flex-end" }} spacing={1} mb={1}>
-              <IconButton><ContentCopy /></IconButton>
-              <Divider orientation="vertical" flexItem />
-              <FormControlLabel control={<Switch defaultChecked={false} />} label="Required" labelPlacement="start" />
+            <Editor content={description} onChange={setDescription}/>
+            <Stack direction="row" sx={{ justifyContent: "flex-start" }} spacing={1} mb={1} mt={2}>
+              <TextField
+                InputLabelProps={{ shrink: true }}
+                label="Deadline"
+                variant="outlined"
+                type="datetime-local"
+                name="deadline"
+                defaultValue={assignment && assignment.deadline}
+              />
+                <Box sx={{flexGrow:1}}/>  
+                <IconButton><ContentCopy /></IconButton>
+                <Divider orientation="vertical" flexItem />
+                <FormControlLabel control={<Switch defaultChecked={false} />} label="Required" labelPlacement="start" />
+            
             </Stack>
             <Divider />
           </CardContent>

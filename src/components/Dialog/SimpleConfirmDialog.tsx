@@ -5,7 +5,12 @@ import React from "react";
 import Transition from "../Transition";
 
 const SimpleConfirmDialog: React.FC<SimpleConfirmDialogProps> = ({isOpen, handleClose, title, onConfirm, loading})=>{
-    
+
+    const handleConfirm = ()=>{
+        onConfirm();
+        handleClose();
+    }
+
     return (
         <Dialog
             open={isOpen}
@@ -17,7 +22,7 @@ const SimpleConfirmDialog: React.FC<SimpleConfirmDialogProps> = ({isOpen, handle
             <DialogTitle>{title}</DialogTitle>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <LoadingButton onClick={onConfirm} loading={loading} disabled={loading}>Confirm</LoadingButton>
+                <LoadingButton onClick={handleConfirm} loading={loading} disabled={loading}>Confirm</LoadingButton>
             </DialogActions>
         </Dialog>
     )

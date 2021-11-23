@@ -1,7 +1,6 @@
-import { getAssignmentsRequest, updatePositionRequest } from "@/actions/detail"
-import { AppState } from "@/reducers"
-import { useEffect, useState } from "react"
-import { useSelector, useDispatch } from "react-redux"
+import { updatePositionRequest } from "@/actions/detail"
+import { useState } from "react"
+import { useDispatch } from "react-redux"
 import useAssignments from "./useAssignments"
 
 const useAssignmentDnD = ()=>{
@@ -40,11 +39,8 @@ const useAssignmentDnD = ()=>{
 
     const onPostModify=()=>{
         setTemp(null)
-    }
-
-    useEffect(()=>{
         setEditing(null)
-    },[assignments])
+    }
 
     const onCreateTemp = (index:number)=>{
         setTemp(index)

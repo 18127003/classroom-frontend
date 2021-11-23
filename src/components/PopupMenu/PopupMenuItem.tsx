@@ -1,8 +1,8 @@
 import { PopupMenuButtonProps } from "@/@types/props";
-import { IconButton, MenuItem, Stack } from "@mui/material";
+import { MenuItem, Stack } from "@mui/material";
 import React, { ReactElement, useState } from "react";
 
-const ClassJoinButton: React.FC<PopupMenuButtonProps> = ({onMenuItemClick, children, title, button}) => {
+const PopupMenuItem: React.FC<PopupMenuButtonProps> = ({onMenuItemClick, children, title, button}) => {
     const [open, setOpen] = useState(false);
   
     const handleClickOpen = () => {
@@ -32,4 +32,4 @@ const ClassJoinButton: React.FC<PopupMenuButtonProps> = ({onMenuItemClick, child
     );
   }
   
-  export default ClassJoinButton;
+  export default PopupMenuItem;

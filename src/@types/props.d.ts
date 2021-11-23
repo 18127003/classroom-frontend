@@ -102,3 +102,8 @@ interface EditAssignmentCardProps{
     onAdd: ()=>void,
     onPostModify:()=>void
 }
+
+interface EditorProps {
+    content: string,
+    onChange: (value: string)=>void
+}
