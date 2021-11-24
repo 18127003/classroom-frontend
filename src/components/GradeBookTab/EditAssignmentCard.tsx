@@ -56,6 +56,10 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
   const handleDelete = ()=>{
     dispatch(removeAssignmentRequest(classId, assignment.id))
   }
+
+  const handleAdd = ()=>{
+    onAdd(index+1)
+  }
   return (
     <Stack direction="row" spacing={2} alignItems="center">
       <Card sx={{ width: "90%" }}>
@@ -121,7 +125,7 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
       </Card>
       <Card>
         <Stack>
-          <IconButton onClick={onAdd}><Add/></IconButton>
+          <IconButton onClick={handleAdd}><Add/></IconButton>
           <IconButton ><TitleOutlined/></IconButton>
           <IconButton ><Image/></IconButton>
           <IconButton ><YouTube/></IconButton>

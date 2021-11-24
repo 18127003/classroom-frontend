@@ -1,5 +1,5 @@
 import { updatePositionRequest } from "@/actions/detail"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import useAssignments from "./useAssignments"
 
@@ -35,11 +35,15 @@ const useAssignmentDnD = ()=>{
             if(source > temp){
                 source--;
             }
-            if(dest >= temp){
+            if(dest >= temp && dest>0){
                 dest--;
             }
-        } else  if(source===editing){
+            
+            console.log('a'+source+dest)
+        } else if(source===editing){
             setEditing(dest)
+        } else {
+            setEditing(null)
         }
         dispatch(updatePositionRequest(
             classId,
@@ -48,23 +52,24 @@ const useAssignmentDnD = ()=>{
         ))
     }
 
-    const onEdit= (value: number)=>{
+    const onEdit=(value: number)=>{
         if(temp==null){
             setEditing(value)
         } else {
-            setTemp(null)
+           
             if(temp >= value){
                 setEditing(value)
             } else {
                 setEditing(value-1)
             }
+            setTemp(null)
         }
     }
 
-    const onAdd=()=>{
-        onCreateTemp(editing+1)
-        setEditing(editing+1)
-    }
+    // const onAdd=()=>{
+    //     onCreateTemp(editing+1)
+    //     setEditing(editing+1)
+    // }
 
     const onPostModify=()=>{
         setTemp(null)
@@ -73,10 +78,12 @@ const useAssignmentDnD = ()=>{
 
     const onCreateTemp = (index:number)=>{
         setTemp(index)
+        setEditing(index)
     }
 
     const getLocal = ()=>{
         if(temp!==null){
+            console.log(temp)
             return [
                 ...assignments.slice(0, temp),
                 {
@@ -95,7 +102,7 @@ const useAssignmentDnD = ()=>{
         getLocal,
         editing,
         onDragEnd,
-        onAdd,
+        onCreateTemp,
         onEdit,
         onPostModify
     }

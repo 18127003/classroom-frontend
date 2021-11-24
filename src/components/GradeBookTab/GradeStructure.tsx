@@ -3,13 +3,15 @@ import AssignmentCard from "./AssignmentCard";
 import EditAssignmentCard from "./EditAssignmentCard";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import useAssignmentDnD from "@/hooks/useAssignmentsDnD";
-import { Stack } from "@mui/material";
+import { Fab, Stack } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 const GradeStructure: React.FC = () => {
-    const { getLocal, editing, onDragEnd, onAdd, onEdit, onPostModify } = useAssignmentDnD()
+    const { getLocal, editing, onDragEnd, onCreateTemp, onEdit, onPostModify } = useAssignmentDnD()
     const local = getLocal()
 
     return (
+        <>
         <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="droppable">
                 {(provided, snapshot) => (
@@ -28,7 +30,7 @@ const GradeStructure: React.FC = () => {
                                         >
                                             <EditAssignmentCard
                                                 index={local.length}
-                                                onAdd={onAdd}
+                                                onAdd={onCreateTemp}
                                                 onPostModify={onPostModify}
                                             />
                                         </div>
@@ -47,7 +49,7 @@ const GradeStructure: React.FC = () => {
                                                 <EditAssignmentCard
                                                     assignment={assignment}
                                                     index={index}
-                                                    onAdd={onAdd}
+                                                    onAdd={onCreateTemp}
                                                     onPostModify={onPostModify}
                                                 />
                                             )
@@ -65,6 +67,15 @@ const GradeStructure: React.FC = () => {
 
             </Droppable>
         </DragDropContext>
+        <Fab 
+            color="primary" 
+            aria-label="add" 
+            sx={{position: 'fixed', bottom: 32, right: 32,}}
+            onClick={()=>{onCreateTemp(0)}}
+        >
+            <AddIcon />
+        </Fab>
+      </>
     )
 }
 
