@@ -77,7 +77,6 @@ const useAssignmentDnD = ()=>{
 
     const getLocal = ()=>{
         if(temp!==null){
-            console.log(temp)
             return [
                 ...assignments.slice(0, temp),
                 {
