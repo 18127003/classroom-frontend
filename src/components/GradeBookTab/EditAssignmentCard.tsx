@@ -56,16 +56,12 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
   const handleDelete = ()=>{
     dispatch(removeAssignmentRequest(classId, assignment.id))
   }
-
   return (
     <Stack direction="row" spacing={2} alignItems="center">
       <Card sx={{ width: "90%" }}>
         <Box
           component="form"
           onSubmit={handleSubmit}
-          sx={{
-
-          }}
           autoComplete="off"
           noValidate={false}
         >
@@ -101,7 +97,7 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
                 variant="outlined"
                 type="datetime-local"
                 name="deadline"
-                defaultValue={assignment && assignment.deadline}
+                defaultValue={assignment && (assignment.deadline??'')}
               />
                 <Box sx={{flexGrow:1}}/>  
                 <IconButton><ContentCopy /></IconButton>

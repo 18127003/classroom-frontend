@@ -1,5 +1,5 @@
 import { updatePositionRequest } from "@/actions/detail"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useDispatch } from "react-redux"
 import useAssignments from "./useAssignments"
 
@@ -13,29 +13,52 @@ const useAssignmentDnD = ()=>{
         if (!result.destination) {
             return;
         }
-        if(result.source.index===result.destination.index){
+        let source = result.source.index
+        let dest = result.destination.index
+        if(source===dest){
             return;
         }
-        if(result.source.index!==temp){
-            dispatch(updatePositionRequest(
-                classId,
-                result.source.index,
-                result.destination.index
-            ))
-            if(result.source.index===editing){
-                setEditing(result.destination.index)
+        if(temp!==null){
+            if((temp>source&&temp<=dest)||(temp<source&&temp>=dest)){
+                let mod:number = temp + (source<temp?-1:1)
+                setTemp(mod)
+                setEditing(mod)
+                if(source-dest===-1||source-dest===1){
+                    return;
+                }
             }
+            else if(source===temp){
+                setTemp(dest)
+                setEditing(dest)
+                return;
+            }
+            if(source > temp){
+                source--;
+            }
+            if(dest >= temp){
+                dest--;
+            }
+        } else  if(source===editing){
+            setEditing(dest)
         }
+        dispatch(updatePositionRequest(
+            classId,
+            source,
+            dest
+        ))
     }
 
-    useEffect(()=>{
-        if(editing!==temp){
+    const onEdit= (value: number)=>{
+        if(temp==null){
+            setEditing(value)
+        } else {
             setTemp(null)
+            if(temp >= value){
+                setEditing(value)
+            } else {
+                setEditing(value-1)
+            }
         }
-    },[editing])
-
-    const onEdit=(value: number)=>{
-        setEditing(value)
     }
 
     const onAdd=()=>{
@@ -53,7 +76,8 @@ const useAssignmentDnD = ()=>{
     }
 
     const getLocal = ()=>{
-        if(temp){
+        if(temp!==null){
+            console.log(temp)
             return [
                 ...assignments.slice(0, temp),
                 {
