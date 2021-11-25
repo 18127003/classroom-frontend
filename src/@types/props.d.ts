@@ -100,7 +100,8 @@ interface EditAssignmentCardProps{
     assignment?:Assignment,
     index: number,
     onAdd: (index:number)=>void,
-    onPostModify:()=>void
+    onPostModify:()=>void,
+    dragging: boolean
 }
 
 interface EditorProps {

@@ -32,6 +32,7 @@ const GradeStructure: React.FC = () => {
                                                 index={local.length}
                                                 onAdd={onCreateTemp}
                                                 onPostModify={onPostModify}
+                                                dragging={snapshot.isDragging}
                                             />
                                         </div>
                                     )}
@@ -51,6 +52,7 @@ const GradeStructure: React.FC = () => {
                                                     index={index}
                                                     onAdd={onCreateTemp}
                                                     onPostModify={onPostModify}
+                                                    dragging={snapshot.isDragging}
                                                 />
                                             )
                                                 : (

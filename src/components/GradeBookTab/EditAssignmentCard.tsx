@@ -12,7 +12,7 @@ import { Assignment } from '@/@types/model';
 import { LoadingButton } from '@mui/lab';
 import Editor from '../Editor';
 
-const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, index, onAdd, onPostModify }) => {
+const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, index, onAdd, onPostModify, dragging }) => {
   const dispatch = useDispatch()
   const [description, setDescription] = useState('')
   const classId = useSelector((state: AppState) => state.detail.detail.id)
@@ -93,22 +93,26 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
                 defaultValue={assignment && assignment.points}
               />
             </Stack>
-            <Editor content={description} onChange={setDescription}/>
-            <Stack direction="row" sx={{ justifyContent: "flex-start" }} spacing={1} mb={1} mt={2}>
-              <TextField
-                InputLabelProps={{ shrink: true }}
-                label="Deadline"
-                variant="outlined"
-                type="datetime-local"
-                name="deadline"
-                defaultValue={assignment && (assignment.deadline??'')}
-              />
-                <Box sx={{flexGrow:1}}/>  
-                <IconButton><ContentCopy /></IconButton>
-                <Divider orientation="vertical" flexItem />
-                <FormControlLabel control={<Switch defaultChecked={false} />} label="Required" labelPlacement="start" />
-            
-            </Stack>
+            {!dragging && (
+              <>
+                <Editor content={description} onChange={setDescription}/>
+                <Stack direction="row" sx={{ justifyContent: "flex-start" }} spacing={1} mb={1} mt={2}>
+                  <TextField
+                    InputLabelProps={{ shrink: true }}
+                    label="Deadline"
+                    variant="outlined"
+                    type="datetime-local"
+                    name="deadline"
+                    defaultValue={assignment && (assignment.deadline??'')}
+                  />
+                    <Box sx={{flexGrow:1}}/>  
+                    <IconButton><ContentCopy /></IconButton>
+                    <Divider orientation="vertical" flexItem />
+                    <FormControlLabel control={<Switch defaultChecked={false} />} label="Required" labelPlacement="start" />
+                
+                </Stack>
+              </>
+            )}
             <Divider />
           </CardContent>
           <CardActions sx={{ justifyContent: "flex-end", }}>
