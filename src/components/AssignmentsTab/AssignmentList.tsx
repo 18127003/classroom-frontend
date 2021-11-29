@@ -3,7 +3,7 @@ import { AppState } from "@/reducers";
 import { Stack } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
-import AssignmentCard from "../GradeBookTab/AssignmentCard";
+import AssignmentCard from "../GradeStructureTab/AssignmentCard";
 
 const AssignmentList = ()=>{
     const {assignments}=useAssignments()

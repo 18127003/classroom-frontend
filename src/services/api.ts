@@ -1,9 +1,9 @@
-import { Account, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom } from '@/@types/model';
+import { Account, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, Submission } from '@/@types/model';
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'https://classroom-spring.herokuapp.com/api',
-    // baseURL:'http://localhost:8080/api',
+    // baseURL: 'https://classroom-spring.herokuapp.com/api',
+    baseURL:'http://localhost:8080/api',
     withCredentials: true
 });
 
@@ -136,6 +136,24 @@ const updateAssignmentPosition = (id:number, update: number[])=>instance({
     'data': update
 })
 
+const getStudentInfos = (id:number)=>instance({
+    'method':'GET',
+    'url':`/classroom/${id}/assignment/studentInfo/all`,
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
+const importStudentInfos = (id:number)=>instance({
+    'method':'POST',
+    'url':`/classroom/${id}/assignment/studentInfo/import`,
+})
+
+const addSubmission = (id:number, assignmentId:number, submission: Submission)=>instance({
+    'method':'POST',
+    'url':`/classroom/${id}/assignment/${assignmentId}/submission/add`,
+    'data':submission,
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
 export const api = {
     getData,
     createClassroom,
@@ -156,5 +174,8 @@ export const api = {
     addAssignment,
     updateAssignmentPosition,
     removeAssignment,
-    updateAssignment
+    updateAssignment,
+    getStudentInfos,
+    importStudentInfos,
+    addSubmission
 }

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const usePointsSum = ()=>{
-    const assignments = useSelector((state:AppState)=>state.detail.assignments.data)
+    const assignments = useSelector((state:AppState)=>state.assignment.assignments.data)
     const [total, setTotal] = useState(0)
 
     useEffect(()=>{

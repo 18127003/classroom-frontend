@@ -5,12 +5,12 @@ import CardContent from '@mui/material/CardContent';
 import { Divider, FormControlLabel, IconButton, Stack, Switch, TextField, Box } from '@mui/material';
 import { Add, ContentCopy, Image, TitleOutlined, YouTube } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
-import { addAssignmentRequest, removeAssignmentRequest, updateAssignmentRequest } from '@/actions/detail';
 import { AppState } from '@/reducers';
 import { EditAssignmentCardProps } from '@/@types/props';
 import { Assignment } from '@/@types/model';
 import { LoadingButton } from '@mui/lab';
 import Editor from '../Editor';
+import { addAssignmentRequest, updateAssignmentRequest, removeAssignmentRequest } from '@/actions/assignment';
 
 const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, index, onAdd, onPostModify, dragging }) => {
   const dispatch = useDispatch()
@@ -93,8 +93,8 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
                 defaultValue={assignment && assignment.points}
               />
             </Stack>
-            {!dragging && (
-              <>
+            {/* {!dragging && ( */}
+              <Box display={dragging?'none':null}>
                 <Editor content={description} onChange={setDescription}/>
                 <Stack direction="row" sx={{ justifyContent: "flex-start" }} spacing={1} mb={1} mt={2}>
                   <TextField
@@ -111,11 +111,11 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
                     <FormControlLabel control={<Switch defaultChecked={false} />} label="Required" labelPlacement="start" />
                 
                 </Stack>
-              </>
-            )}
+              </Box>
+            {/* )} */}
             <Divider />
           </CardContent>
-          <CardActions sx={{ justifyContent: "flex-end", }}>
+          <CardActions sx={{ justifyContent: "flex-end", display:dragging?'none':null}} >
             {assignment&&assignment.id&&(
               <LoadingButton variant="outlined" onClick={handleDelete} sx={{m:2}} disabled={loading} loading={loading}>
                 Delete  
@@ -127,7 +127,7 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
           </CardActions>
         </Box>
       </Card>
-      <Card>
+      <Card sx={{ display:dragging?'none':null}}>
         <Stack>
           <IconButton onClick={handleAdd}><Add/></IconButton>
           <IconButton ><TitleOutlined/></IconButton>

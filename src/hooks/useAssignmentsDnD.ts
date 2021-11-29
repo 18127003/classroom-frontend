@@ -1,5 +1,5 @@
-import { updatePositionRequest } from "@/actions/detail"
-import { useEffect, useState } from "react"
+import { updatePositionRequest } from "@/actions/assignment"
+import { useState } from "react"
 import { useDispatch } from "react-redux"
 import useAssignments from "./useAssignments"
 
@@ -38,8 +38,6 @@ const useAssignmentDnD = ()=>{
             if(dest >= temp && dest>0){
                 dest--;
             }
-            
-            console.log('a'+source+dest)
         } else if(source===editing){
             setEditing(dest)
         } else {
@@ -66,11 +64,6 @@ const useAssignmentDnD = ()=>{
         }
     }
 
-    // const onAdd=()=>{
-    //     onCreateTemp(editing+1)
-    //     setEditing(editing+1)
-    // }
-
     const onPostModify=()=>{
         setTemp(null)
         setEditing(null)
@@ -83,7 +76,6 @@ const useAssignmentDnD = ()=>{
 
     const getLocal = ()=>{
         if(temp!==null){
-            console.log(temp)
             return [
                 ...assignments.slice(0, temp),
                 {

@@ -1,23 +1,13 @@
-import { AddAssignmentFail, AddAssignmentFailPayload, AddAssignmentRequest, AddAssignmentSuccess, AddAssignmentSuccessPayload, GetAssignmentsFail, GetAssignmentsFailPayload, GetAssignmentsRequest, GetAssignmentsSuccess, GetAssignmentsSuccessPayload, GetDetailFail, GetDetailFailPayload, GetDetailRequest, GetDetailSuccess, GetDetailSuccessPayload, 
+import {  GetDetailFail, GetDetailFailPayload, GetDetailRequest, GetDetailSuccess, GetDetailSuccessPayload, 
     GetParticipantsFail, GetParticipantsFailPayload, GetParticipantsRequest, GetParticipantsSuccess, 
-    GetParticipantsSuccessPayload, HideParticipantsFail, HideParticipantsFailPayload, HideParticipantsRequest, HideParticipantsSuccess, ReloadAssignmentsRequest, ReloadParticipantsRequest, RemoveAssignmentFail, RemoveAssignmentFailPayload, RemoveAssignmentRequest, RemoveAssignmentSuccess, RemoveAssignmentSuccessPayload, RemoveParticipantsFail, RemoveParticipantsFailPayload, 
+    GetParticipantsSuccessPayload, HideParticipantsFail, HideParticipantsFailPayload, HideParticipantsRequest, 
+    HideParticipantsSuccess, ReloadParticipantsRequest, RemoveParticipantsFail, RemoveParticipantsFailPayload, 
     RemoveParticipantsRequest, RemoveParticipantsSuccess,
-     SendInvitationRequest, 
-     UpdateAssignmentFail, 
-     UpdateAssignmentFailPayload, 
-     UpdateAssignmentRequest, 
-     UpdateAssignmentSuccess, 
-     UpdateAssignmentSuccessPayload, 
-     UpdatePositionFail, 
-     UpdatePositionFailPayload, 
-     UpdatePositionRequest,
-     UpdatePositionSuccess,
-     UpdatePositionSuccessPayload} from "@/@types/detail.action";
-import { AssignedClassroom, Assignment, InvitationRequestInfo, ModifyParticipantsInfo } from "@/@types/model";
+     SendInvitationRequest} from "@/@types/detail.action";
+import { AssignedClassroom, InvitationRequestInfo, ModifyParticipantsInfo } from "@/@types/model";
 import { detailAction } from "@/constants/actions";
-import { AppState } from "@/reducers";
 import { classroomService } from "@/services";
-import { all, call, put, select, takeEvery, takeLatest } from "@redux-saga/core/effects";
+import { all, call, put, takeLatest } from "@redux-saga/core/effects";
 
 export const getParticipantsRequest = (classId: number): GetParticipantsRequest => ({
     type: detailAction.GET_PARTICIPANT_REQUEST,
@@ -152,177 +142,177 @@ function* hideParticipantsSaga(action: HideParticipantsRequest) {
     }
 }
 
-export const getAssignmentsRequest = (classId: number): GetAssignmentsRequest => ({
-    type: detailAction.GET_ASSIGNMENTS_REQUEST,
-    payload: classId
-});
+// export const getAssignmentsRequest = (classId: number): GetAssignmentsRequest => ({
+//     type: detailAction.GET_ASSIGNMENTS_REQUEST,
+//     payload: classId
+// });
 
-export const getAssignmentsSuccess = (payload: GetAssignmentsSuccessPayload):GetAssignmentsSuccess =>({
-    type: detailAction.GET_ASSIGNMENTS_SUCCESS,
-    payload: payload
-});
+// export const getAssignmentsSuccess = (payload: GetAssignmentsSuccessPayload):GetAssignmentsSuccess =>({
+//     type: detailAction.GET_ASSIGNMENTS_SUCCESS,
+//     payload: payload
+// });
 
-export const getAssignmentsFail = (payload: GetAssignmentsFailPayload):GetAssignmentsFail =>({
-    type: detailAction.GET_ASSIGNMENTS_FAIL,
-    payload: payload
-});
+// export const getAssignmentsFail = (payload: GetAssignmentsFailPayload):GetAssignmentsFail =>({
+//     type: detailAction.GET_ASSIGNMENTS_FAIL,
+//     payload: payload
+// });
 
-export const reloadAssignmentsRequest = (): ReloadAssignmentsRequest => ({
-    type: detailAction.RELOAD_ASSIGNMENTS_REQUEST
-});
+// export const reloadAssignmentsRequest = (): ReloadAssignmentsRequest => ({
+//     type: detailAction.RELOAD_ASSIGNMENTS_REQUEST
+// });
  
-function* getAssignmentsSaga(action: GetAssignmentsRequest) {
-    try {
-        const assignments = yield call(classroomService.getAssignments, action.payload);
-        yield put(getAssignmentsSuccess({
-            assignments: assignments.data
-        }))
-    } catch (e) {
-        yield put(getAssignmentsFail({
-            error: 'Get assignments failed'
-        }))
-    }
-}
+// function* getAssignmentsSaga(action: GetAssignmentsRequest) {
+//     try {
+//         const assignments = yield call(classroomService.getAssignments, action.payload);
+//         yield put(getAssignmentsSuccess({
+//             assignments: assignments.data
+//         }))
+//     } catch (e) {
+//         yield put(getAssignmentsFail({
+//             error: 'Get assignments failed'
+//         }))
+//     }
+// }
 
-export const addAssignmentRequest = (classId: number, assignment: Assignment): AddAssignmentRequest => ({
-    type: detailAction.ADD_ASSIGNMENT_REQUEST,
-    payload: {
-        id: classId,
-        assignment: assignment
-    }
-});
+// export const addAssignmentRequest = (classId: number, assignment: Assignment): AddAssignmentRequest => ({
+//     type: detailAction.ADD_ASSIGNMENT_REQUEST,
+//     payload: {
+//         id: classId,
+//         assignment: assignment
+//     }
+// });
 
-export const addAssignmentSuccess = (payload: AddAssignmentSuccessPayload):AddAssignmentSuccess =>({
-    type: detailAction.ADD_ASSIGNMENT_SUCCESS,
-    payload: payload
-});
+// export const addAssignmentSuccess = (payload: AddAssignmentSuccessPayload):AddAssignmentSuccess =>({
+//     type: detailAction.ADD_ASSIGNMENT_SUCCESS,
+//     payload: payload
+// });
 
-export const addAssignmentFail = (payload: AddAssignmentFailPayload):AddAssignmentFail =>({
-    type: detailAction.ADD_ASSIGNMENT_FAIL,
-    payload: payload
-});
+// export const addAssignmentFail = (payload: AddAssignmentFailPayload):AddAssignmentFail =>({
+//     type: detailAction.ADD_ASSIGNMENT_FAIL,
+//     payload: payload
+// });
 
-function* addAssignmentSaga(action: AddAssignmentRequest) {
-    try {
-        const assignment = yield call(classroomService.addAssignment, action.payload.id, action.payload.assignment);
-        yield put(addAssignmentSuccess({
-            assignment: assignment.data,
-            index: action.payload.assignment.position
-        }))
-        yield put(updatePositionRequest(action.payload.id))
+// function* addAssignmentSaga(action: AddAssignmentRequest) {
+//     try {
+//         const assignment = yield call(classroomService.addAssignment, action.payload.id, action.payload.assignment);
+//         yield put(addAssignmentSuccess({
+//             assignment: assignment.data,
+//             index: action.payload.assignment.position
+//         }))
+//         yield put(updatePositionRequest(action.payload.id))
 
-    } catch (e) {
-        yield put(addAssignmentFail({
-            error: 'Add assignment failed'
-        }))
-    }
-}
+//     } catch (e) {
+//         yield put(addAssignmentFail({
+//             error: 'Add assignment failed'
+//         }))
+//     }
+// }
 
-export const updatePositionRequest = (classId:number, start?:number, end?:number): UpdatePositionRequest => ({
-    type: detailAction.UPDATE_POSITION_REQUEST,
-    payload: {
-        classId,
-        start,
-        end
-    }
-});
+// export const updatePositionRequest = (classId:number, start?:number, end?:number): UpdatePositionRequest => ({
+//     type: detailAction.UPDATE_POSITION_REQUEST,
+//     payload: {
+//         classId,
+//         start,
+//         end
+//     }
+// });
 
-export const updatePositionSuccess = (payload: UpdatePositionSuccessPayload):UpdatePositionSuccess =>({
-    type: detailAction.UPDATE_POSITION_SUCCESS,
-    payload: payload
-});
+// export const updatePositionSuccess = (payload: UpdatePositionSuccessPayload):UpdatePositionSuccess =>({
+//     type: detailAction.UPDATE_POSITION_SUCCESS,
+//     payload: payload
+// });
 
-export const updatePositionFail = (payload: UpdatePositionFailPayload):UpdatePositionFail =>({
-    type: detailAction.UPDATE_POSITION_FAIL,
-    payload: payload
-});
+// export const updatePositionFail = (payload: UpdatePositionFailPayload):UpdatePositionFail =>({
+//     type: detailAction.UPDATE_POSITION_FAIL,
+//     payload: payload
+// });
 
-function* updatePositionSaga(action: UpdatePositionRequest) {
+// function* updatePositionSaga(action: UpdatePositionRequest) {
     
-    const assignments: Assignment[] = yield select((state:AppState)=>state.detail.assignments.data)
-    const result = Array.from(assignments);
-    if(action.payload.start!==undefined && action.payload.end!==undefined){
-        const [removed] = result.splice(action.payload.start, 1);
-        result.splice(action.payload.end, 0, removed);
-        yield put(updatePositionSuccess({
-            assignments: result
-        }))
-    }
+//     const assignments: Assignment[] = yield select((state:AppState)=>state.detail.assignments.data)
+//     const result = Array.from(assignments);
+//     if(action.payload.start!==undefined && action.payload.end!==undefined){
+//         const [removed] = result.splice(action.payload.start, 1);
+//         result.splice(action.payload.end, 0, removed);
+//         yield put(updatePositionSuccess({
+//             assignments: result
+//         }))
+//     }
     
-    try {
-        yield call(classroomService.updateAssignmentPosition, action.payload.classId, result)
-    } catch (e){
-        yield put (updatePositionFail({
-            error: 'Update assignment position failed'
-        }))
-    }
-}
+//     try {
+//         yield call(classroomService.updateAssignmentPosition, action.payload.classId, result)
+//     } catch (e){
+//         yield put (updatePositionFail({
+//             error: 'Update assignment position failed'
+//         }))
+//     }
+// }
 
-export const removeAssignmentRequest = (classId: number, id: number): RemoveAssignmentRequest => ({
-    type: detailAction.REMOVE_ASSIGNMENT_REQUEST,
-    payload: {
-        classId: classId,
-        id: id
-    }
-});
+// export const removeAssignmentRequest = (classId: number, id: number): RemoveAssignmentRequest => ({
+//     type: detailAction.REMOVE_ASSIGNMENT_REQUEST,
+//     payload: {
+//         classId: classId,
+//         id: id
+//     }
+// });
 
-export const removeAssignmentSuccess = (payload: RemoveAssignmentSuccessPayload):RemoveAssignmentSuccess =>({
-    type: detailAction.REMOVE_ASSIGNMENT_SUCCESS,
-    payload: payload
-});
+// export const removeAssignmentSuccess = (payload: RemoveAssignmentSuccessPayload):RemoveAssignmentSuccess =>({
+//     type: detailAction.REMOVE_ASSIGNMENT_SUCCESS,
+//     payload: payload
+// });
 
-export const removeAssignmentFail = (payload: RemoveAssignmentFailPayload):RemoveAssignmentFail =>({
-    type: detailAction.REMOVE_ASSIGNMENT_FAIL,
-    payload: payload
-});
+// export const removeAssignmentFail = (payload: RemoveAssignmentFailPayload):RemoveAssignmentFail =>({
+//     type: detailAction.REMOVE_ASSIGNMENT_FAIL,
+//     payload: payload
+// });
 
-function* removeAssignmentSaga(action: RemoveAssignmentRequest) {
-    try {
-        yield call(classroomService.removeAssignment, action.payload.classId, action.payload.id);
-        yield put(removeAssignmentSuccess({
-            id: action.payload.id
-        }))
-        yield put(updatePositionRequest(action.payload.classId))
+// function* removeAssignmentSaga(action: RemoveAssignmentRequest) {
+//     try {
+//         yield call(classroomService.removeAssignment, action.payload.classId, action.payload.id);
+//         yield put(removeAssignmentSuccess({
+//             id: action.payload.id
+//         }))
+//         yield put(updatePositionRequest(action.payload.classId))
 
-    } catch (e) {
-        yield put(removeAssignmentFail({
-            error: 'Remove assignment failed'
-        }))
-    }
-}
+//     } catch (e) {
+//         yield put(removeAssignmentFail({
+//             error: 'Remove assignment failed'
+//         }))
+//     }
+// }
 
-export const updateAssignmentRequest = (classId: number, id: number, assignment: Assignment): UpdateAssignmentRequest => ({
-    type: detailAction.UPDATE_ASSIGNMENT_REQUEST,
-    payload: {
-        classId: classId,
-        id: id,
-        assignment: assignment
-    }
-});
+// export const updateAssignmentRequest = (classId: number, id: number, assignment: Assignment): UpdateAssignmentRequest => ({
+//     type: detailAction.UPDATE_ASSIGNMENT_REQUEST,
+//     payload: {
+//         classId: classId,
+//         id: id,
+//         assignment: assignment
+//     }
+// });
 
-export const updateAssignmentSuccess = (payload: UpdateAssignmentSuccessPayload):UpdateAssignmentSuccess =>({
-    type: detailAction.UPDATE_ASSIGNMENT_SUCCESS,
-    payload: payload
-});
+// export const updateAssignmentSuccess = (payload: UpdateAssignmentSuccessPayload):UpdateAssignmentSuccess =>({
+//     type: detailAction.UPDATE_ASSIGNMENT_SUCCESS,
+//     payload: payload
+// });
 
-export const updateAssignmentFail = (payload: UpdateAssignmentFailPayload):UpdateAssignmentFail =>({
-    type: detailAction.UPDATE_ASSIGNMENT_FAIL,
-    payload: payload
-});
+// export const updateAssignmentFail = (payload: UpdateAssignmentFailPayload):UpdateAssignmentFail =>({
+//     type: detailAction.UPDATE_ASSIGNMENT_FAIL,
+//     payload: payload
+// });
 
-function* updateAssignmentSaga(action: UpdateAssignmentRequest) {
-    try {
-        var assignment = yield call(classroomService.updateAssignment, action.payload.classId, action.payload.id, action.payload.assignment);
-        yield put(updateAssignmentSuccess({
-            assignment: assignment.data
-        }))
+// function* updateAssignmentSaga(action: UpdateAssignmentRequest) {
+//     try {
+//         var assignment = yield call(classroomService.updateAssignment, action.payload.classId, action.payload.id, action.payload.assignment);
+//         yield put(updateAssignmentSuccess({
+//             assignment: assignment.data
+//         }))
 
-    } catch (e) {
-        yield put(updateAssignmentFail({
-            error: 'Update assignment failed'
-        }))
-    }
-}
+//     } catch (e) {
+//         yield put(updateAssignmentFail({
+//             error: 'Update assignment failed'
+//         }))
+//     }
+// }
 
 export function* detailSaga() {
     yield all([
@@ -331,11 +321,11 @@ export function* detailSaga() {
         takeLatest(detailAction.SEND_INVITATION_REQUEST, sendInvitationSaga),
         takeLatest(detailAction.REMOVE_PARTICIPANT_REQUEST, removeParticipantsSaga),
         takeLatest(detailAction.HIDE_PARTICIPANT_REQUEST, hideParticipantsSaga),
-        takeLatest(detailAction.GET_ASSIGNMENTS_REQUEST, getAssignmentsSaga),
-        takeEvery(detailAction.ADD_ASSIGNMENT_REQUEST, addAssignmentSaga),
-        takeLatest(detailAction.UPDATE_POSITION_REQUEST, updatePositionSaga),
-        takeEvery(detailAction.REMOVE_ASSIGNMENT_REQUEST, removeAssignmentSaga),
-        takeEvery(detailAction.UPDATE_ASSIGNMENT_REQUEST, updateAssignmentSaga)
+        // takeLatest(detailAction.GET_ASSIGNMENTS_REQUEST, getAssignmentsSaga),
+        // takeEvery(detailAction.ADD_ASSIGNMENT_REQUEST, addAssignmentSaga),
+        // takeLatest(detailAction.UPDATE_POSITION_REQUEST, updatePositionSaga),
+        // takeEvery(detailAction.REMOVE_ASSIGNMENT_REQUEST, removeAssignmentSaga),
+        // takeEvery(detailAction.UPDATE_ASSIGNMENT_REQUEST, updateAssignmentSaga)
     ]);
 }
 

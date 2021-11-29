@@ -1,12 +1,12 @@
-import { getAssignmentsRequest } from "@/actions/detail";
+import { getAssignmentsRequest } from "@/actions/assignment";
 import { AppState } from "@/reducers";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const useAssignments = ()=>{
-    const assignments = useSelector((state: AppState)=>state.detail.assignments.data)
+    const assignments = useSelector((state: AppState)=>state.assignment.assignments.data)
     const classId = useSelector((state:AppState)=>state.detail.detail.id)
-    const reload = useSelector((state:AppState)=>state.detail.assignments.reload)
+    const reload = useSelector((state:AppState)=>state.assignment.assignments.reload)
     const dispatch = useDispatch()
 
     useEffect(()=>{

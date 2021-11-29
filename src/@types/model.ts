@@ -66,3 +66,18 @@ export interface ChangePasswordRequestInfo{
 export interface GetClassroomsCriteria {
     reload: boolean
 }
+
+export interface Submission {
+    id?:number,
+    assignmentId: number,
+    studentId: string,
+    classroomId: number,
+    grade:number
+}
+
+export interface StudentInfo {
+    studentId: string,
+    name: string,
+    classroomId: number,
+    submissions: Submission[]
+}

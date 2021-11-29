@@ -4,6 +4,7 @@ import ClassNotFound from "@/components/ClassNotFound";
 import DetailClassTab from "@/components/DetailClassTab";
 import InvitationRespondDialog from "@/components/Dialog/InvitationRespondDialog";
 import GradeBookTab from "@/components/GradeBookTab";
+import GradeStructureTab from "@/components/GradeStructureTab";
 import ParticipantTab from "@/components/ParticipantTab";
 import useClassroomWrapper from "@/hooks/useClassroomWrapper";
 import { AppState } from "@/reducers";
@@ -31,44 +32,45 @@ const ClassroomPage: React.FC = ()=>{
     }
 
     return (
-        <>
-            <TabContext value={tabValue}>
-                <BasicAppBar>
-                    <TabList 
-                        onChange={handleChange} 
-                        aria-label="classroom-tabs" 
-                        sx={{flexGrow:20, display:{md:'block',sm:'none', xs:'none'} , alignSelf:'flex-end'}} 
-                        centered
-                    >
-                        <Tab label="News" value="1"/>
-                        {classroom && classroom.role==="STUDENT" && (<Tab label="Assignments" value="2"/>)}
-                        <Tab label="Participants" value="3"/>
-                        {classroom && classroom.role==="TEACHER" && (<Tab label="Grade Book" value="4"/>)}
-                    </TabList>
-                    
-                </BasicAppBar>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider', display:{md:'none',sm:'block', xs:'block'} }}>
-                    <TabList 
-                        onChange={handleChange} 
-                        aria-label="classroom-tabs" 
-                        sx={{flexGrow:1}} 
-                        centered
-                    >
-                        <Tab label="News" value="1"/>
-                        {classroom && classroom.role==="STUDENT" && (<Tab label="Assignments" value="2"/>)}
-                        <Tab label="Participants" value="3"/>
-                        {classroom && classroom.role==="TEACHER" && (<Tab label="Grade Book" value="4"/>)}
-                    </TabList>
-                </Box>
+        <TabContext value={tabValue}>
+            <BasicAppBar>
+                <TabList 
+                    onChange={handleChange} 
+                    aria-label="classroom-tabs" 
+                    sx={{flexGrow:20, display:{md:'block',sm:'none', xs:'none'} , alignSelf:'flex-end'}} 
+                    centered
+                >
+                    <Tab label="News" value="1"/>
+                    <Tab label="Assignments" value="2"/>
+                    <Tab label="Participants" value="3"/>
+                    {classroom && classroom.role==="TEACHER" && (<Tab label="Grade Book" value="4"/>)}
+                </TabList>
                 
-                <LinearProgress sx={loading?{}:{display: 'none'}}/>
-                <TabPanel value="1">{classroom && <DetailClassTab detailClass={classroom}/>}</TabPanel>
-                {classroom && classroom.role==="STUDENT" && (<TabPanel value="2"><AssignmentsTab/></TabPanel>)}
-                <TabPanel value="3"><ParticipantTab/></TabPanel>
-                {classroom && classroom.role==="TEACHER" && (<TabPanel value="4"><GradeBookTab/></TabPanel>)}
-            </TabContext>
-        </>
-        
+            </BasicAppBar>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', display:{md:'none',sm:'block', xs:'block'} }}>
+                <TabList 
+                    onChange={handleChange} 
+                    aria-label="classroom-tabs" 
+                    sx={{flexGrow:1}} 
+                    centered
+                >
+                    <Tab label="News" value="1"/>
+                    <Tab label="Assignments" value="2"/>
+                    <Tab label="Participants" value="3"/>
+                    {classroom && classroom.role==="TEACHER" && (<Tab label="Grade Book" value="4"/>)}
+                </TabList>
+            </Box>
+            
+            <LinearProgress sx={loading?{}:{display: 'none'}}/>
+            <TabPanel value="1">{classroom && <DetailClassTab detailClass={classroom}/>}</TabPanel>
+            <TabPanel value="2">
+                {
+                    classroom && classroom.role==="STUDENT"?<AssignmentsTab/>:<GradeStructureTab/>
+                }
+            </TabPanel>
+            <TabPanel value="3"><ParticipantTab/></TabPanel>
+            {classroom && classroom.role==="TEACHER" && (<TabPanel value="4"><GradeBookTab/></TabPanel>)}
+        </TabContext>
     )
 }
 
