@@ -135,8 +135,17 @@ const importStudentInfos = async (id:number, file: File)=>{
 }
 
 const updateStudentId = async (id:number, studentId: string)=>{
-    console.log(studentId)
     await api.updateStudentId(id, studentId)
+}
+
+const exportTemplate = async (id:number)=>{
+    var res = await api.exportTemplate(id)
+    const downloadUrl = window.URL.createObjectURL(new Blob([res.data]));
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.setAttribute('download', 'template.xlsx');
+    link.click();
+    link.remove();
 }
 
 export const authService = {
@@ -172,7 +181,8 @@ export const assignmentService = {
     removeAssignment,
     updateAssignment,
     getStudentInfos,
-    importStudentInfos
+    importStudentInfos,
+    exportTemplate
 }
 
 export const commonService = {

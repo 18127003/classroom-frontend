@@ -3,7 +3,7 @@ import { GetAssignmentsRequest, GetAssignmentsSuccessPayload, GetAssignmentsSucc
     AddAssignmentFail, UpdatePositionRequest, UpdatePositionSuccessPayload, UpdatePositionSuccess, UpdatePositionFailPayload, 
     UpdatePositionFail, RemoveAssignmentRequest, RemoveAssignmentSuccessPayload, RemoveAssignmentSuccess, RemoveAssignmentFailPayload, 
     RemoveAssignmentFail, UpdateAssignmentRequest, UpdateAssignmentSuccessPayload, UpdateAssignmentSuccess,
-    UpdateAssignmentFailPayload, UpdateAssignmentFail, GetStudentInfosRequest, GetStudentInfosSuccessPayload, GetStudentInfosSuccess, GetStudentInfosFailPayload, GetStudentInfosFail, ImportStudentInfosRequest, ImportStudentInfosSuccess, ImportStudentInfosFailPayload, ImportStudentInfosFail } from "@/@types/assignment.action";
+    UpdateAssignmentFailPayload, UpdateAssignmentFail, GetStudentInfosRequest, GetStudentInfosSuccessPayload, GetStudentInfosSuccess, GetStudentInfosFailPayload, GetStudentInfosFail, ImportStudentInfosRequest, ImportStudentInfosSuccess, ImportStudentInfosFailPayload, ImportStudentInfosFail, ExportTemplateRequest } from "@/@types/assignment.action";
 import { Assignment } from "@/@types/model";
 import { assignmentAction, detailAction } from "@/constants/actions";
 import { AppState } from "@/reducers";
@@ -238,6 +238,19 @@ function* importStudentInfosSaga(action: ImportStudentInfosRequest) {
     }
 }
 
+export const exportTemplateRequest = (classId: number): ExportTemplateRequest => ({
+    type: assignmentAction.EXPORT_TEMPLATE_REQUEST,
+    payload: classId
+});
+
+function* exportTemplateSaga(action: ExportTemplateRequest) {
+    try {
+        yield call(assignmentService.exportTemplate, action.payload);
+    } catch (e) {
+        // just do nothing
+    }
+}
+
 export function* assignmentSaga() {
     yield all([
         takeLatest(assignmentAction.GET_ASSIGNMENTS_REQUEST, getAssignmentsSaga),
@@ -246,7 +259,8 @@ export function* assignmentSaga() {
         takeEvery(assignmentAction.REMOVE_ASSIGNMENT_REQUEST, removeAssignmentSaga),
         takeEvery(assignmentAction.UPDATE_ASSIGNMENT_REQUEST, updateAssignmentSaga),
         takeLatest(assignmentAction.GET_STUDENT_INFO_REQUEST, getStudentInfosSaga),
-        takeLatest(assignmentAction.IMPORT_STUDENT_INFO_REQUEST, importStudentInfosSaga)
+        takeLatest(assignmentAction.IMPORT_STUDENT_INFO_REQUEST, importStudentInfosSaga),
+        takeEvery(assignmentAction.EXPORT_TEMPLATE_REQUEST, exportTemplateSaga)
     ]);
 }
 

@@ -1,4 +1,5 @@
 import AcceptTokenPage from "@/views/AcceptTokenPage";
+import AssignmentPage from "@/views/AssignmentPage";
 import ClassroomPage from "@/views/ClassroomPage";
 import HomePage from "@/views/HomePage";
 import LoginPage from "@/views/LoginPage";
@@ -25,6 +26,13 @@ const routes: AppRoute[] = [
         path: '/classroom/:id',
         name: 'Classroom Page',
         component: ClassroomPage,
+        protected: true,
+        exact: true
+    },
+    {
+        path: '/classroom/:classroomId/assignment/:id',
+        name: 'Assignment Page',
+        component: AssignmentPage,
         protected: true,
         exact: true
     },

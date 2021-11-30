@@ -192,6 +192,11 @@ export interface ImportStudentInfosFail {
     payload: ImportStudentInfosFailPayload
 }
 
+export interface ExportTemplateRequest{
+    type: typeof assignmentAction.EXPORT_TEMPLATE_REQUEST,
+    payload: number //class ID
+}
+
 export type StudentInfoAction = 
     | GetStudentInfosRequest
     | GetStudentInfosSuccess
@@ -218,3 +223,4 @@ export type AssignmentAction =
     | UpdateAssignmentSuccess
     | UpdateAssignmentFail
     | StudentInfoAction
+    | ExportTemplateRequest

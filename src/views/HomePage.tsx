@@ -11,7 +11,7 @@ import JoinClassDialog from "@/components/Dialog/JoinClassDialog"
 import { Redirect } from "react-router"
 import { CreateClassDialog } from "@/components/Dialog/CreateClassDialog"
 
-const HomePage = ()=>{
+const HomePage: React.FC = ()=>{
     const loading = useSelector((state: AppState)=>state.classrooms.loading);
     const redirect = useSelector((state: AppState)=>state.detail.redirect);
     

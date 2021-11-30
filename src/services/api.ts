@@ -160,6 +160,12 @@ const updateStudentId = (id:number, studentId: string)=>instance({
     'url':`/classroom/${id}/participant/studentId/update?v=${studentId}`
 })
 
+const exportTemplate = (id:number)=>instance({
+    'method':'GET',
+    'url':`/classroom/${id}/assignment/template/export`,
+    'responseType':'blob'
+})
+
 export const api = {
     getData,
     createClassroom,
@@ -184,5 +190,6 @@ export const api = {
     getStudentInfos,
     importStudentInfos,
     addSubmission,
-    updateStudentId
+    updateStudentId,
+    exportTemplate
 }
