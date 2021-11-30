@@ -16,7 +16,7 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
   const dispatch = useDispatch()
   const [description, setDescription] = useState('')
   const classId = useSelector((state: AppState) => state.detail.detail.id)
-  const loading = useSelector((state:AppState)=>state.detail.loading)
+  const loading = useSelector((state:AppState)=>state.assignment.loading)
 
   useEffect(()=>{
     if(assignment){

@@ -31,7 +31,7 @@ const GradeBookTab = ()=>{
             </label>
             <ul>
                 {studentInfos.map(info=>(
-                    <li key={info.studentId}>{`${info.name}-${info.studentId}`}</li>
+                    <li key={info.studentId}>{`${info.name}-${info.studentId}-${info.accountMail??''}`}</li>
                 ))}
             </ul>
         </>

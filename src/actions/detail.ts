@@ -13,6 +13,7 @@ import { AssignedClassroom, InvitationRequestInfo, ModifyParticipantsInfo } from
 import { detailAction } from "@/constants/actions";
 import { classroomService } from "@/services";
 import { all, call, put, takeLatest } from "@redux-saga/core/effects";
+import { reloadAssignmentsRequest } from "./assignment";
 import { reloadClassroomRequest } from "./classrooms";
 
 export const getParticipantsRequest = (classId: number): GetParticipantsRequest => ({
@@ -77,6 +78,7 @@ function* getDetailSaga(action: GetDetailRequest) {
         yield put(getDetailSuccess({
             detail: detail
         }))
+        yield put(reloadAssignmentsRequest())
         
     } else {
         yield put(getDetailFail({

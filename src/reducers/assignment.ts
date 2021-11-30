@@ -49,7 +49,7 @@ export const assignmentReducer = (state: AssignmentState = initState, action: As
             return {
                 ...state,
                 assignments: {
-                    data: state.assignments.data,
+                    data: [],
                     reload: true
                 }
             }

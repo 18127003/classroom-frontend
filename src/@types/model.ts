@@ -79,5 +79,6 @@ export interface Submission {
 export interface StudentInfo {
     studentId: string,
     name: string,
+    accountMail?: string,
     submissions: Submission[]
 }
