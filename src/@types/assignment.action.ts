@@ -148,6 +148,58 @@ export interface UpdateAssignmentFail {
     payload: UpdateAssignmentFailPayload
 }
 
+export interface GetStudentInfosSuccessPayload {
+    studentInfos: StudentInfo[];
+}
+
+export interface GetStudentInfosFailPayload{
+    error: string
+}
+
+export interface GetStudentInfosRequest{
+    type: typeof assignmentAction.GET_STUDENT_INFO_REQUEST,
+    payload: number //class ID
+}
+
+export interface GetStudentInfosSuccess {
+    type: typeof assignmentAction.GET_STUDENT_INFO_SUCCESS
+    payload: GetStudentInfosSuccessPayload
+}
+
+export interface GetStudentInfosFail {
+    type: typeof assignmentAction.GET_STUDENT_INFO_FAIL
+    payload: GetStudentInfosFailPayload
+}
+
+export interface ImportStudentInfosFailPayload{
+    error: string
+}
+
+export interface ImportStudentInfosRequest{
+    type: typeof assignmentAction.IMPORT_STUDENT_INFO_REQUEST,
+    payload: {
+        classId: number,
+        file: File
+    }
+}
+
+export interface ImportStudentInfosSuccess {
+    type: typeof assignmentAction.IMPORT_STUDENT_INFO_SUCCESS
+}
+
+export interface ImportStudentInfosFail {
+    type: typeof assignmentAction.IMPORT_STUDENT_INFO_FAIL
+    payload: ImportStudentInfosFailPayload
+}
+
+export type StudentInfoAction = 
+    | GetStudentInfosRequest
+    | GetStudentInfosSuccess
+    | GetStudentInfosFail
+    | ImportStudentInfosRequest
+    | ImportStudentInfosSuccess
+    | ImportStudentInfosFail
+
 export type AssignmentAction = 
     | GetAssignmentsRequest
     | GetAssignmentsSuccess
@@ -165,3 +217,4 @@ export type AssignmentAction =
     | UpdateAssignmentRequest
     | UpdateAssignmentSuccess
     | UpdateAssignmentFail
+    | StudentInfoAction

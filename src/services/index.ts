@@ -124,6 +124,16 @@ const updateAssignmentPosition = async (id:number, update:Assignment[])=>{
     await api.updateAssignmentPosition(id, update.map(assignment=>assignment.id))
 }
 
+const getStudentInfos = async (id: number)=>{
+    return await api.getStudentInfos(id)
+}
+
+const importStudentInfos = async (id:number, file: File)=>{
+    const formData = new FormData()
+    formData.append('file', file)
+    await api.importStudentInfos(id, formData)
+}
+
 export const authService = {
     login,
     logout,
@@ -146,12 +156,17 @@ export const classroomService = {
     getClassroomDetail,
     sendInvitationMail,
     removeParticipants,
-    hideParticipants,
+    hideParticipants
+}
+
+export const assignmentService = {
     getAssignments,
     addAssignment,
     updateAssignmentPosition,
     removeAssignment,
-    updateAssignment
+    updateAssignment,
+    getStudentInfos,
+    importStudentInfos
 }
 
 export const commonService = {

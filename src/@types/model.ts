@@ -78,6 +78,5 @@ export interface Submission {
 export interface StudentInfo {
     studentId: string,
     name: string,
-    classroomId: number,
     submissions: Submission[]
 }

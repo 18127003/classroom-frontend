@@ -1,4 +1,6 @@
 import { AddAssignmentFail, AddAssignmentSuccess, AssignmentAction, AssignmentState, GetAssignmentsFail, GetAssignmentsSuccess, 
+    GetStudentInfosSuccess, 
+    ImportStudentInfosFail, 
     RemoveAssignmentFail, RemoveAssignmentSuccess, UpdateAssignmentFail, UpdateAssignmentSuccess, UpdatePositionFail, 
     UpdatePositionSuccess } from "@/@types/assignment.action";
 import { assignmentAction, authActions } from "@/constants/actions";
@@ -132,6 +134,56 @@ export const assignmentReducer = (state: AssignmentState = initState, action: As
                 loading:false,
                 error: (action as UpdateAssignmentFail).payload.error
             }
+        case assignmentAction.GET_STUDENT_INFO_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case assignmentAction.GET_STUDENT_INFO_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                studentInfos: {
+                    data: (action as GetStudentInfosSuccess).payload.studentInfos,
+                    reload: false
+                },
+                error:null
+            };
+        case assignmentAction.GET_STUDENT_INFO_FAIL:
+            return {
+                ...state,
+                loading: false,
+                studentInfos: {
+                    data: [],
+                    reload: true
+                },
+                error: (action as GetAssignmentsFail).payload.error
+            };
+        case assignmentAction.IMPORT_STUDENT_INFO_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case assignmentAction.IMPORT_STUDENT_INFO_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                studentInfos: {
+                    data: state.studentInfos.data,
+                    reload: true
+                },
+                error:null
+            };
+        case assignmentAction.IMPORT_STUDENT_INFO_FAIL:
+            return {
+                ...state,
+                loading: false,
+                studentInfos: {
+                    data: [],
+                    reload: true
+                },
+                error: (action as ImportStudentInfosFail).payload.error
+            };
         case authActions.LOGOUT_SUCCESS:
             return initState;
         default:

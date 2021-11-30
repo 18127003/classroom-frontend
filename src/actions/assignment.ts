@@ -3,11 +3,11 @@ import { GetAssignmentsRequest, GetAssignmentsSuccessPayload, GetAssignmentsSucc
     AddAssignmentFail, UpdatePositionRequest, UpdatePositionSuccessPayload, UpdatePositionSuccess, UpdatePositionFailPayload, 
     UpdatePositionFail, RemoveAssignmentRequest, RemoveAssignmentSuccessPayload, RemoveAssignmentSuccess, RemoveAssignmentFailPayload, 
     RemoveAssignmentFail, UpdateAssignmentRequest, UpdateAssignmentSuccessPayload, UpdateAssignmentSuccess,
-    UpdateAssignmentFailPayload, UpdateAssignmentFail } from "@/@types/assignment.action";
+    UpdateAssignmentFailPayload, UpdateAssignmentFail, GetStudentInfosRequest, GetStudentInfosSuccessPayload, GetStudentInfosSuccess, GetStudentInfosFailPayload, GetStudentInfosFail, ImportStudentInfosRequest, ImportStudentInfosSuccess, ImportStudentInfosFailPayload, ImportStudentInfosFail } from "@/@types/assignment.action";
 import { Assignment } from "@/@types/model";
 import { assignmentAction, detailAction } from "@/constants/actions";
 import { AppState } from "@/reducers";
-import { classroomService } from "@/services";
+import { assignmentService, classroomService } from "@/services";
 import { put, select, all, takeLatest, takeEvery, call } from "redux-saga/effects";
 
 export const getAssignmentsRequest = (classId: number): GetAssignmentsRequest => ({
@@ -31,7 +31,7 @@ export const reloadAssignmentsRequest = (): ReloadAssignmentsRequest => ({
  
 function* getAssignmentsSaga(action: GetAssignmentsRequest) {
     try {
-        const assignments = yield call(classroomService.getAssignments, action.payload);
+        const assignments = yield call(assignmentService.getAssignments, action.payload);
         yield put(getAssignmentsSuccess({
             assignments: assignments.data
         }))
@@ -62,7 +62,7 @@ export const addAssignmentFail = (payload: AddAssignmentFailPayload):AddAssignme
 
 function* addAssignmentSaga(action: AddAssignmentRequest) {
     try {
-        const assignment = yield call(classroomService.addAssignment, action.payload.id, action.payload.assignment);
+        const assignment = yield call(assignmentService.addAssignment, action.payload.id, action.payload.assignment);
         yield put(addAssignmentSuccess({
             assignment: assignment.data,
             index: action.payload.assignment.position
@@ -108,7 +108,7 @@ function* updatePositionSaga(action: UpdatePositionRequest) {
     }
     
     try {
-        yield call(classroomService.updateAssignmentPosition, action.payload.classId, result)
+        yield call(assignmentService.updateAssignmentPosition, action.payload.classId, result)
     } catch (e){
         yield put (updatePositionFail({
             error: 'Update assignment position failed'
@@ -136,7 +136,7 @@ export const removeAssignmentFail = (payload: RemoveAssignmentFailPayload):Remov
 
 function* removeAssignmentSaga(action: RemoveAssignmentRequest) {
     try {
-        yield call(classroomService.removeAssignment, action.payload.classId, action.payload.id);
+        yield call(assignmentService.removeAssignment, action.payload.classId, action.payload.id);
         yield put(removeAssignmentSuccess({
             id: action.payload.id
         }))
@@ -170,7 +170,7 @@ export const updateAssignmentFail = (payload: UpdateAssignmentFailPayload):Updat
 
 function* updateAssignmentSaga(action: UpdateAssignmentRequest) {
     try {
-        var assignment = yield call(classroomService.updateAssignment, action.payload.classId, action.payload.id, action.payload.assignment);
+        var assignment = yield call(assignmentService.updateAssignment, action.payload.classId, action.payload.id, action.payload.assignment);
         yield put(updateAssignmentSuccess({
             assignment: assignment.data
         }))
@@ -182,13 +182,71 @@ function* updateAssignmentSaga(action: UpdateAssignmentRequest) {
     }
 }
 
+export const getStudentInfosRequest = (classId: number): GetStudentInfosRequest => ({
+    type: assignmentAction.GET_STUDENT_INFO_REQUEST,
+    payload: classId
+});
+
+export const getStudentInfosSuccess = (payload: GetStudentInfosSuccessPayload):GetStudentInfosSuccess =>({
+    type: assignmentAction.GET_STUDENT_INFO_SUCCESS,
+    payload: payload
+});
+
+export const getStudentInfosFail = (payload: GetStudentInfosFailPayload):GetStudentInfosFail =>({
+    type: assignmentAction.GET_STUDENT_INFO_FAIL,
+    payload: payload
+});
+ 
+function* getStudentInfosSaga(action: GetStudentInfosRequest) {
+    try {
+        const studentInfos = yield call(assignmentService.getStudentInfos, action.payload);
+        yield put(getStudentInfosSuccess({
+            studentInfos: studentInfos.data
+        }))
+    } catch (e) {
+        yield put(getStudentInfosFail({
+            error: 'Get student infos failed'
+        }))
+    }
+}
+
+export const importStudentInfosRequest = (classId: number, file: File): ImportStudentInfosRequest => ({
+    type: assignmentAction.IMPORT_STUDENT_INFO_REQUEST,
+    payload: {
+        classId,
+        file
+    }
+});
+
+export const importStudentInfosSuccess = ():ImportStudentInfosSuccess =>({
+    type: assignmentAction.IMPORT_STUDENT_INFO_SUCCESS
+});
+
+export const importStudentInfosFail = (payload: ImportStudentInfosFailPayload):ImportStudentInfosFail =>({
+    type: assignmentAction.IMPORT_STUDENT_INFO_FAIL,
+    payload: payload
+});
+ 
+function* importStudentInfosSaga(action: ImportStudentInfosRequest) {
+    try {
+        yield call(assignmentService.importStudentInfos, action.payload.classId, action.payload.file);
+        yield put(importStudentInfosSuccess())
+    } catch (e) {
+        yield put(importStudentInfosFail({
+            error: 'Import student infos failed'
+        }))
+    }
+}
+
 export function* assignmentSaga() {
     yield all([
         takeLatest(assignmentAction.GET_ASSIGNMENTS_REQUEST, getAssignmentsSaga),
         takeEvery(assignmentAction.ADD_ASSIGNMENT_REQUEST, addAssignmentSaga),
         takeLatest(assignmentAction.UPDATE_POSITION_REQUEST, updatePositionSaga),
         takeEvery(assignmentAction.REMOVE_ASSIGNMENT_REQUEST, removeAssignmentSaga),
-        takeEvery(assignmentAction.UPDATE_ASSIGNMENT_REQUEST, updateAssignmentSaga)
+        takeEvery(assignmentAction.UPDATE_ASSIGNMENT_REQUEST, updateAssignmentSaga),
+        takeLatest(assignmentAction.GET_STUDENT_INFO_REQUEST, getStudentInfosSaga),
+        takeLatest(assignmentAction.IMPORT_STUDENT_INFO_REQUEST, importStudentInfosSaga)
     ]);
 }
 

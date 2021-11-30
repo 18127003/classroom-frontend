@@ -9,10 +9,6 @@ const initState:ClassroomDetailState = {
         data: [],
         reload: true
     }, 
-    // assignments: {
-    //     data: [],
-    //     reload: true
-    // },
     error: null,
     detail: undefined,
     redirect: {redirect:false}
@@ -112,120 +108,6 @@ export const detailReducer = (state: ClassroomDetailState = initState, action: D
                     redirect: false
                 }
             }
-        // case detailAction.GET_ASSIGNMENTS_REQUEST:
-        //     return {
-        //         ...state,
-        //         loading: true
-        //     };
-        // case detailAction.GET_ASSIGNMENTS_SUCCESS:
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         assignments: {
-        //             data: (action as GetAssignmentsSuccess).payload.assignments,
-        //             reload: false
-        //         },
-        //         error:null
-        //     };
-        // case detailAction.GET_ASSIGNMENTS_FAIL:
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         assignments: {
-        //             data: [],
-        //             reload: true
-        //         },
-        //         error: (action as GetAssignmentsFail).payload.error
-        //     };
-        // case detailAction.RELOAD_ASSIGNMENTS_REQUEST:
-        //     return {
-        //         ...state,
-        //         assignments: {
-        //             data: state.assignments.data,
-        //             reload: true
-        //         }
-        //     }
-        // case detailAction.ADD_ASSIGNMENT_REQUEST:
-        //     return {
-        //         ...state,
-        //         loading: true
-        //     };
-        // case detailAction.ADD_ASSIGNMENT_SUCCESS:
-        //     var parsed = action as AddAssignmentSuccess
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         assignments:{
-        //             data: [
-        //                 ...state.assignments.data.slice(0, parsed.payload.index),
-        //                 parsed.payload.assignment,
-        //                 ...state.assignments.data.slice(parsed.payload.index)
-        //             ],
-        //             reload: false
-        //         },
-        //         error: null
-        //     };
-        // case detailAction.ADD_ASSIGNMENT_FAIL:
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         error: (action as AddAssignmentFail).payload.error
-        //     }
-        // case detailAction.UPDATE_POSITION_SUCCESS:
-        //     return {
-        //         ...state,
-        //         assignments: {
-        //             data: (action as UpdatePositionSuccess).payload.assignments,
-        //             reload: false
-        //         }
-        //     }
-        // case detailAction.UPDATE_POSITION_FAIL:
-        //     return {
-        //         ...state,
-        //         error: (action as UpdatePositionFail).payload.error
-        //     }
-        // case detailAction.REMOVE_ASSIGNMENT_REQUEST:
-        //     return {
-        //         ...state,
-        //         loading: true
-        //     }
-        // case detailAction.REMOVE_ASSIGNMENT_SUCCESS:
-        //     var removeId = (action as RemoveAssignmentSuccess).payload.id
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         assignments: {
-        //             data: state.assignments.data.filter(assignment=>assignment.id!==removeId),
-        //             reload: false
-        //         }
-        //     }
-        // case detailAction.REMOVE_ASSIGNMENT_FAIL:
-        //     return {
-        //         ...state,
-        //         loading:false,
-        //         error: (action as RemoveAssignmentFail).payload.error
-        //     }
-        // case detailAction.UPDATE_ASSIGNMENT_REQUEST:
-        //     return {
-        //         ...state,
-        //         loading: true
-        //     }
-        // case detailAction.UPDATE_ASSIGNMENT_SUCCESS:
-        //     var update = (action as UpdateAssignmentSuccess).payload.assignment
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         assignments: {
-        //             data: state.assignments.data.map(assignment=>assignment.id===update.id?update:assignment),
-        //             reload: false
-        //         }
-        //     }
-        // case detailAction.UPDATE_ASSIGNMENT_FAIL:
-        //     return {
-        //         ...state,
-        //         loading:false,
-        //         error: (action as UpdateAssignmentFail).payload.error
-        //     }
         case authActions.LOGOUT_SUCCESS:
             return initState;
         default:

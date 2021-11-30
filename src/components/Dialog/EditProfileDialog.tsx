@@ -16,7 +16,6 @@ export const EditProfileDialog: React.FC<EditProfileDialogProps> = ({isOpen=fals
             firstName: { value: string };
             lastName: { value: string };
             email: { value: string };
-            studentId: { value: string };
         };
 
         handleClose();
@@ -24,8 +23,7 @@ export const EditProfileDialog: React.FC<EditProfileDialogProps> = ({isOpen=fals
           id: account.id,
           firstName: target.firstName.value,
           lastName: target.lastName.value,
-          email: target.email.value,
-          studentId: target.studentId.value
+          email: target.email.value
         }));
     }
 
@@ -54,12 +52,6 @@ export const EditProfileDialog: React.FC<EditProfileDialogProps> = ({isOpen=fals
               label="Last Name"
               name="lastName"
               defaultValue={account.lastName}
-            />
-            <TextField
-              id="studentId"
-              label="Student ID"
-              name="studentId"
-              defaultValue={account.studentId}
             />
             <TextField
               id="email"
