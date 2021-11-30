@@ -2,6 +2,7 @@ import useStudentInfos from "@/hooks/useStudentInfos";
 import { FileDownload, FileUpload } from "@mui/icons-material";
 import { IconButton, Stack } from "@mui/material";
 import React from "react";
+import GradeTable from "./GradeTable";
 
 const GradeBookTab = ()=>{
     const {studentInfos, handleImport,handleExport, classId} = useStudentInfos()
@@ -34,11 +35,12 @@ const GradeBookTab = ()=>{
                     <FileDownload />
                 </IconButton>
             </Stack>
-            <ul>
+            {/* <ul>
                 {studentInfos.map(info=>(
                     <li key={info.studentId}>{`${info.name}-${info.studentId}-${info.accountMail??''}`}</li>
                 ))}
-            </ul>
+            </ul> */}
+            <GradeTable/>
         </>
         
     )
