@@ -56,7 +56,12 @@ const GradeStructure: React.FC = () => {
                                                 />
                                             )
                                                 : (
-                                                    <AssignmentCard assignment={assignment} onEdit={onEdit} index={index} />
+                                                    <AssignmentCard 
+                                                        assignment={assignment} 
+                                                        onEdit={onEdit} 
+                                                        index={index} 
+                                                        fullWidth={false}
+                                                    />
                                                 )}
                                         </div>
                                     )}

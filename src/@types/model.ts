@@ -5,7 +5,8 @@ export interface Classroom{
     id?: number,
     room?: string,
     topic?: string,
-    description?: string
+    description?: string,
+    studentId?:string
 }
 
 export interface AssignedClassroom extends Classroom{

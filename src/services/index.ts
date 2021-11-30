@@ -134,6 +134,11 @@ const importStudentInfos = async (id:number, file: File)=>{
     await api.importStudentInfos(id, formData)
 }
 
+const updateStudentId = async (id:number, studentId: string)=>{
+    console.log(studentId)
+    await api.updateStudentId(id, studentId)
+}
+
 export const authService = {
     login,
     logout,
@@ -156,7 +161,8 @@ export const classroomService = {
     getClassroomDetail,
     sendInvitationMail,
     removeParticipants,
-    hideParticipants
+    hideParticipants,
+    updateStudentId
 }
 
 export const assignmentService = {

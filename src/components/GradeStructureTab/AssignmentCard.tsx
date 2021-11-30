@@ -7,7 +7,7 @@ import {  AssignmentIndRounded } from '@mui/icons-material';
 import parse from "html-react-parser";
 
 
-const AssignmentCard:React.FC<AssignmentCardProps>=({assignment,onEdit, index})=> {
+const AssignmentCard:React.FC<AssignmentCardProps>=({assignment,onEdit, index, fullWidth=true})=> {
 
     const onClick = ()=>{
         if(onEdit){
@@ -16,7 +16,7 @@ const AssignmentCard:React.FC<AssignmentCardProps>=({assignment,onEdit, index})=
     }
 
     return (
-        <Card sx={{width:"90%"}} onClick={onClick}>
+        <Card sx={fullWidth?{}:{width:"90%"}} onClick={onClick}>
             <CardHeader
                 avatar={<Avatar sx={{background:"teal"}}><AssignmentIndRounded/></Avatar>}
                 title={

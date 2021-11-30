@@ -7,10 +7,6 @@ export interface ClassroomDetailState {
         data: Account[],
         reload: boolean
     },
-    // assignments: {
-    //     data: Assignment[],
-    //     reload: boolean
-    // }
     detail: AssignedClassroom|null,
     error: string|null,
     redirect: {
@@ -110,139 +106,31 @@ export interface HideParticipantsFail {
     payload: HideParticipantsFailPayload
 }
 
-// export interface GetAssignmentsSuccessPayload {
-//     assignments: Assignment[];
-// }
+export interface UpdateStudentIdSuccessPayload {
+    studentId: string;
+}
 
-// export interface GetAssignmentsFailPayload{
-//     error: string
-// }
+export interface UpdateStudentIdFailPayload{
+    error: string
+}
 
-// export interface GetAssignmentsRequest{
-//     type: typeof detailAction.GET_ASSIGNMENTS_REQUEST,
-//     payload: number //class ID
-// }
+export interface UpdateStudentIdRequest{
+    type: typeof detailAction.UPDATE_STUDENTID_REQUEST,
+    payload: {
+        classId: number
+        studentId:string
+    }
+}
 
-// export interface GetAssignmentsSuccess {
-//     type: typeof detailAction.GET_ASSIGNMENTS_SUCCESS
-//     payload: GetAssignmentsSuccessPayload
-// }
+export interface UpdateStudentIdSuccess {
+    type: typeof detailAction.UPDATE_STUDENTID_SUCCESS
+    payload: UpdateStudentIdSuccessPayload
+}
 
-// export interface GetAssignmentsFail {
-//     type: typeof detailAction.GET_ASSIGNMENTS_FAIL
-//     payload: GetAssignmentsFailPayload
-// }
-
-// export interface ReloadAssignmentsRequest{
-//     type: typeof detailAction.RELOAD_ASSIGNMENTS_REQUEST
-// }
-
-// export interface UpdatePositionFailPayload{
-//     error: string
-// }
-
-// export interface UpdatePositionSuccessPayload{
-//     assignments: Assignment[]
-// }
-
-// export interface UpdatePositionRequest{
-//     type: typeof detailAction.UPDATE_POSITION_REQUEST
-//     payload: {
-//         classId: number,
-//         start?: number,
-//         end?: number
-//     }
-// }
-
-// export interface UpdatePositionSuccess {
-//     type: typeof detailAction.UPDATE_POSITION_SUCCESS
-//     payload: UpdatePositionSuccessPayload
-// }
-
-// export interface UpdatePositionFail{
-//     type: typeof detailAction.UPDATE_POSITION_FAIL
-//     payload: UpdatePositionFailPayload
-// }
-
-// export interface AddAssignmentSuccessPayload {
-//     assignment: Assignment;
-//     index: number;
-// }
-
-// export interface AddAssignmentFailPayload{
-//     error: string
-// }
-
-// export interface AddAssignmentRequest{
-//     type: typeof detailAction.ADD_ASSIGNMENT_REQUEST,
-//     payload: {
-//         id: number,
-//         assignment: Assignment
-//     }
-// }
-
-// export interface AddAssignmentSuccess {
-//     type: typeof detailAction.ADD_ASSIGNMENT_SUCCESS
-//     payload: AddAssignmentSuccessPayload
-// }
-
-// export interface AddAssignmentFail {
-//     type: typeof detailAction.ADD_ASSIGNMENT_FAIL
-//     payload: AddAssignmentFailPayload
-// }
-
-// export interface RemoveAssignmentSuccessPayload{
-//     id: number
-// }
-
-// export interface RemoveAssignmentFailPayload{
-//     error: string
-// }
-
-// export interface RemoveAssignmentRequest{
-//     type: typeof detailAction.REMOVE_ASSIGNMENT_REQUEST,
-//     payload: {
-//         classId: number,
-//         id: number
-//     }
-// }
-
-// export interface RemoveAssignmentSuccess {
-//     type: typeof detailAction.REMOVE_ASSIGNMENT_SUCCESS,
-//     payload: RemoveAssignmentSuccessPayload
-// }
-
-// export interface RemoveAssignmentFail {
-//     type: typeof detailAction.REMOVE_ASSIGNMENT_FAIL
-//     payload: RemoveAssignmentFailPayload
-// }
-
-// export interface UpdateAssignmentSuccessPayload {
-//     assignment: Assignment;
-// }
-
-// export interface UpdateAssignmentFailPayload{
-//     error: string
-// }
-
-// export interface UpdateAssignmentRequest{
-//     type: typeof detailAction.UPDATE_ASSIGNMENT_REQUEST,
-//     payload: {
-//         classId: number,
-//         id: number,
-//         assignment: Assignment
-//     }
-// }
-
-// export interface UpdateAssignmentSuccess {
-//     type: typeof detailAction.UPDATE_ASSIGNMENT_SUCCESS
-//     payload: UpdateAssignmentSuccessPayload
-// }
-
-// export interface UpdateAssignmentFail {
-//     type: typeof detailAction.UPDATE_ASSIGNMENT_FAIL
-//     payload: UpdateAssignmentFailPayload
-// }
+export interface UpdateStudentIdFail {
+    type: typeof detailAction.UPDATE_STUDENTID_FAIL
+    payload: UpdateStudentIdFailPayload
+}
 
 export type ParticipantAction = 
     | RemoveParticipantsRequest
@@ -256,28 +144,12 @@ export type ParticipantAction =
     | GetParticipantsFail
     | ReloadParticipantsRequest
 
-// export type AssignmentAction = 
-//     | GetAssignmentsRequest
-//     | GetAssignmentsSuccess
-//     | GetAssignmentsFail
-//     | ReloadAssignmentsRequest
-//     | AddAssignmentRequest
-//     | AddAssignmentSuccess
-//     | AddAssignmentFail
-//     | UpdatePositionRequest
-//     | UpdatePositionSuccess
-//     | UpdatePositionFail
-//     | RemoveAssignmentRequest
-//     | RemoveAssignmentSuccess
-//     | RemoveAssignmentFail
-//     | UpdateAssignmentRequest
-//     | UpdateAssignmentSuccess
-//     | UpdateAssignmentFail
-
 export type DetailAction = 
     | ParticipantAction
-    // | AssignmentAction
     | GetDetailRequest
     | GetDetailSuccess
     | GetDetailFail
     | SendInvitationRequest
+    | UpdateStudentIdRequest
+    | UpdateStudentIdSuccess
+    | UpdateStudentIdFail

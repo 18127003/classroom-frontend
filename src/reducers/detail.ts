@@ -1,6 +1,6 @@
 import { RedirectRequest } from "@/@types/common.action";
 import {ClassroomDetailState, DetailAction, GetDetailFail, GetDetailSuccess, GetParticipantsFail, GetParticipantsSuccess, 
-    HideParticipantsFail, RemoveParticipantsFail } from "@/@types/detail.action";
+    HideParticipantsFail, RemoveParticipantsFail, UpdateStudentIdFail, UpdateStudentIdSuccess } from "@/@types/detail.action";
 import { authActions, commonAction, detailAction } from "@/constants/actions";
 
 const initState:ClassroomDetailState = {
@@ -108,6 +108,27 @@ export const detailReducer = (state: ClassroomDetailState = initState, action: D
                     redirect: false
                 }
             }
+        case detailAction.UPDATE_STUDENTID_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case detailAction.UPDATE_STUDENTID_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                detail:{
+                    ...state.detail,
+                    studentId: (action as UpdateStudentIdSuccess).payload.studentId
+                },
+                error:null
+            };
+        case detailAction.UPDATE_STUDENTID_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: (action as UpdateStudentIdFail).payload.error
+            };
         case authActions.LOGOUT_SUCCESS:
             return initState;
         default:

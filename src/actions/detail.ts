@@ -3,11 +3,17 @@ import {  GetDetailFail, GetDetailFailPayload, GetDetailRequest, GetDetailSucces
     GetParticipantsSuccessPayload, HideParticipantsFail, HideParticipantsFailPayload, HideParticipantsRequest, 
     HideParticipantsSuccess, ReloadParticipantsRequest, RemoveParticipantsFail, RemoveParticipantsFailPayload, 
     RemoveParticipantsRequest, RemoveParticipantsSuccess,
-     SendInvitationRequest} from "@/@types/detail.action";
+     SendInvitationRequest,
+     UpdateStudentIdFail,
+     UpdateStudentIdFailPayload,
+     UpdateStudentIdRequest,
+     UpdateStudentIdSuccess,
+     UpdateStudentIdSuccessPayload} from "@/@types/detail.action";
 import { AssignedClassroom, InvitationRequestInfo, ModifyParticipantsInfo } from "@/@types/model";
 import { detailAction } from "@/constants/actions";
 import { classroomService } from "@/services";
 import { all, call, put, takeLatest } from "@redux-saga/core/effects";
+import { reloadClassroomRequest } from "./classrooms";
 
 export const getParticipantsRequest = (classId: number): GetParticipantsRequest => ({
     type: detailAction.GET_PARTICIPANT_REQUEST,
@@ -142,177 +148,37 @@ function* hideParticipantsSaga(action: HideParticipantsRequest) {
     }
 }
 
-// export const getAssignmentsRequest = (classId: number): GetAssignmentsRequest => ({
-//     type: detailAction.GET_ASSIGNMENTS_REQUEST,
-//     payload: classId
-// });
+export const updateStudentIdRequest = (classId: number, studentId: string): UpdateStudentIdRequest => ({
+    type: detailAction.UPDATE_STUDENTID_REQUEST,
+    payload: {
+        classId,
+        studentId
+    }
+});
 
-// export const getAssignmentsSuccess = (payload: GetAssignmentsSuccessPayload):GetAssignmentsSuccess =>({
-//     type: detailAction.GET_ASSIGNMENTS_SUCCESS,
-//     payload: payload
-// });
+export const updateStudentIdSuccess = (payload: UpdateStudentIdSuccessPayload):UpdateStudentIdSuccess =>({
+    type: detailAction.UPDATE_STUDENTID_SUCCESS,
+    payload: payload
+});
 
-// export const getAssignmentsFail = (payload: GetAssignmentsFailPayload):GetAssignmentsFail =>({
-//     type: detailAction.GET_ASSIGNMENTS_FAIL,
-//     payload: payload
-// });
-
-// export const reloadAssignmentsRequest = (): ReloadAssignmentsRequest => ({
-//     type: detailAction.RELOAD_ASSIGNMENTS_REQUEST
-// });
+export const updateStudentIdFail = (payload: UpdateStudentIdFailPayload):UpdateStudentIdFail =>({
+    type: detailAction.UPDATE_STUDENTID_FAIL,
+    payload: payload
+});
  
-// function* getAssignmentsSaga(action: GetAssignmentsRequest) {
-//     try {
-//         const assignments = yield call(classroomService.getAssignments, action.payload);
-//         yield put(getAssignmentsSuccess({
-//             assignments: assignments.data
-//         }))
-//     } catch (e) {
-//         yield put(getAssignmentsFail({
-//             error: 'Get assignments failed'
-//         }))
-//     }
-// }
-
-// export const addAssignmentRequest = (classId: number, assignment: Assignment): AddAssignmentRequest => ({
-//     type: detailAction.ADD_ASSIGNMENT_REQUEST,
-//     payload: {
-//         id: classId,
-//         assignment: assignment
-//     }
-// });
-
-// export const addAssignmentSuccess = (payload: AddAssignmentSuccessPayload):AddAssignmentSuccess =>({
-//     type: detailAction.ADD_ASSIGNMENT_SUCCESS,
-//     payload: payload
-// });
-
-// export const addAssignmentFail = (payload: AddAssignmentFailPayload):AddAssignmentFail =>({
-//     type: detailAction.ADD_ASSIGNMENT_FAIL,
-//     payload: payload
-// });
-
-// function* addAssignmentSaga(action: AddAssignmentRequest) {
-//     try {
-//         const assignment = yield call(classroomService.addAssignment, action.payload.id, action.payload.assignment);
-//         yield put(addAssignmentSuccess({
-//             assignment: assignment.data,
-//             index: action.payload.assignment.position
-//         }))
-//         yield put(updatePositionRequest(action.payload.id))
-
-//     } catch (e) {
-//         yield put(addAssignmentFail({
-//             error: 'Add assignment failed'
-//         }))
-//     }
-// }
-
-// export const updatePositionRequest = (classId:number, start?:number, end?:number): UpdatePositionRequest => ({
-//     type: detailAction.UPDATE_POSITION_REQUEST,
-//     payload: {
-//         classId,
-//         start,
-//         end
-//     }
-// });
-
-// export const updatePositionSuccess = (payload: UpdatePositionSuccessPayload):UpdatePositionSuccess =>({
-//     type: detailAction.UPDATE_POSITION_SUCCESS,
-//     payload: payload
-// });
-
-// export const updatePositionFail = (payload: UpdatePositionFailPayload):UpdatePositionFail =>({
-//     type: detailAction.UPDATE_POSITION_FAIL,
-//     payload: payload
-// });
-
-// function* updatePositionSaga(action: UpdatePositionRequest) {
-    
-//     const assignments: Assignment[] = yield select((state:AppState)=>state.detail.assignments.data)
-//     const result = Array.from(assignments);
-//     if(action.payload.start!==undefined && action.payload.end!==undefined){
-//         const [removed] = result.splice(action.payload.start, 1);
-//         result.splice(action.payload.end, 0, removed);
-//         yield put(updatePositionSuccess({
-//             assignments: result
-//         }))
-//     }
-    
-//     try {
-//         yield call(classroomService.updateAssignmentPosition, action.payload.classId, result)
-//     } catch (e){
-//         yield put (updatePositionFail({
-//             error: 'Update assignment position failed'
-//         }))
-//     }
-// }
-
-// export const removeAssignmentRequest = (classId: number, id: number): RemoveAssignmentRequest => ({
-//     type: detailAction.REMOVE_ASSIGNMENT_REQUEST,
-//     payload: {
-//         classId: classId,
-//         id: id
-//     }
-// });
-
-// export const removeAssignmentSuccess = (payload: RemoveAssignmentSuccessPayload):RemoveAssignmentSuccess =>({
-//     type: detailAction.REMOVE_ASSIGNMENT_SUCCESS,
-//     payload: payload
-// });
-
-// export const removeAssignmentFail = (payload: RemoveAssignmentFailPayload):RemoveAssignmentFail =>({
-//     type: detailAction.REMOVE_ASSIGNMENT_FAIL,
-//     payload: payload
-// });
-
-// function* removeAssignmentSaga(action: RemoveAssignmentRequest) {
-//     try {
-//         yield call(classroomService.removeAssignment, action.payload.classId, action.payload.id);
-//         yield put(removeAssignmentSuccess({
-//             id: action.payload.id
-//         }))
-//         yield put(updatePositionRequest(action.payload.classId))
-
-//     } catch (e) {
-//         yield put(removeAssignmentFail({
-//             error: 'Remove assignment failed'
-//         }))
-//     }
-// }
-
-// export const updateAssignmentRequest = (classId: number, id: number, assignment: Assignment): UpdateAssignmentRequest => ({
-//     type: detailAction.UPDATE_ASSIGNMENT_REQUEST,
-//     payload: {
-//         classId: classId,
-//         id: id,
-//         assignment: assignment
-//     }
-// });
-
-// export const updateAssignmentSuccess = (payload: UpdateAssignmentSuccessPayload):UpdateAssignmentSuccess =>({
-//     type: detailAction.UPDATE_ASSIGNMENT_SUCCESS,
-//     payload: payload
-// });
-
-// export const updateAssignmentFail = (payload: UpdateAssignmentFailPayload):UpdateAssignmentFail =>({
-//     type: detailAction.UPDATE_ASSIGNMENT_FAIL,
-//     payload: payload
-// });
-
-// function* updateAssignmentSaga(action: UpdateAssignmentRequest) {
-//     try {
-//         var assignment = yield call(classroomService.updateAssignment, action.payload.classId, action.payload.id, action.payload.assignment);
-//         yield put(updateAssignmentSuccess({
-//             assignment: assignment.data
-//         }))
-
-//     } catch (e) {
-//         yield put(updateAssignmentFail({
-//             error: 'Update assignment failed'
-//         }))
-//     }
-// }
+function* updateStudentIdSaga(action: UpdateStudentIdRequest) {
+    try {
+        yield call(classroomService.updateStudentId, action.payload.classId, action.payload.studentId)
+        yield put(updateStudentIdSuccess({
+            studentId: action.payload.studentId
+        }))
+        yield put(reloadClassroomRequest())
+    } catch (e){
+        yield put(updateStudentIdFail({
+            error: 'Update student ID failed'
+        }))
+    }
+}
 
 export function* detailSaga() {
     yield all([
@@ -321,11 +187,7 @@ export function* detailSaga() {
         takeLatest(detailAction.SEND_INVITATION_REQUEST, sendInvitationSaga),
         takeLatest(detailAction.REMOVE_PARTICIPANT_REQUEST, removeParticipantsSaga),
         takeLatest(detailAction.HIDE_PARTICIPANT_REQUEST, hideParticipantsSaga),
-        // takeLatest(detailAction.GET_ASSIGNMENTS_REQUEST, getAssignmentsSaga),
-        // takeEvery(detailAction.ADD_ASSIGNMENT_REQUEST, addAssignmentSaga),
-        // takeLatest(detailAction.UPDATE_POSITION_REQUEST, updatePositionSaga),
-        // takeEvery(detailAction.REMOVE_ASSIGNMENT_REQUEST, removeAssignmentSaga),
-        // takeEvery(detailAction.UPDATE_ASSIGNMENT_REQUEST, updateAssignmentSaga)
+        takeLatest(detailAction.UPDATE_STUDENTID_REQUEST, updateStudentIdSaga)
     ]);
 }
 

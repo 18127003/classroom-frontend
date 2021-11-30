@@ -94,6 +94,7 @@ interface AssignmentCardProps{
     index?: number
     assignment:Assignment
     onEdit?:(value:number)=>void
+    fullWidth?: boolean
 }
 
 interface EditAssignmentCardProps{
