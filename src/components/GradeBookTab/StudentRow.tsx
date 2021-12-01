@@ -1,25 +1,13 @@
-import { Assignment, StudentInfo } from "@/@types/model";
+import { StudentRowProps } from "@/@types/props";
 import useSubmissionData from "@/hooks/useSubmissionData";
-import { TableCell, TableRow, Typography } from "@mui/material";
-import { info } from "console";
+import { TableCell, Typography } from "@mui/material";
 import React from "react";
+import GradeCell from "./GradeCell";
 
-interface StudentRowProps {
-  studentInfo: StudentInfo;
-  assignments: Assignment[];
-}
-
-const StudentRow: React.FC<StudentRowProps> = ({
-  studentInfo,
-  assignments,
-}) => {
-  const { submissions, totalGrade } = useSubmissionData(
-    studentInfo,
-    assignments
-  );
-
+const StudentRow: React.FC<StudentRowProps> = ({ studentInfo, assignments, totalMaxGrade}) => {
+  const { submissions, totalGrade } = useSubmissionData(studentInfo, assignments);
   return (
-    <TableRow hover role="checkbox" tabIndex={-1} key={studentInfo.studentId}>
+    <>
       <TableCell>
         {`${studentInfo.studentId} - ${studentInfo.name}`}
         <br />
@@ -27,15 +15,16 @@ const StudentRow: React.FC<StudentRowProps> = ({
           {studentInfo.accountMail && `(${studentInfo.accountMail})`}
         </Typography>
       </TableCell>
+      <TableCell align='center'>
+        {`${totalGrade}/${totalMaxGrade}`}
+      </TableCell>
       {submissions
-        .map((submission, index) => {
-          return (
-            <TableCell key={index} align="left">
-              {`${submission.grade}/${submission.maxGrade}`}
-            </TableCell>
-          );
-        })}
-    </TableRow>
+        .map((submission, index) => (
+          <TableCell key={index} align="center">
+            <GradeCell submission={submission}/>
+          </TableCell>
+        ))}
+    </>
   );
 };
 

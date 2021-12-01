@@ -73,7 +73,7 @@ export interface Submission {
     assignmentId: number,
     studentId: string,
     classroomId: number,
-    grade:number,
+    grade?:number,
     maxGrade: number
 }
 

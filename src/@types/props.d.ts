@@ -1,4 +1,4 @@
-import { Account, AssignedClassroom, Assignment, Classroom } from "@/@types/model";
+import { Account, AssignedClassroom, Assignment, Classroom, StudentInfo, Submission } from "@/@types/model";
 import { IconButtonProps } from "@mui/material";
 import React from "react";
 import { RouteProps } from "react-router-dom";
@@ -98,14 +98,29 @@ interface AssignmentCardProps{
 }
 
 interface EditAssignmentCardProps{
-    assignment?:Assignment,
-    index: number,
-    onAdd: (index:number)=>void,
-    onPostModify:()=>void,
+    assignment?:Assignment
+    index: number
+    onAdd: (index:number)=>void
+    onPostModify:()=>void
     dragging: boolean
 }
 
 interface EditorProps {
-    content: string,
+    content: string
     onChange: (value: string)=>void
+}
+
+interface GradeTableProps {
+    studentInfos: StudentInfo[]
+    assignments: Assignment[]
+}
+
+interface StudentRowProps {
+    studentInfo: StudentInfo;
+    assignments: Assignment[];
+    totalMaxGrade: number;
+}
+
+interface GradeCellProps {
+    submission: Submission
 }

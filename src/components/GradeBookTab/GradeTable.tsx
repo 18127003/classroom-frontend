@@ -7,18 +7,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import useAssignments from '@/hooks/useAssignments';
-import useStudentInfos from '@/hooks/useStudentInfos';
 import StudentRow from './StudentRow';
+import { GradeTableProps } from '@/@types/props';
+import usePointsSum from '@/hooks/usePointsSum';
 
-
-
-
-const GradeTable: React.FC = () => {
+const GradeTable: React.FC<GradeTableProps> = ({studentInfos, assignments}) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const {assignments} = useAssignments()
-  const {studentInfos} = useStudentInfos()
+  const totalMaxGrade = usePointsSum()
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -36,11 +32,11 @@ const GradeTable: React.FC = () => {
           <TableHead>
             <TableRow>
                 <TableCell style={{ width:200 }}>{'Student'}</TableCell>
-                <TableCell style={{ width:200 }}>{'Total grade'}</TableCell>
+                <TableCell style={{ width:200 }} align='center'>{'Total grade'}</TableCell>
                 {assignments.map((assignment) => (
                     <TableCell
                         key={assignment.id}
-                        align='left'
+                        align='center'
                         style={{ width:100 }}
                     >
                     {assignment.name}
@@ -51,7 +47,15 @@ const GradeTable: React.FC = () => {
           <TableBody>
             {studentInfos
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((info) => <StudentRow studentInfo={info} assignments={assignments}/>)}
+              .map((info) => (
+                <TableRow hover role="checkbox" tabIndex={-1} key={info.studentId}>
+                  <StudentRow
+                    studentInfo={info} 
+                    assignments={assignments}
+                    totalMaxGrade={totalMaxGrade}
+                  />
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

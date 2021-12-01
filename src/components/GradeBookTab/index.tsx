@@ -1,3 +1,4 @@
+import useAssignments from "@/hooks/useAssignments";
 import useStudentInfos from "@/hooks/useStudentInfos";
 import { FileDownload, FileUpload } from "@mui/icons-material";
 import { IconButton, Stack } from "@mui/material";
@@ -6,6 +7,7 @@ import GradeTable from "./GradeTable";
 
 const GradeBookTab = ()=>{
     const {studentInfos, handleImport,handleExport, classId} = useStudentInfos()
+    const {assignments} = useAssignments()
 
     const handleUpload = (event: React.ChangeEvent<HTMLInputElement>)=>{
         const file = event.target.files[0];
@@ -35,12 +37,7 @@ const GradeBookTab = ()=>{
                     <FileDownload />
                 </IconButton>
             </Stack>
-            {/* <ul>
-                {studentInfos.map(info=>(
-                    <li key={info.studentId}>{`${info.name}-${info.studentId}-${info.accountMail??''}`}</li>
-                ))}
-            </ul> */}
-            <GradeTable/>
+            <GradeTable studentInfos={studentInfos} assignments={assignments}/>
         </>
         
     )

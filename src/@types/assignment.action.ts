@@ -1,5 +1,5 @@
 import { assignmentAction } from "@/constants/actions";
-import { Assignment, StudentInfo } from "./model";
+import { Assignment, StudentInfo, Submission } from "./model";
 
 export interface AssignmentState {
     loading: boolean,
@@ -197,6 +197,34 @@ export interface ExportTemplateRequest{
     payload: number //class ID
 }
 
+export interface AddSubmissionSuccessPayload {
+    submission: Submission;
+}
+
+export interface AddSubmissionFailPayload{
+    error: string
+}
+
+export interface AddSubmissionRequest{
+    type: typeof assignmentAction.ADD_SUBMISSION_REQUEST,
+    payload: {
+        classId: number,
+        assignmentId: number,
+        submission: Submission
+    }
+}
+
+export interface AddSubmissionSuccess {
+    type: typeof assignmentAction.ADD_SUBMISSION_SUCCESS
+    payload: AddSubmissionSuccessPayload
+}
+
+export interface AddSubmissionFail {
+    type: typeof assignmentAction.ADD_SUBMISSION_FAIL
+    payload: AddSubmissionFailPayload
+}
+   
+
 export type StudentInfoAction = 
     | GetStudentInfosRequest
     | GetStudentInfosSuccess
@@ -204,6 +232,11 @@ export type StudentInfoAction =
     | ImportStudentInfosRequest
     | ImportStudentInfosSuccess
     | ImportStudentInfosFail
+
+export type SubmissionAction = 
+    | AddSubmissionRequest
+    | AddSubmissionSuccess
+    | AddSubmissionFail
 
 export type AssignmentAction = 
     | GetAssignmentsRequest
@@ -224,3 +257,4 @@ export type AssignmentAction =
     | UpdateAssignmentFail
     | StudentInfoAction
     | ExportTemplateRequest
+    | SubmissionAction

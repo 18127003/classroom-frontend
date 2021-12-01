@@ -1,5 +1,5 @@
 
-import { Account, AssignedClassroom, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GetClassroomsCriteria, InvitationRequestInfo, JoinRequestInfo, ModifyParticipantsInfo } from "@/@types/model"
+import { Account, AssignedClassroom, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GetClassroomsCriteria, InvitationRequestInfo, JoinRequestInfo, ModifyParticipantsInfo, Submission } from "@/@types/model"
 import { LOCAL_STORAGE_CLASSES_NAME } from "@/constants/common"
 import Cookies from "universal-cookie"
 import { api } from "./api"
@@ -148,6 +148,10 @@ const exportTemplate = async (id:number)=>{
     link.remove();
 }
 
+const addSubmission = async (classId:number,id:number, submission:Submission)=>{
+    return await api.addSubmission(classId, id, submission)
+}
+
 export const authService = {
     login,
     logout,
@@ -182,7 +186,8 @@ export const assignmentService = {
     updateAssignment,
     getStudentInfos,
     importStudentInfos,
-    exportTemplate
+    exportTemplate,
+    addSubmission
 }
 
 export const commonService = {

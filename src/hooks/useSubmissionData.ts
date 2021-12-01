@@ -7,17 +7,18 @@ const useSubmissionData=(studentInfo: StudentInfo, assignments: Assignment[])=>{
 
     const classId = useSelector((state:AppState)=>state.detail.detail.id)
     const [submissions, setSubmissions]=useState<Submission[]>([])
+    const [totalGrade, setTotalGrade] = useState(0)
 
     useEffect(()=>{
         setSubmissions(generateStudentSubmission())
-    },[assignments])
+        setTotalGrade(getTotalGrade())
+    },[studentInfo.submissions])
 
     const generateStudentSubmission = ():Submission[]=>{
         return assignments.map(assignment=>{
             var sub = studentInfo.submissions.find(s=>s.assignmentId===assignment.id)
             if(sub) return sub
             return {
-                grade: 0,
                 maxGrade: assignment.points,
                 assignmentId: assignment.id,
                 classroomId: classId,
@@ -26,8 +27,8 @@ const useSubmissionData=(studentInfo: StudentInfo, assignments: Assignment[])=>{
         })
     }
 
-    const totalGrade = ():number=>{
-        return studentInfo.submissions.map(s=>s.grade).reduce((a,b)=>a+b)
+    const getTotalGrade = ():number=>{
+        return studentInfo.submissions.map(s=>s.grade).reduce((a,b)=>a+b, 0)
     }
 
     return {

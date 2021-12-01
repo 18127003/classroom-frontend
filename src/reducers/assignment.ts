@@ -1,4 +1,4 @@
-import { AddAssignmentFail, AddAssignmentSuccess, AssignmentAction, AssignmentState, GetAssignmentsFail, GetAssignmentsSuccess, 
+import { AddAssignmentFail, AddAssignmentSuccess, AddSubmissionFail, AddSubmissionSuccess, AssignmentAction, AssignmentState, GetAssignmentsFail, GetAssignmentsSuccess, 
     GetStudentInfosSuccess, 
     ImportStudentInfosFail, 
     RemoveAssignmentFail, RemoveAssignmentSuccess, UpdateAssignmentFail, UpdateAssignmentSuccess, UpdatePositionFail, 
@@ -59,15 +59,15 @@ export const assignmentReducer = (state: AssignmentState = initState, action: As
                 loading: true
             };
         case assignmentAction.ADD_ASSIGNMENT_SUCCESS:
-            var parsed = action as AddAssignmentSuccess
+            var assignmentPayload = (action as AddAssignmentSuccess).payload
             return {
                 ...state,
                 loading: false,
                 assignments:{
                     data: [
-                        ...state.assignments.data.slice(0, parsed.payload.index),
-                        parsed.payload.assignment,
-                        ...state.assignments.data.slice(parsed.payload.index)
+                        ...state.assignments.data.slice(0, assignmentPayload.index),
+                        assignmentPayload.assignment,
+                        ...state.assignments.data.slice(assignmentPayload.index)
                     ],
                     reload: false
                 },
@@ -184,6 +184,38 @@ export const assignmentReducer = (state: AssignmentState = initState, action: As
                 },
                 error: (action as ImportStudentInfosFail).payload.error
             };
+        case assignmentAction.ADD_SUBMISSION_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case assignmentAction.ADD_SUBMISSION_SUCCESS:
+            var submissionPayload = (action as AddSubmissionSuccess).payload
+            const index = state.studentInfos.data.findIndex(s=>s.studentId===submissionPayload.submission.studentId)
+            const studentInfo = state.studentInfos.data[index]
+            studentInfo.submissions = [
+                ...studentInfo.submissions,
+                submissionPayload.submission
+            ]
+            return {
+                ...state,
+                loading: false,
+                studentInfos:{
+                    data: [
+                        ...state.studentInfos.data.slice(0, index),
+                        studentInfo,
+                        ...state.studentInfos.data.slice(index+1)
+                    ],
+                    reload: false
+                },
+                error: null
+            };
+        case assignmentAction.ADD_SUBMISSION_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: (action as AddSubmissionFail).payload.error
+            }
         case authActions.LOGOUT_SUCCESS:
             return initState;
         default:
