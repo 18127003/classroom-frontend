@@ -172,6 +172,12 @@ const importSubmission = (id:number, assignmentId: number, formData: FormData)=>
     'data':formData
 })
 
+const updateSubmission = (classId:number, assignmentId:number, submissionId: number, grade: number)=>instance({
+    'method':'PATCH',
+    'url':`/classroom/${classId}/assignment/${assignmentId}/submission/${submissionId}/update?grade=${grade}`,
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
 export const api = {
     getData,
     createClassroom,
@@ -198,5 +204,6 @@ export const api = {
     addSubmission,
     updateStudentId,
     exportTemplate,
-    importSubmission
+    importSubmission,
+    updateSubmission
 }

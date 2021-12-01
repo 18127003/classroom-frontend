@@ -198,7 +198,8 @@ export interface ExportTemplateRequest{
 }
 
 export interface AddSubmissionSuccessPayload {
-    submission: Submission;
+    studentInfo: StudentInfo;
+    index: number;
 }
 
 export interface AddSubmissionFailPayload{
@@ -249,7 +250,35 @@ export interface ImportSubmissionFail {
 export interface ReloadStudentInfoRequest{
     type: typeof assignmentAction.RELOAD_STUDENT_INFO_REQUEST
 }
-   
+ 
+export interface UpdateSubmissionSuccessPayload {
+    studentInfo: StudentInfo;
+    index: number;
+}
+
+export interface UpdateSubmissionFailPayload{
+    error: string
+}
+
+export interface UpdateSubmissionRequest{
+    type: typeof assignmentAction.UPDATE_SUBMISSION_REQUEST,
+    payload: {
+        classId: number,
+        assignmentId: number,
+        submissionId: number,
+        grade: number
+    }
+}
+
+export interface UpdateSubmissionSuccess {
+    type: typeof assignmentAction.UPDATE_SUBMISSION_SUCCESS
+    payload: UpdateSubmissionSuccessPayload
+}
+
+export interface UpdateSubmissionFail {
+    type: typeof assignmentAction.UPDATE_SUBMISSION_FAIL
+    payload: UpdateSubmissionFailPayload
+}
 
 export type StudentInfoAction = 
     | GetStudentInfosRequest
@@ -266,6 +295,9 @@ export type SubmissionAction =
     | ImportSubmissionRequest
     | ImportSubmissionSuccess
     | ImportSubmissionFail
+    | UpdateSubmissionRequest
+    | UpdateSubmissionSuccess
+    | UpdateSubmissionFail
 
 export type AssignmentAction = 
     | GetAssignmentsRequest

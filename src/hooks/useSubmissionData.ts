@@ -12,7 +12,7 @@ const useSubmissionData=(studentInfo: StudentInfo, assignments: Assignment[])=>{
     useEffect(()=>{
         setSubmissions(generateStudentSubmission())
         setTotalGrade(getTotalGrade())
-    },[studentInfo.submissions])
+    },[studentInfo.submissions, assignments])
 
     const generateStudentSubmission = ():Submission[]=>{
         return assignments.map(assignment=>{

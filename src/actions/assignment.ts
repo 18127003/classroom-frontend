@@ -3,8 +3,8 @@ import { GetAssignmentsRequest, GetAssignmentsSuccessPayload, GetAssignmentsSucc
     AddAssignmentFail, UpdatePositionRequest, UpdatePositionSuccessPayload, UpdatePositionSuccess, UpdatePositionFailPayload, 
     UpdatePositionFail, RemoveAssignmentRequest, RemoveAssignmentSuccessPayload, RemoveAssignmentSuccess, RemoveAssignmentFailPayload, 
     RemoveAssignmentFail, UpdateAssignmentRequest, UpdateAssignmentSuccessPayload, UpdateAssignmentSuccess,
-    UpdateAssignmentFailPayload, UpdateAssignmentFail, GetStudentInfosRequest, GetStudentInfosSuccessPayload, GetStudentInfosSuccess, GetStudentInfosFailPayload, GetStudentInfosFail, ImportStudentInfosRequest, ImportStudentInfosSuccess, ImportStudentInfosFailPayload, ImportStudentInfosFail, ExportTemplateRequest, AddSubmissionRequest, AddSubmissionSuccess, AddSubmissionSuccessPayload, AddSubmissionFail, AddSubmissionFailPayload, ImportSubmissionRequest, ImportSubmissionSuccess, ImportSubmissionFailPayload, ImportSubmissionFail, ReloadStudentInfoRequest } from "@/@types/assignment.action";
-import { Assignment, Submission } from "@/@types/model";
+    UpdateAssignmentFailPayload, UpdateAssignmentFail, GetStudentInfosRequest, GetStudentInfosSuccessPayload, GetStudentInfosSuccess, GetStudentInfosFailPayload, GetStudentInfosFail, ImportStudentInfosRequest, ImportStudentInfosSuccess, ImportStudentInfosFailPayload, ImportStudentInfosFail, ExportTemplateRequest, AddSubmissionRequest, AddSubmissionSuccess, AddSubmissionSuccessPayload, AddSubmissionFail, AddSubmissionFailPayload, ImportSubmissionRequest, ImportSubmissionSuccess, ImportSubmissionFailPayload, ImportSubmissionFail, ReloadStudentInfoRequest, UpdateSubmissionRequest, UpdateSubmissionSuccess, UpdateSubmissionSuccessPayload, UpdateSubmissionFail, UpdateSubmissionFailPayload } from "@/@types/assignment.action";
+import { Assignment, StudentInfo, Submission } from "@/@types/model";
 import { assignmentAction, detailAction } from "@/constants/actions";
 import { AppState } from "@/reducers";
 import { assignmentService, classroomService } from "@/services";
@@ -274,8 +274,16 @@ function* addSubmissionSaga(action: AddSubmissionRequest) {
     try {
         const payload = action.payload
         const res = yield call(assignmentService.addSubmission, payload.classId, payload.assignmentId, payload.submission);
+        const studentInfos: StudentInfo[] = yield select((state:AppState)=>state.assignment.studentInfos.data)
+        const index = studentInfos.findIndex(s=>s.studentId===res.data.studentId)
+        const studentInfo = studentInfos[index]
+        studentInfo.submissions = [
+            ...studentInfo.submissions,
+            res.data
+        ]
         yield put(addSubmissionSuccess({
-            submission: res.data
+            studentInfo: studentInfo,
+            index: index
         }))
     } catch (e) {
         yield put(addSubmissionFail({
@@ -320,6 +328,52 @@ function* importSubmissionSaga(action: ImportSubmissionRequest) {
     }
 }
 
+export const updateSubmissionRequest = (classId: number, assignmentId: number, submissionId: number, grade:number): UpdateSubmissionRequest => ({
+    type: assignmentAction.UPDATE_SUBMISSION_REQUEST,
+    payload: {
+        classId,
+        assignmentId,
+        submissionId,
+        grade
+    }
+});
+
+export const updateSubmissionSuccess = (payload: UpdateSubmissionSuccessPayload):UpdateSubmissionSuccess =>({
+    type: assignmentAction.UPDATE_SUBMISSION_SUCCESS,
+    payload: payload
+});
+
+export const updateSubmissionFail = (payload: UpdateSubmissionFailPayload):UpdateSubmissionFail =>({
+    type: assignmentAction.UPDATE_SUBMISSION_FAIL,
+    payload: payload
+});
+ 
+function* updateSubmissionSaga(action: UpdateSubmissionRequest) {
+    try {
+        const payload = action.payload
+        const res = yield call(assignmentService.updateSubmission, payload.classId, payload.assignmentId, 
+            payload.submissionId, payload.grade);
+        const studentInfos: StudentInfo[] = yield select((state:AppState)=>state.assignment.studentInfos.data)
+        const index = studentInfos.findIndex(s=>s.studentId===res.data.studentId)
+        const studentInfo = studentInfos[index]
+        const submissionIndex = studentInfo.submissions.findIndex(s=>s.id===res.data.id)
+
+        studentInfo.submissions = [
+            ...studentInfo.submissions.slice(0, submissionIndex),
+            res.data,
+            ...studentInfo.submissions.slice(submissionIndex+1)
+        ]
+        yield put(updateSubmissionSuccess({
+            studentInfo: studentInfo,
+            index: index
+        }))
+    } catch (e) {
+        yield put(updateSubmissionFail({
+            error: 'Grade failed'
+        }))
+    }
+}
+
 export function* assignmentSaga() {
     yield all([
         takeLatest(assignmentAction.GET_ASSIGNMENTS_REQUEST, getAssignmentsSaga),
@@ -331,7 +385,8 @@ export function* assignmentSaga() {
         takeLatest(assignmentAction.IMPORT_STUDENT_INFO_REQUEST, importStudentInfosSaga),
         takeEvery(assignmentAction.EXPORT_TEMPLATE_REQUEST, exportTemplateSaga),
         takeEvery(assignmentAction.ADD_SUBMISSION_REQUEST, addSubmissionSaga),
-        takeEvery(assignmentAction.IMPORT_SUBMISSION_REQUEST, importSubmissionSaga)
+        takeEvery(assignmentAction.IMPORT_SUBMISSION_REQUEST, importSubmissionSaga),
+        takeEvery(assignmentAction.UPDATE_SUBMISSION_REQUEST, updateSubmissionSaga)
     ]);
 }
 

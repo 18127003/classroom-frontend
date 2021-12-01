@@ -3,7 +3,9 @@ import { AddAssignmentFail, AddAssignmentSuccess, AddSubmissionFail, AddSubmissi
     ImportStudentInfosFail, 
     ImportSubmissionFail, 
     RemoveAssignmentFail, RemoveAssignmentSuccess, UpdateAssignmentFail, UpdateAssignmentSuccess, UpdatePositionFail, 
-    UpdatePositionSuccess } from "@/@types/assignment.action";
+    UpdatePositionSuccess, 
+    UpdateSubmissionFail,
+    UpdateSubmissionSuccess} from "@/@types/assignment.action";
 import { assignmentAction, authActions } from "@/constants/actions";
 
 const initState:AssignmentState = {
@@ -192,20 +194,14 @@ export const assignmentReducer = (state: AssignmentState = initState, action: As
             };
         case assignmentAction.ADD_SUBMISSION_SUCCESS:
             var submissionPayload = (action as AddSubmissionSuccess).payload
-            const index = state.studentInfos.data.findIndex(s=>s.studentId===submissionPayload.submission.studentId)
-            const studentInfo = state.studentInfos.data[index]
-            studentInfo.submissions = [
-                ...studentInfo.submissions,
-                submissionPayload.submission
-            ]
             return {
                 ...state,
                 loading: false,
                 studentInfos:{
                     data: [
-                        ...state.studentInfos.data.slice(0, index),
-                        studentInfo,
-                        ...state.studentInfos.data.slice(index+1)
+                        ...state.studentInfos.data.slice(0, submissionPayload.index),
+                        submissionPayload.studentInfo,
+                        ...state.studentInfos.data.slice(submissionPayload.index+1)
                     ],
                     reload: false
                 },
@@ -242,6 +238,32 @@ export const assignmentReducer = (state: AssignmentState = initState, action: As
                     reload: true
                 }
             }; 
+        case assignmentAction.UPDATE_SUBMISSION_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case assignmentAction.UPDATE_SUBMISSION_SUCCESS:
+            var submissionUpdate = (action as UpdateSubmissionSuccess).payload
+            return {
+                ...state,
+                loading: false,
+                studentInfos:{
+                    data: [
+                        ...state.studentInfos.data.slice(0, submissionUpdate.index),
+                        submissionUpdate.studentInfo,
+                        ...state.studentInfos.data.slice(submissionUpdate.index+1)
+                    ],
+                    reload: false
+                },
+                error: null
+            };
+        case assignmentAction.UPDATE_SUBMISSION_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: (action as UpdateSubmissionFail).payload.error
+            }
         case authActions.LOGOUT_SUCCESS:
             return initState;
         default:

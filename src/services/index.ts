@@ -158,6 +158,10 @@ const importSubmission = async (classId: number, assignmentId: number, file:File
     await api.importSubmission(classId, assignmentId, formData)
 }
 
+const updateSubmission = async (classId: number, assignmentId: number, submissionId:number, grade:number)=>{
+    return await api.updateSubmission(classId, assignmentId, submissionId, grade)
+}
+
 export const authService = {
     login,
     logout,
@@ -194,7 +198,8 @@ export const assignmentService = {
     importStudentInfos,
     exportTemplate,
     addSubmission,
-    importSubmission
+    importSubmission,
+    updateSubmission
 }
 
 export const commonService = {
