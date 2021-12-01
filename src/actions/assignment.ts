@@ -3,7 +3,7 @@ import { GetAssignmentsRequest, GetAssignmentsSuccessPayload, GetAssignmentsSucc
     AddAssignmentFail, UpdatePositionRequest, UpdatePositionSuccessPayload, UpdatePositionSuccess, UpdatePositionFailPayload, 
     UpdatePositionFail, RemoveAssignmentRequest, RemoveAssignmentSuccessPayload, RemoveAssignmentSuccess, RemoveAssignmentFailPayload, 
     RemoveAssignmentFail, UpdateAssignmentRequest, UpdateAssignmentSuccessPayload, UpdateAssignmentSuccess,
-    UpdateAssignmentFailPayload, UpdateAssignmentFail, GetStudentInfosRequest, GetStudentInfosSuccessPayload, GetStudentInfosSuccess, GetStudentInfosFailPayload, GetStudentInfosFail, ImportStudentInfosRequest, ImportStudentInfosSuccess, ImportStudentInfosFailPayload, ImportStudentInfosFail, ExportTemplateRequest, AddSubmissionRequest, AddSubmissionSuccess, AddSubmissionSuccessPayload, AddSubmissionFail, AddSubmissionFailPayload } from "@/@types/assignment.action";
+    UpdateAssignmentFailPayload, UpdateAssignmentFail, GetStudentInfosRequest, GetStudentInfosSuccessPayload, GetStudentInfosSuccess, GetStudentInfosFailPayload, GetStudentInfosFail, ImportStudentInfosRequest, ImportStudentInfosSuccess, ImportStudentInfosFailPayload, ImportStudentInfosFail, ExportTemplateRequest, AddSubmissionRequest, AddSubmissionSuccess, AddSubmissionSuccessPayload, AddSubmissionFail, AddSubmissionFailPayload, ImportSubmissionRequest, ImportSubmissionSuccess, ImportSubmissionFailPayload, ImportSubmissionFail, ReloadStudentInfoRequest } from "@/@types/assignment.action";
 import { Assignment, Submission } from "@/@types/model";
 import { assignmentAction, detailAction } from "@/constants/actions";
 import { AppState } from "@/reducers";
@@ -278,9 +278,44 @@ function* addSubmissionSaga(action: AddSubmissionRequest) {
             submission: res.data
         }))
     } catch (e) {
-        console.log(e)
         yield put(addSubmissionFail({
             error: 'Grade failed'
+        }))
+    }
+}
+
+export const importSubmissionRequest = (classId: number, assignmentId: number, file: File): ImportSubmissionRequest => ({
+    type: assignmentAction.IMPORT_SUBMISSION_REQUEST,
+    payload: {
+        classId,
+        assignmentId,
+        file
+    }
+});
+
+export const importSubmissionSuccess = ():ImportSubmissionSuccess =>({
+    type: assignmentAction.IMPORT_SUBMISSION_SUCCESS
+});
+
+export const importSubmissionFail = (payload: ImportSubmissionFailPayload):ImportSubmissionFail =>({
+    type: assignmentAction.IMPORT_SUBMISSION_FAIL,
+    payload: payload
+});
+
+export const reloadStudentInfoRequest = (): ReloadStudentInfoRequest => ({
+    type: assignmentAction.RELOAD_STUDENT_INFO_REQUEST
+});
+ 
+function* importSubmissionSaga(action: ImportSubmissionRequest) {
+    try {
+        const payload = action.payload
+        yield call(assignmentService.importSubmission, payload.classId, payload.assignmentId, payload.file);
+        yield put(importSubmissionSuccess())
+        yield put(reloadStudentInfoRequest())
+    } catch (e) {
+        console.log(e)
+        yield put(importSubmissionFail({
+            error: 'Import grade failed'
         }))
     }
 }
@@ -295,7 +330,8 @@ export function* assignmentSaga() {
         takeLatest(assignmentAction.GET_STUDENT_INFO_REQUEST, getStudentInfosSaga),
         takeLatest(assignmentAction.IMPORT_STUDENT_INFO_REQUEST, importStudentInfosSaga),
         takeEvery(assignmentAction.EXPORT_TEMPLATE_REQUEST, exportTemplateSaga),
-        takeEvery(assignmentAction.ADD_SUBMISSION_REQUEST, addSubmissionSaga)
+        takeEvery(assignmentAction.ADD_SUBMISSION_REQUEST, addSubmissionSaga),
+        takeEvery(assignmentAction.IMPORT_SUBMISSION_REQUEST, importSubmissionSaga)
     ]);
 }
 

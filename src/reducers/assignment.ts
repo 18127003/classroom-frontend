@@ -1,6 +1,7 @@
 import { AddAssignmentFail, AddAssignmentSuccess, AddSubmissionFail, AddSubmissionSuccess, AssignmentAction, AssignmentState, GetAssignmentsFail, GetAssignmentsSuccess, 
     GetStudentInfosSuccess, 
     ImportStudentInfosFail, 
+    ImportSubmissionFail, 
     RemoveAssignmentFail, RemoveAssignmentSuccess, UpdateAssignmentFail, UpdateAssignmentSuccess, UpdatePositionFail, 
     UpdatePositionSuccess } from "@/@types/assignment.action";
 import { assignmentAction, authActions } from "@/constants/actions";
@@ -216,6 +217,31 @@ export const assignmentReducer = (state: AssignmentState = initState, action: As
                 loading: false,
                 error: (action as AddSubmissionFail).payload.error
             }
+        case assignmentAction.IMPORT_SUBMISSION_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case assignmentAction.IMPORT_SUBMISSION_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: (action as ImportSubmissionFail).payload.error
+            };
+        case assignmentAction.IMPORT_SUBMISSION_SUCCESS:
+            return {
+                ...state,
+                loading: false
+            };
+        case assignmentAction.RELOAD_STUDENT_INFO_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                studentInfos:{
+                    data:[],
+                    reload: true
+                }
+            }; 
         case authActions.LOGOUT_SUCCESS:
             return initState;
         default:

@@ -1,4 +1,4 @@
-import { exportTemplateRequest, getStudentInfosRequest, importStudentInfosRequest } from "@/actions/assignment"
+import { exportTemplateRequest, getStudentInfosRequest, importStudentInfosRequest, importSubmissionRequest } from "@/actions/assignment"
 import { AppState } from "@/reducers"
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
@@ -23,10 +23,15 @@ const useStudentInfos = ()=>{
         dispatch(exportTemplateRequest(classId))
     }
 
+    const handleUploadGrade = (assignmentId:number, file:File)=>{
+        dispatch(importSubmissionRequest(classId, assignmentId, file))
+    }
+
     return {
         studentInfos,
         handleImport,
         handleExport,
+        handleUploadGrade,
         classId
     }
 }

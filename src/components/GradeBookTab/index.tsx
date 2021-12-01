@@ -1,13 +1,21 @@
 import useAssignments from "@/hooks/useAssignments";
 import useStudentInfos from "@/hooks/useStudentInfos";
-import { FileDownload, FileUpload } from "@mui/icons-material";
-import { IconButton, Stack } from "@mui/material";
-import React from "react";
+import { AppState } from "@/reducers";
+import { FileDownload, FileUpload, GradeOutlined, UploadFile } from "@mui/icons-material";
+import { Box, Button, FormControl, IconButton, InputLabel, LinearProgress, MenuItem, Select, SelectChangeEvent, Stack, Tooltip } from "@mui/material";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import GradeTable from "./GradeTable";
 
 const GradeBookTab = ()=>{
-    const {studentInfos, handleImport,handleExport, classId} = useStudentInfos()
+    const {studentInfos, handleImport,handleExport, handleUploadGrade, classId} = useStudentInfos()
     const {assignments} = useAssignments()
+    const loading = useSelector((state:AppState)=>state.assignment.loading)
+    const [selectUpload, setSelectUpload]=useState('')
+
+    const handleSelectUpload = (event: SelectChangeEvent) => {
+        setSelectUpload(event.target.value as string);
+    };
 
     const handleUpload = (event: React.ChangeEvent<HTMLInputElement>)=>{
         const file = event.target.files[0];
@@ -17,9 +25,20 @@ const GradeBookTab = ()=>{
         handleImport(file)
     }
 
+    const handleUploadSubmission = (event: React.ChangeEvent<HTMLInputElement>)=>{
+        const file = event.target.files[0];
+        if(!file) {
+            return;
+        }
+        if(selectUpload!==''){
+            handleUploadGrade(selectUpload as unknown as number, file)
+        }
+    }
+
     return (
         <>
-            <Stack direction="row">
+            
+            <Stack direction="row" mb={3} mt={3} spacing={2} alignItems='flex-end'>
                 <label htmlFor="upload-file">
                     <input
                         style={{ display: 'none' }}
@@ -29,14 +48,59 @@ const GradeBookTab = ()=>{
                         type="file"
                         accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                     />
-                    <IconButton color="primary" size="small" aria-label="import-student-info" component="span">
-                        <FileUpload />
-                    </IconButton>
+                    <Tooltip title="Import student list">
+                        <Button color="primary" size="small" aria-label="import-student-info" variant="outlined" component="span">
+                            <FileUpload />Import
+                        </Button>
+                    </Tooltip>
                 </label>
-                <IconButton color="primary" size="small" aria-label="export-template" onClick={handleExport}>
-                    <FileDownload />
-                </IconButton>
+                <Tooltip title="Export template file">
+                    <Button 
+                        color="primary" 
+                        size="small" 
+                        aria-label="export-template" 
+                        variant="outlined" 
+                        onClick={handleExport} 
+                        component="span"
+                    >
+                        <FileDownload />Export
+                    </Button>
+                </Tooltip>
+                <Box sx={{flexGrow:1}}/>
+                <label htmlFor="upload-submission">
+                    <input
+                        style={{ display: 'none' }}
+                        id="upload-submission"
+                        name="upload-submission"
+                        onChange={handleUploadSubmission}
+                        type="file"
+                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                    />
+                    <Tooltip title="Import grade">
+                        <IconButton color="primary" size="small" aria-label="import-student-info" component="span">
+                            <UploadFile />
+                        </IconButton>
+                    </Tooltip>
+                </label>
+                <Box sx={{ minWidth: 150 }}>
+                    <FormControl fullWidth variant='standard'>
+                        <InputLabel id="select-assignment-label">Assignment</InputLabel>
+                        <Select
+                            sx={{height:'50%'}}
+                            labelId="select-assignment"
+                            id="select-assignment"
+                            value={selectUpload}
+                            label="Assignment"
+                            onChange={handleSelectUpload}
+                        >
+                            {assignments.map(assignment=>(
+                                <MenuItem value={assignment.id} key={assignment.id}>{assignment.name}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Box>
             </Stack>
+            <LinearProgress sx={loading?{}:{display: 'none'}}/>
             <GradeTable studentInfos={studentInfos} assignments={assignments}/>
         </>
         

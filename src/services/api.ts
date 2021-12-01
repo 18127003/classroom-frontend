@@ -166,6 +166,12 @@ const exportTemplate = (id:number)=>instance({
     'responseType':'blob'
 })
 
+const importSubmission = (id:number, assignmentId: number, formData: FormData)=>instance({
+    'method':'POST',
+    'url':`/classroom/${id}/assignment/${assignmentId}/submission/import`,
+    'data':formData
+})
+
 export const api = {
     getData,
     createClassroom,
@@ -191,5 +197,6 @@ export const api = {
     importStudentInfos,
     addSubmission,
     updateStudentId,
-    exportTemplate
+    exportTemplate,
+    importSubmission
 }

@@ -223,6 +223,32 @@ export interface AddSubmissionFail {
     type: typeof assignmentAction.ADD_SUBMISSION_FAIL
     payload: AddSubmissionFailPayload
 }
+
+export interface ImportSubmissionFailPayload{
+    error: string
+}
+
+export interface ImportSubmissionRequest{
+    type: typeof assignmentAction.IMPORT_SUBMISSION_REQUEST,
+    payload: {
+        classId: number,
+        assignmentId: number,
+        file: File
+    }
+}
+
+export interface ImportSubmissionSuccess {
+    type: typeof assignmentAction.IMPORT_SUBMISSION_SUCCESS
+}
+
+export interface ImportSubmissionFail {
+    type: typeof assignmentAction.IMPORT_SUBMISSION_FAIL
+    payload: ImportSubmissionFailPayload
+}
+
+export interface ReloadStudentInfoRequest{
+    type: typeof assignmentAction.RELOAD_STUDENT_INFO_REQUEST
+}
    
 
 export type StudentInfoAction = 
@@ -237,6 +263,9 @@ export type SubmissionAction =
     | AddSubmissionRequest
     | AddSubmissionSuccess
     | AddSubmissionFail
+    | ImportSubmissionRequest
+    | ImportSubmissionSuccess
+    | ImportSubmissionFail
 
 export type AssignmentAction = 
     | GetAssignmentsRequest
@@ -258,3 +287,4 @@ export type AssignmentAction =
     | StudentInfoAction
     | ExportTemplateRequest
     | SubmissionAction
+    | ReloadStudentInfoRequest
