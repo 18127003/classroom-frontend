@@ -3,6 +3,7 @@ import { addSubmissionRequest, updateSubmissionRequest } from "@/actions/assignm
 import { Alert, Box, Snackbar, Stack, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import SimpleConfirmDialog from "../Dialog/SimpleConfirmDialog";
 
 const GradeCell:React.FC<GradeCellProps> = ({submission})=>{
     const [edit, setEdit] = useState(submission.grade!==undefined?false:true)

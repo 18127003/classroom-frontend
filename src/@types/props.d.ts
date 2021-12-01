@@ -124,3 +124,12 @@ interface StudentRowProps {
 interface GradeCellProps {
     submission: Submission
 }
+
+interface AssignmentDropdownProps {
+    assignments: Assignment[]
+    onUploadConfirm: (assignmentId: number, file: File)=>void
+}
+
+interface ImportStudentButtonProps {
+    onUploadConfirm: (file:File)=>void
+}
