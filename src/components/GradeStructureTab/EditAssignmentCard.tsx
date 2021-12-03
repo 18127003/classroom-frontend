@@ -55,6 +55,7 @@ const EditAssignmentCard: React.FC<EditAssignmentCardProps> = ({ assignment, ind
 
   const handleDelete = ()=>{
     dispatch(removeAssignmentRequest(classId, assignment.id))
+    onPostModify()
   }
 
   const handleAdd = ()=>{
