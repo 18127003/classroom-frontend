@@ -7,6 +7,7 @@ import { AuthSuccessPayload, AuthSuccess, AuthFailPayload, AuthFail, AuthRequest
 import { COOKIES_AUTH_NAME } from "@/constants/common";
 import { initAccountRequest } from "./account";
 import { getClassroomsRequest } from "./classrooms";
+import { userInfo } from "os";
 
 
 export const loginRequest = (auth: AuthRequestInfo) => ({
@@ -31,15 +32,22 @@ export const loginFail = (payload: AuthFailPayload):AuthFail =>({
  
 function* loginSaga(action: AuthRequest) {
     try{
-        const user = yield call(authService.login, action.payload);
+        let user;
+        if(!action.payload.admin){
+            user = yield call(authService.login, action.payload);
+        } else {
+            user = yield call(authService.adminLogin, action.payload);
+        }
         commonService.saveCookies(COOKIES_AUTH_NAME, user.data);
         yield put(initAccountRequest(user.data))
         yield put(loginSuccess({
             user: user.data
         }))
-        yield put(getClassroomsRequest({
-            reload: true
-        }))
+        if(user.data.role!=='ADMIN'){
+            yield put(getClassroomsRequest({
+                reload: true
+            }))
+        }
     } catch (e){
         yield put(loginFail({
             error: 'Login failed'
@@ -54,9 +62,11 @@ function* refreshLoginSaga(action: AuthRefresh) {
         yield put(loginSuccess({
             user:action.payload
         }))
-        yield put(getClassroomsRequest({
-            reload: false
-        }))
+        if(action.payload.role!=='ADMIN'){
+            yield put(getClassroomsRequest({
+                reload: false
+            }))
+        }
     } catch (e){
         
     }

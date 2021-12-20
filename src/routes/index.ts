@@ -1,4 +1,6 @@
 import AcceptTokenPage from "@/views/AcceptTokenPage";
+import AdminHomePage from "@/views/AdminHomePage";
+import AdminLoginPage from "@/views/AdminLoginPage";
 import AssignmentPage from "@/views/AssignmentPage";
 import ClassroomPage from "@/views/ClassroomPage";
 import HomePage from "@/views/HomePage";
@@ -62,7 +64,25 @@ const routes: AppRoute[] = [
         component: AcceptTokenPage,
         protected: true,
         exact: true,
+    },
+    {
+        path: '/login/admin',
+        name: 'Admin Home Page',
+        component: AdminLoginPage,
+        protected: false,
+        exact: true,
     }
+]
+
+export const adminRoute: AppRoute[] = [
+    {
+        path: '/admin',
+        name: 'Admin Home Page',
+        component: AdminHomePage,
+        protected: true,
+        exact: true,
+    },
+    
 ]
 
 export default routes;

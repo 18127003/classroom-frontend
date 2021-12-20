@@ -2,8 +2,8 @@ import { Account, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classr
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'https://classroom-spring.herokuapp.com/api',
-    // baseURL:'http://localhost:8080/api',
+    // baseURL: 'https://classroom-spring.herokuapp.com/api',
+    baseURL:'http://localhost:8080/api',
     withCredentials: true
 });
 
@@ -23,6 +23,13 @@ const createClassroom = (classroom: Classroom) => instance({
 const login = (auth: AuthRequestInfo) => instance({
     'method':'POST',
     'url':'/auth/login',
+    'data': auth,
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
+const adminLogin = (auth: AuthRequestInfo) => instance({
+    'method':'POST',
+    'url':'/auth/loginAdmin',
     'data': auth,
     transformResponse: [(data) => JSON.parse(data)]
 })
@@ -205,5 +212,6 @@ export const api = {
     updateStudentId,
     exportTemplate,
     importSubmission,
-    updateSubmission
+    updateSubmission,
+    adminLogin
 }

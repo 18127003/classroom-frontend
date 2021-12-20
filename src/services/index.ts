@@ -59,6 +59,10 @@ const login = async (auth: AuthRequestInfo)=>{
     return await api.login(auth);
 }
 
+const adminLogin = async (auth: AuthRequestInfo)=>{
+    return await api.adminLogin(auth);
+}
+
 const logout = async ()=>{
     return await api.logout();
 }
@@ -167,7 +171,8 @@ export const authService = {
     logout,
     signup,
     socialLogin,
-    testConnection
+    testConnection,
+    adminLogin
 }
 
 export const accountService = {

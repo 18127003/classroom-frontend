@@ -10,7 +10,7 @@ const CustomRoute: React.FC<CustomRouteProps> = ({...rest}) => {
     if(rest.protected){
         const auth = useSelector((state:AppState)=>state.auth.user)
         const loggedOut = useSelector((state:AppState)=>state.auth.loggedOut)
-        if(!auth){
+        if(!auth || auth.role==='ADMIN'){
             return <Redirect to={{
                 pathname: '/login',
                 state: loggedOut?"/":`${rest.location.pathname}${rest.location.search}`

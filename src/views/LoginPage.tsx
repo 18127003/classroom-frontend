@@ -28,7 +28,7 @@ const LoginPage: React.FC<LoginPageProps> = ({tab})=>{
         }
     },[])
 
-    if(auth!==null && auth!==undefined){
+    if(auth!==null && auth!==undefined && auth.role!=='ADMIN'){
         return <Redirect to={location.state??'/'}/>
     }
    

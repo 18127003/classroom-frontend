@@ -26,6 +26,13 @@ export interface Account {
     hidden?:boolean
 }
 
+export interface Admin {
+    name?: string,
+    id?: number,
+    email: string,
+    role?:string,
+}
+
 export interface Assignment {
     id?:number,
     name: string,
@@ -41,6 +48,7 @@ export interface Assignment {
 export interface AuthRequestInfo {
     email: string,
     password: string
+    admin?: boolean
 }
 
 export interface InvitationRequestInfo {
