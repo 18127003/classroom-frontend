@@ -91,3 +91,8 @@ export interface StudentInfo {
     accountMail?: string,
     submissions: Submission[]
 }
+
+export interface OverallGrade {
+    overallGrade: number,
+    maxGrade: number
+}

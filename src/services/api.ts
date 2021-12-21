@@ -185,6 +185,12 @@ const updateSubmission = (classId:number, assignmentId:number, submissionId: num
     transformResponse: [(data) => JSON.parse(data)]
 })
 
+const getOverallGrade = (classId: number)=>instance({
+    'method':'GET',
+    'url':`/classroom/${classId}/assignment/overallGrade`,
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
 export const api = {
     getData,
     createClassroom,
@@ -213,5 +219,6 @@ export const api = {
     exportTemplate,
     importSubmission,
     updateSubmission,
-    adminLogin
+    adminLogin,
+    getOverallGrade
 }

@@ -17,7 +17,7 @@ const initState:AssignmentState = {
     studentInfos: {
         data: [],
         reload: true
-    }, 
+    },
     error:null
 }
 

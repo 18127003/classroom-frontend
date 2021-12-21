@@ -5,6 +5,7 @@ import DetailClassTab from "@/components/DetailClassTab";
 import InvitationRespondDialog from "@/components/Dialog/InvitationRespondDialog";
 import GradeBookTab from "@/components/GradeBookTab";
 import GradeStructureTab from "@/components/GradeStructureTab";
+import OverallGradeTab from "@/components/OverallGradeTab";
 import ParticipantTab from "@/components/ParticipantTab";
 import useClassroomWrapper from "@/hooks/useClassroomWrapper";
 import { AppState } from "@/reducers";
@@ -43,7 +44,7 @@ const ClassroomPage: React.FC = ()=>{
                     <Tab label="News" value="1"/>
                     <Tab label="Assignments" value="2"/>
                     <Tab label="Participants" value="3"/>
-                    {classroom && classroom.role==="TEACHER" && (<Tab label="Grade Book" value="4"/>)}
+                    <Tab label="Grade" value="4"/>
                 </TabList>
                 
             </BasicAppBar>
@@ -57,7 +58,7 @@ const ClassroomPage: React.FC = ()=>{
                     <Tab label="News" value="1"/>
                     <Tab label="Assignments" value="2"/>
                     <Tab label="Participants" value="3"/>
-                    {classroom && classroom.role==="TEACHER" && (<Tab label="Grade Book" value="4"/>)}
+                    <Tab label="Grade" value="4"/>
                 </TabList>
             </Box>
             
@@ -69,7 +70,11 @@ const ClassroomPage: React.FC = ()=>{
                 }
             </TabPanel>
             <TabPanel value="3"><ParticipantTab/></TabPanel>
-            {classroom && classroom.role==="TEACHER" && (<TabPanel value="4"><GradeBookTab/></TabPanel>)}
+            <TabPanel value="4">
+                {
+                    classroom && classroom.role==="STUDENT"?<OverallGradeTab/>:<GradeBookTab/>
+                }
+            </TabPanel>
         </TabContext>
     )
 }

@@ -166,6 +166,10 @@ const updateSubmission = async (classId: number, assignmentId: number, submissio
     return await api.updateSubmission(classId, assignmentId, submissionId, grade)
 }
 
+const getOverallGrade = async (classId: number)=>{
+    return await api.getOverallGrade(classId)
+}
+
 export const authService = {
     login,
     logout,
@@ -205,6 +209,10 @@ export const assignmentService = {
     addSubmission,
     importSubmission,
     updateSubmission
+}
+
+export const gradeService = {
+    getOverallGrade
 }
 
 export const commonService = {
