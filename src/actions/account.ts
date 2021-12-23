@@ -1,9 +1,10 @@
-import { ChangePasswordFail, ChangePasswordFailPayload, ChangePasswordRequest, ChangePasswordRequestPayload, ChangePasswordSuccess, InitAccountRequest, InitAccountSuccess, InitAccountSuccessPayload, UpdateFail, UpdateFailPayload, UpdateRequest, UpdateSuccess, UpdateSuccessPayload } from "@/@types/account.action";
-import { Account } from "@/@types/model";
-import { accountAction } from "@/constants/actions";
+import { ChangePasswordFail, ChangePasswordFailPayload, ChangePasswordRequest, ChangePasswordRequestPayload, ChangePasswordSuccess, InitAccountRequest, InitAccountSuccess, InitAccountSuccessPayload, UpdateFail, UpdateFailPayload, UpdateRequest, UpdateStudentIdFail, UpdateStudentIdFailPayload, UpdateStudentIdRequest, UpdateStudentIdSuccess, UpdateStudentIdSuccessPayload, UpdateSuccess, UpdateSuccessPayload } from "@/@types/account.action";
+import { Account, StudentInfo } from "@/@types/model";
+import { accountAction, detailAction } from "@/constants/actions";
 import { COOKIES_AUTH_NAME } from "@/constants/common";
-import { accountService, commonService } from "@/services";
+import { accountService, classroomService, commonService } from "@/services";
 import { all, call, put, takeLatest } from "@redux-saga/core/effects";
+import { reloadClassroomRequest } from "./classrooms";
 
 export const updateRequest = (account: Account): UpdateRequest => ({
     type: accountAction.UPDATE_ACCOUNT_REQUEST,
@@ -75,11 +76,41 @@ function* initAccountSaga(action: InitAccountRequest) {
      }))
 }
 
+export const updateStudentIdRequest = (studentInfo: StudentInfo): UpdateStudentIdRequest => ({
+    type: accountAction.UPDATE_STUDENTID_REQUEST,
+    payload: studentInfo
+});
+
+export const updateStudentIdSuccess = (payload: UpdateStudentIdSuccessPayload):UpdateStudentIdSuccess =>({
+    type: accountAction.UPDATE_STUDENTID_SUCCESS,
+    payload: payload
+});
+
+export const updateStudentIdFail = (payload: UpdateStudentIdFailPayload):UpdateStudentIdFail =>({
+    type: accountAction.UPDATE_STUDENTID_FAIL,
+    payload: payload
+});
+ 
+function* updateStudentIdSaga(action: UpdateStudentIdRequest) {
+    try {
+        yield call(accountService.updateStudentId, action.payload)
+        yield put(updateStudentIdSuccess({
+            studentId: action.payload.studentId
+        }))
+        yield put(reloadClassroomRequest())
+    } catch (e){
+        yield put(updateStudentIdFail({
+            error: 'Update student ID failed'
+        }))
+    }
+}
+
 export function* accountSaga() {
     yield all([
         takeLatest(accountAction.UPDATE_ACCOUNT_REQUEST, updateAccountSaga),
         takeLatest(accountAction.UPDATE_PASSWORD_REQUEST, changePasswordSaga),
         takeLatest(accountAction.INIT_ACCOUNT_REQUEST, initAccountSaga),
+        takeLatest(accountAction.UPDATE_STUDENTID_REQUEST, updateStudentIdSaga)
     ]);
 }
 

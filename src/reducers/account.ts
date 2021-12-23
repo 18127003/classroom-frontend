@@ -1,4 +1,4 @@
-import { AccountAction, AccountState, InitAccountSuccess, UpdateFail, UpdateSuccess } from "@/@types/account.action";
+import { AccountAction, AccountState, InitAccountSuccess, UpdateFail, UpdateStudentIdFail, UpdateStudentIdSuccess, UpdateSuccess } from "@/@types/account.action";
 import { accountAction, authActions } from "@/constants/actions";
 
 const initState:AccountState = {loading:false, detail: null, error:null}
@@ -49,6 +49,27 @@ export const accountReducer = (state: AccountState = initState, action: AccountA
                 loading: false,
                 detail: (action as InitAccountSuccess).payload.detail
             }
+        case accountAction.UPDATE_STUDENTID_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case accountAction.UPDATE_STUDENTID_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                detail:{
+                    ...state.detail,
+                    studentId: (action as UpdateStudentIdSuccess).payload.studentId
+                },
+                error:null
+            };
+        case accountAction.UPDATE_STUDENTID_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: (action as UpdateStudentIdFail).payload.error
+            };
         case authActions.LOGOUT_SUCCESS:
             return initState;
         default:

@@ -1,4 +1,4 @@
-import { Account, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, Submission } from '@/@types/model';
+import { Account, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, StudentInfo, Submission } from '@/@types/model';
 import axios from 'axios';
 
 const instance = axios.create({
@@ -145,13 +145,13 @@ const updateAssignmentPosition = (id:number, update: number[])=>instance({
 
 const getStudentInfos = (id:number)=>instance({
     'method':'GET',
-    'url':`/classroom/${id}/assignment/studentInfo/all`,
+    'url':`/classroom/${id}/studentInfo/all`,
     transformResponse: [(data) => JSON.parse(data)]
 })
 
 const importStudentInfos = (id:number, formData: FormData)=>instance({
     'method':'POST',
-    'url':`/classroom/${id}/assignment/studentInfo/import`,
+    'url':`/classroom/${id}/studentInfo/import`,
     'data': formData
 })
 
@@ -162,9 +162,10 @@ const addSubmission = (id:number, assignmentId:number, submission: Submission)=>
     transformResponse: [(data) => JSON.parse(data)]
 })
 
-const updateStudentId = (id:number, studentId: string)=>instance({
-    'method':'PATCH',
-    'url':`/classroom/${id}/participant/studentId/update?v=${studentId}`
+const updateStudentId = (studentInfo: StudentInfo)=>instance({
+    'method':'POST',
+    'url':`/account/studentId/update`,
+    'data':studentInfo
 })
 
 const exportTemplate = (id:number)=>instance({

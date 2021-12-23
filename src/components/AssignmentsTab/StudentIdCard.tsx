@@ -1,4 +1,4 @@
-import { updateStudentIdRequest } from "@/actions/detail";
+import { updateStudentIdRequest } from "@/actions/account";
 import { AppState } from "@/reducers";
 import { Card, CardHeader, CardContent, TextField, CardActions, Button } from "@mui/material";
 import { Box } from "@mui/system";
@@ -20,7 +20,11 @@ const StudentIdCard: React.FC<StudentIdcardProps> = ({studentId, classId})=>{
         const target = event.target as typeof event.target & {
             studentId: { value: string };
         }
-        dispatch(updateStudentIdRequest(classId, target.studentId.value))
+        // TODO: fix
+        dispatch(updateStudentIdRequest({
+            studentId: target.studentId.value,
+            name: 'Tran Hai Dang'
+        }))
         onCancelEdit()
     }
 

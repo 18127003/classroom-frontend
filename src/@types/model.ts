@@ -26,13 +26,6 @@ export interface Account {
     hidden?:boolean
 }
 
-export interface Admin {
-    name?: string,
-    id?: number,
-    email: string,
-    role?:string,
-}
-
 export interface Assignment {
     id?:number,
     name: string,
@@ -80,16 +73,16 @@ export interface Submission {
     id?:number,
     assignmentId: number,
     studentId: string,
-    classroomId: number,
     grade?:number,
     maxGrade: number
 }
 
 export interface StudentInfo {
+    id?:number,
     studentId: string,
     name: string,
     accountMail?: string,
-    submissions: Submission[]
+    submissions?: Submission[]
 }
 
 export interface OverallGrade {

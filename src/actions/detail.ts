@@ -2,18 +2,12 @@ import {  GetDetailFail, GetDetailFailPayload, GetDetailRequest, GetDetailSucces
     GetParticipantsFail, GetParticipantsFailPayload, GetParticipantsRequest, GetParticipantsSuccess, 
     GetParticipantsSuccessPayload, HideParticipantsFail, HideParticipantsFailPayload, HideParticipantsRequest, 
     HideParticipantsSuccess, ReloadParticipantsRequest, RemoveParticipantsFail, RemoveParticipantsFailPayload, 
-    RemoveParticipantsRequest, RemoveParticipantsSuccess,
-     SendInvitationRequest,
-     UpdateStudentIdFail,
-     UpdateStudentIdFailPayload,
-     UpdateStudentIdRequest,
-     UpdateStudentIdSuccess,
-     UpdateStudentIdSuccessPayload} from "@/@types/detail.action";
+    RemoveParticipantsRequest, RemoveParticipantsSuccess,SendInvitationRequest} from "@/@types/detail.action";
 import { AssignedClassroom, InvitationRequestInfo, ModifyParticipantsInfo } from "@/@types/model";
 import { detailAction } from "@/constants/actions";
 import { classroomService } from "@/services";
 import { all, call, put, takeLatest } from "@redux-saga/core/effects";
-import { reloadAssignmentsRequest } from "./assignment";
+import { reloadAssignmentsRequest, reloadStudentInfoRequest } from "./assignment";
 import { reloadClassroomRequest } from "./classrooms";
 
 export const getParticipantsRequest = (classId: number): GetParticipantsRequest => ({
@@ -79,7 +73,7 @@ function* getDetailSaga(action: GetDetailRequest) {
             detail: detail
         }))
         yield put(reloadAssignmentsRequest())
-        
+        yield put(reloadStudentInfoRequest())
     } else {
         yield put(getDetailFail({
             error: 'Get classroom detail failed'
@@ -150,37 +144,7 @@ function* hideParticipantsSaga(action: HideParticipantsRequest) {
     }
 }
 
-export const updateStudentIdRequest = (classId: number, studentId: string): UpdateStudentIdRequest => ({
-    type: detailAction.UPDATE_STUDENTID_REQUEST,
-    payload: {
-        classId,
-        studentId
-    }
-});
 
-export const updateStudentIdSuccess = (payload: UpdateStudentIdSuccessPayload):UpdateStudentIdSuccess =>({
-    type: detailAction.UPDATE_STUDENTID_SUCCESS,
-    payload: payload
-});
-
-export const updateStudentIdFail = (payload: UpdateStudentIdFailPayload):UpdateStudentIdFail =>({
-    type: detailAction.UPDATE_STUDENTID_FAIL,
-    payload: payload
-});
- 
-function* updateStudentIdSaga(action: UpdateStudentIdRequest) {
-    try {
-        yield call(classroomService.updateStudentId, action.payload.classId, action.payload.studentId)
-        yield put(updateStudentIdSuccess({
-            studentId: action.payload.studentId
-        }))
-        yield put(reloadClassroomRequest())
-    } catch (e){
-        yield put(updateStudentIdFail({
-            error: 'Update student ID failed'
-        }))
-    }
-}
 
 export function* detailSaga() {
     yield all([
@@ -188,8 +152,7 @@ export function* detailSaga() {
         takeLatest(detailAction.GET_DETAIL_REQUEST, getDetailSaga),
         takeLatest(detailAction.SEND_INVITATION_REQUEST, sendInvitationSaga),
         takeLatest(detailAction.REMOVE_PARTICIPANT_REQUEST, removeParticipantsSaga),
-        takeLatest(detailAction.HIDE_PARTICIPANT_REQUEST, hideParticipantsSaga),
-        takeLatest(detailAction.UPDATE_STUDENTID_REQUEST, updateStudentIdSaga)
+        takeLatest(detailAction.HIDE_PARTICIPANT_REQUEST, hideParticipantsSaga)
     ]);
 }
 

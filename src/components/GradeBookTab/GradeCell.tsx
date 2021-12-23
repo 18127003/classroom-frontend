@@ -1,22 +1,23 @@
 import { GradeCellProps } from "@/@types/props";
 import { addSubmissionRequest, updateSubmissionRequest } from "@/actions/assignment";
+import { AppState } from "@/reducers";
 import { Alert, Box, Snackbar, Stack, TextField } from "@mui/material";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import SimpleConfirmDialog from "../Dialog/SimpleConfirmDialog";
+import { useDispatch, useSelector } from "react-redux";
 
 const GradeCell:React.FC<GradeCellProps> = ({submission})=>{
     const [edit, setEdit] = useState(submission.grade!==undefined?false:true)
     const [errorMsg, setErrorMsg] = useState<string|null>(null)
     const [error, setError] = useState(false);
     const dispatch = useDispatch()
+    const classId = useSelector((state:AppState)=>state.detail.detail.id)
 
     const onFocusOutAdd = (event)=>{
         const temp = event.target.value
         if(!temp) return;
         if(/^([0-9]+)$/.test(temp) && temp <= submission.maxGrade){
             setError(false)
-            dispatch(addSubmissionRequest(submission.classroomId, submission.assignmentId, {
+            dispatch(addSubmissionRequest(classId, submission.assignmentId, {
                 ...submission,
                 grade: temp
             }))
@@ -33,7 +34,7 @@ const GradeCell:React.FC<GradeCellProps> = ({submission})=>{
         if(!temp) return;
         if(/^([0-9]+)$/.test(temp) && temp <= submission.maxGrade){
             setError(false)
-            dispatch(updateSubmissionRequest(submission.classroomId, submission.assignmentId, submission.id, temp))
+            dispatch(updateSubmissionRequest(classId, submission.assignmentId, submission.id, temp))
         } else {
             setError(true)
             setErrorMsg("Invalid grade")

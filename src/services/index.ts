@@ -1,5 +1,5 @@
 
-import { Account, AssignedClassroom, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GetClassroomsCriteria, InvitationRequestInfo, JoinRequestInfo, ModifyParticipantsInfo, Submission } from "@/@types/model"
+import { Account, AssignedClassroom, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GetClassroomsCriteria, InvitationRequestInfo, JoinRequestInfo, ModifyParticipantsInfo, StudentInfo, Submission } from "@/@types/model"
 import { LOCAL_STORAGE_CLASSES_NAME } from "@/constants/common"
 import Cookies from "universal-cookie"
 import { api } from "./api"
@@ -138,8 +138,8 @@ const importStudentInfos = async (id:number, file: File)=>{
     await api.importStudentInfos(id, formData)
 }
 
-const updateStudentId = async (id:number, studentId: string)=>{
-    await api.updateStudentId(id, studentId)
+const updateStudentId = async (studentInfo: StudentInfo)=>{
+    await api.updateStudentId(studentInfo)
 }
 
 const exportTemplate = async (id:number)=>{
@@ -181,7 +181,8 @@ export const authService = {
 
 export const accountService = {
     updateAccount,
-    changePassword
+    changePassword,
+    updateStudentId,
 }
 
 export const classroomService = {
@@ -194,7 +195,8 @@ export const classroomService = {
     sendInvitationMail,
     removeParticipants,
     hideParticipants,
-    updateStudentId
+    getStudentInfos,
+    importStudentInfos,
 }
 
 export const assignmentService = {
@@ -203,8 +205,6 @@ export const assignmentService = {
     updateAssignmentPosition,
     removeAssignment,
     updateAssignment,
-    getStudentInfos,
-    importStudentInfos,
     exportTemplate,
     addSubmission,
     importSubmission,

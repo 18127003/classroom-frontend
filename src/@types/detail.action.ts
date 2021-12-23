@@ -106,32 +106,6 @@ export interface HideParticipantsFail {
     payload: HideParticipantsFailPayload
 }
 
-export interface UpdateStudentIdSuccessPayload {
-    studentId: string;
-}
-
-export interface UpdateStudentIdFailPayload{
-    error: string
-}
-
-export interface UpdateStudentIdRequest{
-    type: typeof detailAction.UPDATE_STUDENTID_REQUEST,
-    payload: {
-        classId: number
-        studentId:string
-    }
-}
-
-export interface UpdateStudentIdSuccess {
-    type: typeof detailAction.UPDATE_STUDENTID_SUCCESS
-    payload: UpdateStudentIdSuccessPayload
-}
-
-export interface UpdateStudentIdFail {
-    type: typeof detailAction.UPDATE_STUDENTID_FAIL
-    payload: UpdateStudentIdFailPayload
-}
-
 export type ParticipantAction = 
     | RemoveParticipantsRequest
     | RemoveParticipantsFail
@@ -150,6 +124,3 @@ export type DetailAction =
     | GetDetailSuccess
     | GetDetailFail
     | SendInvitationRequest
-    | UpdateStudentIdRequest
-    | UpdateStudentIdSuccess
-    | UpdateStudentIdFail

@@ -1,5 +1,5 @@
 import { accountAction } from "@/constants/actions";
-import { Account, ChangePasswordRequestInfo } from "./model";
+import { Account, ChangePasswordRequestInfo, StudentInfo } from "./model";
 
 export interface AccountState {
     loading: boolean,
@@ -67,6 +67,30 @@ export interface InitAccountSuccess {
     payload: InitAccountSuccessPayload
 }
 
+export interface UpdateStudentIdSuccessPayload {
+    studentId: string;
+}
+
+export interface UpdateStudentIdFailPayload{
+    error: string
+}
+
+export interface UpdateStudentIdRequest{
+    type: typeof accountAction.UPDATE_STUDENTID_REQUEST,
+    payload: StudentInfo
+}
+
+export interface UpdateStudentIdSuccess {
+    type: typeof accountAction.UPDATE_STUDENTID_SUCCESS
+    payload: UpdateStudentIdSuccessPayload
+}
+
+export interface UpdateStudentIdFail {
+    type: typeof accountAction.UPDATE_STUDENTID_FAIL
+    payload: UpdateStudentIdFailPayload
+}
+
+
 export type AccountAction = 
     | UpdateRequest
     | UpdateSuccess
@@ -76,3 +100,6 @@ export type AccountAction =
     | ChangePasswordSuccess
     | InitAccountRequest
     | InitAccountSuccess
+    | UpdateStudentIdRequest
+    | UpdateStudentIdSuccess
+    | UpdateStudentIdFail

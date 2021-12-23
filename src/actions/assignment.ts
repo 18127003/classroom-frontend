@@ -3,9 +3,14 @@ import { GetAssignmentsRequest, GetAssignmentsSuccessPayload, GetAssignmentsSucc
     AddAssignmentFail, UpdatePositionRequest, UpdatePositionSuccessPayload, UpdatePositionSuccess, UpdatePositionFailPayload, 
     UpdatePositionFail, RemoveAssignmentRequest, RemoveAssignmentSuccessPayload, RemoveAssignmentSuccess, RemoveAssignmentFailPayload, 
     RemoveAssignmentFail, UpdateAssignmentRequest, UpdateAssignmentSuccessPayload, UpdateAssignmentSuccess,
-    UpdateAssignmentFailPayload, UpdateAssignmentFail, GetStudentInfosRequest, GetStudentInfosSuccessPayload, GetStudentInfosSuccess, GetStudentInfosFailPayload, GetStudentInfosFail, ImportStudentInfosRequest, ImportStudentInfosSuccess, ImportStudentInfosFailPayload, ImportStudentInfosFail, ExportTemplateRequest, AddSubmissionRequest, AddSubmissionSuccess, AddSubmissionSuccessPayload, AddSubmissionFail, AddSubmissionFailPayload, ImportSubmissionRequest, ImportSubmissionSuccess, ImportSubmissionFailPayload, ImportSubmissionFail, ReloadStudentInfoRequest, UpdateSubmissionRequest, UpdateSubmissionSuccess, UpdateSubmissionSuccessPayload, UpdateSubmissionFail, UpdateSubmissionFailPayload } from "@/@types/assignment.action";
+    UpdateAssignmentFailPayload, UpdateAssignmentFail, GetStudentInfosRequest, GetStudentInfosSuccessPayload, GetStudentInfosSuccess, 
+    GetStudentInfosFailPayload, GetStudentInfosFail, ImportStudentInfosRequest, ImportStudentInfosSuccess, 
+    ImportStudentInfosFailPayload, ImportStudentInfosFail, ExportTemplateRequest, AddSubmissionRequest, AddSubmissionSuccess, 
+    AddSubmissionSuccessPayload, AddSubmissionFail, AddSubmissionFailPayload, ImportSubmissionRequest, ImportSubmissionSuccess, 
+    ImportSubmissionFailPayload, ImportSubmissionFail, ReloadStudentInfoRequest, UpdateSubmissionRequest, UpdateSubmissionSuccess, 
+    UpdateSubmissionSuccessPayload, UpdateSubmissionFail, UpdateSubmissionFailPayload } from "@/@types/assignment.action";
 import { Assignment, StudentInfo, Submission } from "@/@types/model";
-import { assignmentAction, detailAction } from "@/constants/actions";
+import { assignmentAction } from "@/constants/actions";
 import { AppState } from "@/reducers";
 import { assignmentService, classroomService } from "@/services";
 import { put, select, all, takeLatest, takeEvery, call } from "redux-saga/effects";
@@ -199,7 +204,7 @@ export const getStudentInfosFail = (payload: GetStudentInfosFailPayload):GetStud
  
 function* getStudentInfosSaga(action: GetStudentInfosRequest) {
     try {
-        const studentInfos = yield call(assignmentService.getStudentInfos, action.payload);
+        const studentInfos = yield call(classroomService.getStudentInfos, action.payload);
         yield put(getStudentInfosSuccess({
             studentInfos: studentInfos.data
         }))
@@ -229,7 +234,7 @@ export const importStudentInfosFail = (payload: ImportStudentInfosFailPayload):I
  
 function* importStudentInfosSaga(action: ImportStudentInfosRequest) {
     try {
-        yield call(assignmentService.importStudentInfos, action.payload.classId, action.payload.file);
+        yield call(classroomService.importStudentInfos, action.payload.classId, action.payload.file);
         yield put(importStudentInfosSuccess())
     } catch (e) {
         yield put(importStudentInfosFail({
