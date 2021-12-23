@@ -5,6 +5,7 @@ import AssignmentPage from "@/views/AssignmentPage";
 import ClassroomPage from "@/views/ClassroomPage";
 import HomePage from "@/views/HomePage";
 import LoginPage from "@/views/LoginPage";
+import TestPage from "@/views/test";
 import React from "react";
 
 type AppRoute = {
@@ -79,6 +80,13 @@ export const adminRoute: AppRoute[] = [
         path: '/admin',
         name: 'Admin Home Page',
         component: AdminHomePage,
+        protected: true,
+        exact: true,
+    },
+    {
+        path: '/admin/test',
+        name: 'Admin Test Page',
+        component: TestPage,
         protected: true,
         exact: true,
     },

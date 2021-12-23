@@ -54,6 +54,10 @@ interface EditProfileDialogProps extends DialogProps{
 interface ChangePasswordDialogProps extends DialogProps{
 }
 
+interface UpdateStudentIDDialogProps extends DialogProps{
+    studentId: string|null
+}
+
 type ParticipantListProps={
     hasCount: boolean,
     hasAddIcon?: boolean,

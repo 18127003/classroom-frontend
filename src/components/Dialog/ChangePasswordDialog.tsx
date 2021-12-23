@@ -5,7 +5,7 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextFie
 import React, { SyntheticEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-export const ChangePasswordDialog: React.FC<ChangePasswordDialogProps> = ({isOpen=false, handleClose}) => {
+const ChangePasswordDialog: React.FC<ChangePasswordDialogProps> = ({isOpen=false, handleClose}) => {
     const account = useSelector((state:AppState)=>state.account.detail)
     const [valid,setValid]=useState(true)
     const dispatch = useDispatch()
@@ -72,3 +72,5 @@ export const ChangePasswordDialog: React.FC<ChangePasswordDialogProps> = ({isOpe
       </Dialog>
     )
 }
+
+export default ChangePasswordDialog;

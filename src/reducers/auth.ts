@@ -20,6 +20,7 @@ export const authReducer = (state: AuthState = initState, action: AuthAction):Au
             return {
                 ...state,
                 loading: false,
+                loggedOut:false,
                 user: (action as AuthSuccess).payload.user,
                 error:{}
             };

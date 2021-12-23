@@ -232,7 +232,6 @@ export const assignmentReducer = (state: AssignmentState = initState, action: As
         case assignmentAction.RELOAD_STUDENT_INFO_REQUEST:
             return {
                 ...state,
-                loading: true,
                 studentInfos:{
                     data:[],
                     reload: true

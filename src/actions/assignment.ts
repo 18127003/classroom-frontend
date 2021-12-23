@@ -146,7 +146,7 @@ function* removeAssignmentSaga(action: RemoveAssignmentRequest) {
             id: action.payload.id
         }))
         yield put(updatePositionRequest(action.payload.classId))
-
+        yield put(reloadStudentInfoRequest())
     } catch (e) {
         yield put(removeAssignmentFail({
             error: 'Remove assignment failed'

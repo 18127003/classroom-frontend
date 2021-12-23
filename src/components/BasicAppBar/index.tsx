@@ -9,9 +9,10 @@ import { NavLink } from 'react-router-dom';
 import Profile from '../Profile';
 import { ModeEdit } from '@mui/icons-material';
 import { EditProfileDialog } from '../Dialog/EditProfileDialog';
-import {ChangePasswordDialog } from '../Dialog/ChangePasswordDialog';
 import { BasicAppBarProps } from '@/@types/props';
 import ClassroomDrawer from './ClassroomDrawer';
+import UpdateStudentIDDialog from '../Dialog/UpdateStudentIDDialog';
+import ChangePasswordDialog from '../Dialog/ChangePasswordDialog';
 
 const BasicAppBar: React.FC<BasicAppBarProps> = ({titleFlexGrow=true,hasDrawer=true, children}) => {
   const user = useSelector((state:AppState)=>state.account.detail);
@@ -38,6 +39,9 @@ const BasicAppBar: React.FC<BasicAppBarProps> = ({titleFlexGrow=true,hasDrawer=t
             <PopupMenuItem title="Profile" button={<IconButton><ModeEdit/></IconButton>}>
               <Profile/>
               <EditProfileDialog />
+            </PopupMenuItem>
+            <PopupMenuItem title="Update Student ID">
+              <UpdateStudentIDDialog studentId={user.studentId}/>
             </PopupMenuItem>
             <PopupMenuItem title="Change Password">
               <ChangePasswordDialog/>
