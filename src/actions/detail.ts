@@ -2,13 +2,12 @@ import {  GetDetailFail, GetDetailFailPayload, GetDetailRequest, GetDetailSucces
     GetParticipantsFail, GetParticipantsFailPayload, GetParticipantsRequest, GetParticipantsSuccess, 
     GetParticipantsSuccessPayload, HideParticipantsFail, HideParticipantsFailPayload, HideParticipantsRequest, 
     HideParticipantsSuccess, ReloadParticipantsRequest, RemoveParticipantsFail, RemoveParticipantsFailPayload, 
-    RemoveParticipantsRequest, RemoveParticipantsSuccess,SendInvitationRequest} from "@/@types/detail.action";
+    RemoveParticipantsRequest, RemoveParticipantsSuccess,RestartDetailRequest,SendInvitationRequest} from "@/@types/detail.action";
 import { AssignedClassroom, InvitationRequestInfo, ModifyParticipantsInfo } from "@/@types/model";
 import { detailAction } from "@/constants/actions";
 import { classroomService } from "@/services";
 import { all, call, put, takeLatest } from "@redux-saga/core/effects";
 import { reloadAssignmentsRequest, reloadStudentInfoRequest } from "./assignment";
-import { reloadClassroomRequest } from "./classrooms";
 
 export const getParticipantsRequest = (classId: number): GetParticipantsRequest => ({
     type: detailAction.GET_PARTICIPANT_REQUEST,
@@ -72,8 +71,9 @@ function* getDetailSaga(action: GetDetailRequest) {
         yield put(getDetailSuccess({
             detail: detail
         }))
-        yield put(reloadAssignmentsRequest())
-        yield put(reloadStudentInfoRequest())
+        // yield put(reloadAssignmentsRequest())
+        // yield put(reloadStudentInfoRequest())
+        yield put(restartDetailRequest())
     } else {
         yield put(getDetailFail({
             error: 'Get classroom detail failed'
@@ -144,7 +144,9 @@ function* hideParticipantsSaga(action: HideParticipantsRequest) {
     }
 }
 
-
+export const restartDetailRequest = (): RestartDetailRequest => ({
+    type: detailAction.RESTART_DETAIL_REQUEST
+});
 
 export function* detailSaga() {
     yield all([

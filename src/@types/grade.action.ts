@@ -1,44 +1,109 @@
 import { gradeAction } from "@/constants/actions";
-import { OverallGrade } from "./model";
+import { GradeReview, Submission } from "./model";
 
 export interface GradeState {
     loading: boolean,
-    overall: {
-        data: OverallGrade,
+    grade: {
+        data: Submission[],
         reload: boolean
     },
+    review:{
+        data: GradeReview[],
+        reload: boolean
+    }
     error: string|null,
 }
 
-export interface GetOverallGradeSuccessPayload {
-    overall: OverallGrade;
+export interface GetGradeSuccessPayload {
+    grade: Submission[];
 }
 
-export interface GetOverallGradeFailPayload{
+export interface GetGradeFailPayload{
     error: string
 }
 
-export interface GetOverallGradeRequest{
-    type: typeof gradeAction.GET_OVERALL_GRADE_REQUEST,
+export interface GetGradeRequest{
+    type: typeof gradeAction.GET_GRADE_REQUEST,
     payload: number //class ID
 }
 
-export interface GetOverallGradeSuccess {
-    type: typeof gradeAction.GET_OVERALL_GRADE_SUCCESS
-    payload: GetOverallGradeSuccessPayload
+export interface GetGradeSuccess {
+    type: typeof gradeAction.GET_GRADE_SUCCESS
+    payload: GetGradeSuccessPayload
 }
 
-export interface GetOverallGradeFail {
-    type: typeof gradeAction.GET_OVERALL_GRADE_FAIL
-    payload: GetOverallGradeFailPayload
+export interface GetGradeFail {
+    type: typeof gradeAction.GET_GRADE_FAIL
+    payload: GetGradeFailPayload
 }
 
-export interface ReloadOverallGradeRequest{
-    type: typeof gradeAction.RELOAD_OVERALL_GRADE_REQUEST
+export interface ReloadGradeRequest{
+    type: typeof gradeAction.RELOAD_GRADE_REQUEST
+}
+
+export interface GetGradeReviewSuccessPayload {
+    reviews: GradeReview[];
+}
+
+export interface GetGradeReviewFailPayload{
+    error: string
+}
+
+export interface GetGradeReviewRequest{
+    type: typeof gradeAction.GET_GRADE_REVIEW_REQUEST,
+    payload: number //class ID
+}
+
+export interface GetGradeReviewSuccess {
+    type: typeof gradeAction.GET_GRADE_REVIEW_SUCCESS
+    payload: GetGradeReviewSuccessPayload
+}
+
+export interface GetGradeReviewFail {
+    type: typeof gradeAction.GET_GRADE_REVIEW_FAIL
+    payload: GetGradeReviewFailPayload
+}
+
+export interface ReloadGradeReviewRequest{
+    type: typeof gradeAction.RELOAD_GRADE_REVIEW_REQUEST
+}
+
+export interface AddGradeReviewSuccessPayload {
+    review: GradeReview;
+}
+
+export interface AddGradeReviewFailPayload{
+    error: string
+}
+
+export interface AddGradeReviewRequest{
+    type: typeof gradeAction.ADD_GRADE_REVIEW_REQUEST,
+    payload: {
+        classId: number,
+        assignmentId: number,
+        gradeReview: GradeReview
+    }
+}
+
+export interface AddGradeReviewSuccess {
+    type: typeof gradeAction.ADD_GRADE_REVIEW_SUCCESS
+    payload: AddGradeReviewSuccessPayload
+}
+
+export interface AddGradeReviewFail {
+    type: typeof gradeAction.ADD_GRADE_REVIEW_FAIL
+    payload: AddGradeReviewFailPayload
 }
 
 export type GradeAction = 
-    | GetOverallGradeRequest
-    | GetOverallGradeSuccess
-    | GetOverallGradeFail
-    | ReloadOverallGradeRequest
+    | GetGradeRequest
+    | GetGradeSuccess
+    | GetGradeFail
+    | ReloadGradeRequest
+    | GetGradeReviewRequest
+    | GetGradeReviewSuccess
+    | GetGradeReviewFail
+    | ReloadGradeReviewRequest
+    | AddGradeReviewRequest
+    | AddGradeReviewFail
+    | AddGradeReviewSuccess

@@ -1,12 +1,10 @@
 import { ChangePasswordDialogProps } from "@/@types/props";
 import { changePasswordRequest } from "@/actions/account";
-import { AppState } from "@/reducers";
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from "@mui/material";
 import React, { SyntheticEvent, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const ChangePasswordDialog: React.FC<ChangePasswordDialogProps> = ({isOpen=false, handleClose}) => {
-    const account = useSelector((state:AppState)=>state.account.detail)
     const [valid,setValid]=useState(true)
     const dispatch = useDispatch()
 
@@ -24,11 +22,8 @@ const ChangePasswordDialog: React.FC<ChangePasswordDialogProps> = ({isOpen=false
         if(target.newPassword.value!==target.oldPassword.value){
           close();
           dispatch(changePasswordRequest({
-            id: account.id,
-            request: {
-              oldPassword: target.oldPassword.value,
-              newPassword: target.newPassword.value
-            }
+            oldPassword: target.oldPassword.value,
+            newPassword: target.newPassword.value
           }));
         }
         else{

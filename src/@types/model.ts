@@ -72,6 +72,7 @@ export interface GetClassroomsCriteria {
 export interface Submission {
     id?:number,
     assignmentId: number,
+    assignmentName: string,
     studentId: string,
     grade?:number,
     maxGrade: number
@@ -85,7 +86,12 @@ export interface StudentInfo {
     submissions?: Submission[]
 }
 
-export interface OverallGrade {
-    overallGrade: number,
-    maxGrade: number
+export interface GradeReview {
+    expectGrade: number,
+    explanation: string,
+    id?:number,
+    currentGrade?:number,
+    assignment?:string,
+    status?:string,
+    author?:string
 }

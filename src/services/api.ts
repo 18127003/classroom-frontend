@@ -1,4 +1,4 @@
-import { Account, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, StudentInfo, Submission } from '@/@types/model';
+import { Account, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GradeReview, StudentInfo, Submission } from '@/@types/model';
 import axios from 'axios';
 
 const instance = axios.create({
@@ -86,16 +86,16 @@ const sendInvitationMail = (classId: number, invitations: string[], role: 'STUDE
     'data': invitations
 })
 
-const updateAccount = (id:number, account: Account)=>instance({
+const updateAccount = (account: Account)=>instance({
     'method':'PUT',
-    'url':`/account/${id}/update`,
+    'url':`/account/update`,
     'data':account,
     transformResponse: [(data) => JSON.parse(data)]
 })
 
-const changePassword = (id:number, request: ChangePasswordRequestInfo)=>instance({
+const changePassword = (request: ChangePasswordRequestInfo)=>instance({
     'method':'PATCH',
-    'url':`/account/${id}/change_password`,
+    'url':`/account/change_password`,
     'data':request,
     transformResponse: [(data) => JSON.parse(data)]
 })
@@ -188,7 +188,26 @@ const updateSubmission = (classId:number, assignmentId:number, submissionId: num
 
 const getOverallGrade = (classId: number)=>instance({
     'method':'GET',
-    'url':`/classroom/${classId}/assignment/overallGrade`,
+    'url':`/classroom/${classId}/assignment/submission/overall`,
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
+const getStudentClassGrade = (classId: number)=>instance({
+    'method':'GET',
+    'url':`/classroom/${classId}/assignment/submission/all`,
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
+const creatGradeReview = (classId: number, assignmentId: number, gradeReview: GradeReview)=>instance({
+    'method':'POST',
+    'url':`/classroom/${classId}/assignment/${assignmentId}/submission/review/create`,
+    'data': gradeReview,
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
+const getStudentGradeReview = (classId: number)=>instance({
+    'method':'GET',
+    'url':`/classroom/${classId}/assignment/submission/review/all`,
     transformResponse: [(data) => JSON.parse(data)]
 })
 
@@ -221,5 +240,8 @@ export const api = {
     importSubmission,
     updateSubmission,
     adminLogin,
-    getOverallGrade
+    getOverallGrade,
+    getStudentClassGrade,
+    creatGradeReview,
+    getStudentGradeReview
 }

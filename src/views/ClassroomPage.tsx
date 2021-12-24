@@ -5,7 +5,7 @@ import DetailClassTab from "@/components/DetailClassTab";
 import InvitationRespondDialog from "@/components/Dialog/InvitationRespondDialog";
 import GradeBookTab from "@/components/GradeBookTab";
 import GradeStructureTab from "@/components/GradeStructureTab";
-import OverallGradeTab from "@/components/OverallGradeTab";
+import OverallGradeTab from "@/components/StudentGradeTab";
 import ParticipantTab from "@/components/ParticipantTab";
 import useClassroomWrapper from "@/hooks/useClassroomWrapper";
 import { AppState } from "@/reducers";

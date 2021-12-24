@@ -1,8 +1,11 @@
-import { ChangePasswordFail, ChangePasswordFailPayload, ChangePasswordRequest, ChangePasswordRequestPayload, ChangePasswordSuccess, InitAccountRequest, InitAccountSuccess, InitAccountSuccessPayload, UpdateFail, UpdateFailPayload, UpdateRequest, UpdateStudentIdFail, UpdateStudentIdFailPayload, UpdateStudentIdRequest, UpdateStudentIdSuccess, UpdateStudentIdSuccessPayload, UpdateSuccess, UpdateSuccessPayload } from "@/@types/account.action";
-import { Account, StudentInfo } from "@/@types/model";
-import { accountAction, detailAction } from "@/constants/actions";
+import { ChangePasswordFail, ChangePasswordFailPayload, ChangePasswordRequest, ChangePasswordSuccess, InitAccountRequest, 
+    InitAccountSuccess, InitAccountSuccessPayload, UpdateFail, UpdateFailPayload, UpdateRequest, UpdateStudentIdFail, 
+    UpdateStudentIdFailPayload, UpdateStudentIdRequest, UpdateStudentIdSuccess, UpdateStudentIdSuccessPayload, UpdateSuccess, 
+    UpdateSuccessPayload } from "@/@types/account.action";
+import { Account, ChangePasswordRequestInfo, StudentInfo } from "@/@types/model";
+import { accountAction } from "@/constants/actions";
 import { COOKIES_AUTH_NAME } from "@/constants/common";
-import { accountService, classroomService, commonService } from "@/services";
+import { accountService, commonService } from "@/services";
 import { all, call, put, takeLatest } from "@redux-saga/core/effects";
 import { reloadClassroomRequest } from "./classrooms";
 
@@ -35,7 +38,7 @@ function* updateAccountSaga(action: UpdateRequest) {
     }  
 }
 
-export const changePasswordRequest = (payload: ChangePasswordRequestPayload): ChangePasswordRequest => ({
+export const changePasswordRequest = (payload: ChangePasswordRequestInfo): ChangePasswordRequest => ({
     type: accountAction.UPDATE_PASSWORD_REQUEST,
     payload: payload
 });
@@ -51,7 +54,7 @@ export const changePasswordFail = (payload: ChangePasswordFailPayload):ChangePas
  
 function* changePasswordSaga(action: ChangePasswordRequest) {
     try{
-        yield call(accountService.changePassword, action.payload.id, action.payload.request);
+        yield call(accountService.changePassword, action.payload);
         yield put(changePasswordSuccess())
     } catch (e){
         yield put(changePasswordFail({

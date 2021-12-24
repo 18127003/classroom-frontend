@@ -1,5 +1,5 @@
 
-import { Account, AssignedClassroom, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GetClassroomsCriteria, InvitationRequestInfo, JoinRequestInfo, ModifyParticipantsInfo, StudentInfo, Submission } from "@/@types/model"
+import { Account, AssignedClassroom, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GetClassroomsCriteria, GradeReview, InvitationRequestInfo, JoinRequestInfo, ModifyParticipantsInfo, StudentInfo, Submission } from "@/@types/model"
 import { LOCAL_STORAGE_CLASSES_NAME } from "@/constants/common"
 import Cookies from "universal-cookie"
 import { api } from "./api"
@@ -93,11 +93,11 @@ const sendInvitationMail = async (request: InvitationRequestInfo)=>{
 }
 
 const updateAccount = async (account: Account)=>{
-    return await api.updateAccount(account.id, account)
+    return await api.updateAccount(account)
 }
 
-const changePassword = async (id:number, request: ChangePasswordRequestInfo)=>{
-    return await api.changePassword(id, request)
+const changePassword = async (request: ChangePasswordRequestInfo)=>{
+    return await api.changePassword(request)
 }
 
 const removeParticipants = async (request: ModifyParticipantsInfo)=>{
@@ -170,6 +170,18 @@ const getOverallGrade = async (classId: number)=>{
     return await api.getOverallGrade(classId)
 }
 
+const getStudentClassGrade = async (classId: number)=>{
+    return await api.getStudentClassGrade(classId)
+}
+
+const getStudentGradeReview = async (classId: number)=>{
+    return await api.getStudentGradeReview(classId)
+}
+
+const createGradeReview = async (classId: number, assignmentId: number, gradeReview: GradeReview)=>{
+    return await api.creatGradeReview(classId, assignmentId, gradeReview)
+}
+
 export const authService = {
     login,
     logout,
@@ -212,7 +224,10 @@ export const assignmentService = {
 }
 
 export const gradeService = {
-    getOverallGrade
+    getOverallGrade,
+    getStudentClassGrade,
+    getStudentGradeReview,
+    createGradeReview
 }
 
 export const commonService = {

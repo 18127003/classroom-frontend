@@ -1,5 +1,5 @@
 import { assignmentAction } from "@/constants/actions";
-import { Assignment, OverallGrade, StudentInfo, Submission } from "./model";
+import { Assignment, StudentInfo, Submission } from "./model";
 
 export interface AssignmentState {
     loading: boolean,

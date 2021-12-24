@@ -30,18 +30,13 @@ export interface UpdateFail {
     payload: UpdateFailPayload
 }
 
-export interface ChangePasswordRequestPayload{
-    id: number,
-    request: ChangePasswordRequestInfo
-}
-
 export interface ChangePasswordFailPayload{
     error: string
 }
 
 export interface ChangePasswordRequest {
     type: typeof accountAction.UPDATE_PASSWORD_REQUEST
-    payload: ChangePasswordRequestPayload
+    payload: ChangePasswordRequestInfo
 }
 
 export interface ChangePasswordSuccess {

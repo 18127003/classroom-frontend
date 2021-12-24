@@ -21,6 +21,7 @@ const useSubmissionData=(studentInfo: StudentInfo, assignments: Assignment[])=>{
             return {
                 maxGrade: assignment.points,
                 assignmentId: assignment.id,
+                assignmentName: assignment.name,
                 classroomId: classId,
                 studentId: studentInfo.studentId
             }

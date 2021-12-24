@@ -6,7 +6,7 @@ import { AddAssignmentFail, AddAssignmentSuccess, AddSubmissionFail, AddSubmissi
     UpdatePositionSuccess, 
     UpdateSubmissionFail,
     UpdateSubmissionSuccess} from "@/@types/assignment.action";
-import { assignmentAction, authActions } from "@/constants/actions";
+import { assignmentAction, authActions, detailAction } from "@/constants/actions";
 
 const initState:AssignmentState = {
     loading:false, 
@@ -263,6 +263,8 @@ export const assignmentReducer = (state: AssignmentState = initState, action: As
                 loading: false,
                 error: (action as UpdateSubmissionFail).payload.error
             }
+        case detailAction.RESTART_DETAIL_REQUEST:
+            return initState;
         case authActions.LOGOUT_SUCCESS:
             return initState;
         default:

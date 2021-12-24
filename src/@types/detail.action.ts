@@ -106,6 +106,10 @@ export interface HideParticipantsFail {
     payload: HideParticipantsFailPayload
 }
 
+export interface RestartDetailRequest {
+    type: typeof detailAction.RESTART_DETAIL_REQUEST
+}
+
 export type ParticipantAction = 
     | RemoveParticipantsRequest
     | RemoveParticipantsFail
@@ -124,3 +128,4 @@ export type DetailAction =
     | GetDetailSuccess
     | GetDetailFail
     | SendInvitationRequest
+    | RestartDetailRequest
