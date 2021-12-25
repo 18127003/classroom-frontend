@@ -3,8 +3,8 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import useAssignmentDnD from "@/hooks/useAssignmentsDnD";
 import { Fab, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import AssignmentCard from "./AssignmentCard";
 import EditAssignmentCard from "./EditAssignmentCard";
+import AssignmentCard from "../Card/AssignmentCard";
 
 const GradeStructure: React.FC = () => {
     const { getLocal, editing, onDragEnd, onCreateTemp, onEdit, onPostModify } = useAssignmentDnD()

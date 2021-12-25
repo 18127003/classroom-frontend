@@ -1,9 +1,8 @@
 import useAssignments from "@/hooks/useAssignments";
-import { AppState } from "@/reducers";
 import { Stack } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
-import AssignmentCard from "../GradeStructureTab/AssignmentCard";
+import AssignmentCard from "../Card/AssignmentCard";
 
 const AssignmentList = ()=>{
     const {assignments, classId}=useAssignments()

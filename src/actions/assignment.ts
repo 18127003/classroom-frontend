@@ -8,7 +8,8 @@ import { GetAssignmentsRequest, GetAssignmentsSuccessPayload, GetAssignmentsSucc
     ImportStudentInfosFailPayload, ImportStudentInfosFail, ExportTemplateRequest, AddSubmissionRequest, AddSubmissionSuccess, 
     AddSubmissionSuccessPayload, AddSubmissionFail, AddSubmissionFailPayload, ImportSubmissionRequest, ImportSubmissionSuccess, 
     ImportSubmissionFailPayload, ImportSubmissionFail, ReloadStudentInfoRequest, UpdateSubmissionRequest, UpdateSubmissionSuccess, 
-    UpdateSubmissionSuccessPayload, UpdateSubmissionFail, UpdateSubmissionFailPayload } from "@/@types/assignment.action";
+    UpdateSubmissionSuccessPayload, UpdateSubmissionFail, UpdateSubmissionFailPayload, FinalizeAssignmentRequest, FinalizeAssignmentSuccessPayload, 
+    FinalizeAssignmentSuccess, FinalizeAssignmentFailPayload, FinalizeAssignmentFail, FinalizeAssignmentConfirm, FinalizeWarning } from "@/@types/assignment.action";
 import { Assignment, StudentInfo, Submission } from "@/@types/model";
 import { assignmentAction } from "@/constants/actions";
 import { AppState } from "@/reducers";
@@ -379,6 +380,69 @@ function* updateSubmissionSaga(action: UpdateSubmissionRequest) {
     }
 }
 
+export const finalizeAssignmentRequest = (classId: number, assignmentId: number, check: boolean): FinalizeAssignmentRequest => ({
+    type: assignmentAction.FINALIZE_ASSIGNMENT_REQUEST,
+    payload: {
+        classId: classId,
+        assignmentId: assignmentId,
+        check: check
+    }
+});
+
+export const finalizeAssignmentSuccess = (payload: FinalizeAssignmentSuccessPayload):FinalizeAssignmentSuccess =>({
+    type: assignmentAction.FINALIZE_ASSIGNMENT_SUCCESS,
+    payload: payload
+});
+
+export const finalizeAssignmentFail = (payload: FinalizeAssignmentFailPayload):FinalizeAssignmentFail =>({
+    type: assignmentAction.FINALIZE_ASSIGNMENT_FAIL,
+    payload: payload
+});
+
+export const finalizeAssignmentConfirm = (warning: FinalizeWarning):FinalizeAssignmentConfirm =>({
+    type: assignmentAction.FINALIZE_ASSIGNMENT_CONFIRM,
+    payload: warning
+});
+
+function* finalizeAssignmentSaga(action: FinalizeAssignmentRequest) {
+    try {
+        let finalize = true
+        let assignmentId = action.payload.assignmentId
+        if (action.payload.check){
+            var checkFill = yield call(assignmentService.checkFillSubmission, action.payload.classId, assignmentId)
+            if (!checkFill.data.filled){
+                finalize = false
+                yield put(finalizeAssignmentConfirm({
+                    assignmentId: action.payload.assignmentId,
+                    msg: `${checkFill.data.studentIds.join()} has not graded. Do you want to finalize?`
+                }))
+            }
+        }
+        if (finalize) {
+            yield call(assignmentService.finalizeAssignment, action.payload.classId, assignmentId);
+            let assignments: Assignment[] = yield select((state: AppState)=>state.assignment.assignments.data)
+            let index = assignments.findIndex((assignment)=>assignment.id===assignmentId)
+            let updated = {
+                ...assignments[index],
+                status: 'FINAL'
+            }
+            yield put(finalizeAssignmentSuccess({
+                assignments: [
+                    ...assignments.slice(0, index),
+                    updated,
+                    ...assignments.slice(index+1)
+                ]
+            }))
+        }
+
+    } catch (e) {
+        console.log(e)
+        yield put(finalizeAssignmentFail({
+            error: 'Finalize assignment grades failed'
+        }))
+    }
+}
+
 export function* assignmentSaga() {
     yield all([
         takeLatest(assignmentAction.GET_ASSIGNMENTS_REQUEST, getAssignmentsSaga),
@@ -391,7 +455,8 @@ export function* assignmentSaga() {
         takeEvery(assignmentAction.EXPORT_TEMPLATE_REQUEST, exportTemplateSaga),
         takeEvery(assignmentAction.ADD_SUBMISSION_REQUEST, addSubmissionSaga),
         takeEvery(assignmentAction.IMPORT_SUBMISSION_REQUEST, importSubmissionSaga),
-        takeEvery(assignmentAction.UPDATE_SUBMISSION_REQUEST, updateSubmissionSaga)
+        takeEvery(assignmentAction.UPDATE_SUBMISSION_REQUEST, updateSubmissionSaga),
+        takeEvery(assignmentAction.FINALIZE_ASSIGNMENT_REQUEST, finalizeAssignmentSaga)
     ]);
 }
 

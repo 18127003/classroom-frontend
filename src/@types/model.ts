@@ -35,7 +35,8 @@ export interface Assignment {
     creator?: string,
     deadline?: string,
     createdAt?:string,
-    position?:number
+    position?:number,
+    status?: string
 }
 
 export interface AuthRequestInfo {

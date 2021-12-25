@@ -182,6 +182,14 @@ const createGradeReview = async (classId: number, assignmentId: number, gradeRev
     return await api.creatGradeReview(classId, assignmentId, gradeReview)
 }
 
+const checkFillSubmission =async (classId:number, assignmentId: number) => {
+    return await api.checkFillSubmission(classId, assignmentId)
+}
+
+const finalizeAssignment =async (classId:number, assignmentId: number) => {
+    await api.finalizeAssignment(classId, assignmentId)
+}
+
 export const authService = {
     login,
     logout,
@@ -220,7 +228,9 @@ export const assignmentService = {
     exportTemplate,
     addSubmission,
     importSubmission,
-    updateSubmission
+    updateSubmission,
+    checkFillSubmission,
+    finalizeAssignment
 }
 
 export const gradeService = {

@@ -1,11 +1,17 @@
 import { assignmentAction } from "@/constants/actions";
 import { Assignment, StudentInfo, Submission } from "./model";
 
+export interface FinalizeWarning {
+    assignmentId: number,
+    msg: string
+}
+
 export interface AssignmentState {
     loading: boolean,
     assignments: {
         data: Assignment[],
-        reload: boolean
+        reload: boolean,
+        warning?: FinalizeWarning
     },
     studentInfos: {
         data: StudentInfo[],
@@ -280,6 +286,38 @@ export interface UpdateSubmissionFail {
     payload: UpdateSubmissionFailPayload
 }
 
+export interface FinalizeAssignmentSuccessPayload {
+    assignments: Assignment[];
+}
+
+export interface FinalizeAssignmentFailPayload{
+    error: string
+}
+
+export interface FinalizeAssignmentRequest{
+    type: typeof assignmentAction.FINALIZE_ASSIGNMENT_REQUEST,
+    payload: {
+        classId:number,
+        assignmentId: number,
+        check: boolean
+    }
+}
+
+export interface FinalizeAssignmentSuccess {
+    type: typeof assignmentAction.FINALIZE_ASSIGNMENT_SUCCESS
+    payload: FinalizeAssignmentSuccessPayload
+}
+
+export interface FinalizeAssignmentFail {
+    type: typeof assignmentAction.FINALIZE_ASSIGNMENT_FAIL
+    payload: FinalizeAssignmentFailPayload
+}
+
+export interface FinalizeAssignmentConfirm {
+    type: typeof assignmentAction.FINALIZE_ASSIGNMENT_CONFIRM
+    payload: FinalizeWarning
+}
+
 export type StudentInfoAction = 
     | GetStudentInfosRequest
     | GetStudentInfosSuccess
@@ -320,3 +358,7 @@ export type AssignmentAction =
     | ExportTemplateRequest
     | SubmissionAction
     | ReloadStudentInfoRequest
+    | FinalizeAssignmentRequest
+    | FinalizeAssignmentSuccess
+    | FinalizeAssignmentFail
+    | FinalizeAssignmentConfirm

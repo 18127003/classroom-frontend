@@ -1,4 +1,4 @@
-import { Account, AssignedClassroom } from "@/@types/model";
+import { AssignedClassroom } from "@/@types/model";
 import { AppState } from "@/reducers";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";

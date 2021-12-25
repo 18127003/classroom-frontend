@@ -1,7 +1,7 @@
 import useGradeReview from "@/hooks/useGradeReview";
 import { Stack } from "@mui/material";
 import React from "react";
-import GradeReviewCard from "./GradeReviewCard";
+import GradeReviewCard from "../Card/GradeReviewCard";
 
 const GradeReviewList: React.FC = ()=>{
     const {reviews} = useGradeReview()

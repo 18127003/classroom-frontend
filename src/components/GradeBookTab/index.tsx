@@ -1,12 +1,12 @@
 import useAssignments from "@/hooks/useAssignments";
 import useStudentInfos from "@/hooks/useStudentInfos";
 import { AppState } from "@/reducers";
-import { FileDownload, FileUpload, FlashOffOutlined, UploadFile } from "@mui/icons-material";
-import { Box, Button, FormControl, IconButton, InputLabel, LinearProgress, MenuItem, Select, SelectChangeEvent, Stack, 
-    Tooltip } from "@mui/material";
-import React, { useState } from "react";
+import { FileDownload } from "@mui/icons-material";
+import { Button, LinearProgress, Stack, Tooltip } from "@mui/material";
+import React from "react";
 import { useSelector } from "react-redux";
 import AssignmentDropdown from "./AssignmentDropdown";
+import GradeReviewButton from "./GradeReviewButton";
 import GradeTable from "./GradeTable";
 import ImportStudentButton from "./ImportStudentButton";
 
@@ -32,6 +32,7 @@ const GradeBookTab = ()=>{
                         <FileDownload />
                     </Button>
                 </Tooltip>
+                <GradeReviewButton/>
             </Stack>
             <LinearProgress sx={loading?{}:{display: 'none'}}/>
             <GradeTable studentInfos={studentInfos} assignments={assignments}/>

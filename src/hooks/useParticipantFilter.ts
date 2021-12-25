@@ -1,6 +1,6 @@
 import { Account } from "@/@types/model";
 import { AppState } from "@/reducers";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const useParticipantFilter = ()=>{

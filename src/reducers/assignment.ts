@@ -1,11 +1,10 @@
-import { AddAssignmentFail, AddAssignmentSuccess, AddSubmissionFail, AddSubmissionSuccess, AssignmentAction, AssignmentState, GetAssignmentsFail, GetAssignmentsSuccess, 
-    GetStudentInfosSuccess, 
-    ImportStudentInfosFail, 
-    ImportSubmissionFail, 
+import { AddAssignmentFail, AddAssignmentSuccess, AddSubmissionFail, AddSubmissionSuccess, AssignmentAction, AssignmentState, 
+    FinalizeAssignmentConfirm, 
+    FinalizeAssignmentFail, 
+    FinalizeAssignmentSuccess, 
+    GetAssignmentsFail, GetAssignmentsSuccess, GetStudentInfosSuccess, ImportStudentInfosFail, ImportSubmissionFail, 
     RemoveAssignmentFail, RemoveAssignmentSuccess, UpdateAssignmentFail, UpdateAssignmentSuccess, UpdatePositionFail, 
-    UpdatePositionSuccess, 
-    UpdateSubmissionFail,
-    UpdateSubmissionSuccess} from "@/@types/assignment.action";
+    UpdatePositionSuccess, UpdateSubmissionFail,UpdateSubmissionSuccess} from "@/@types/assignment.action";
 import { assignmentAction, authActions, detailAction } from "@/constants/actions";
 
 const initState:AssignmentState = {
@@ -262,6 +261,39 @@ export const assignmentReducer = (state: AssignmentState = initState, action: As
                 ...state,
                 loading: false,
                 error: (action as UpdateSubmissionFail).payload.error
+            }
+        case assignmentAction.FINALIZE_ASSIGNMENT_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                assignments:{
+                    ...state.assignments,
+                    warning: undefined
+                }
+            }
+        case assignmentAction.FINALIZE_ASSIGNMENT_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                assignments:{
+                    data: (action as FinalizeAssignmentSuccess).payload.assignments,
+                    reload: false
+                }
+            }
+        case assignmentAction.FINALIZE_ASSIGNMENT_CONFIRM:
+            return {
+                ...state,
+                loading: false,
+                assignments:{
+                    ...state.assignments,
+                    warning: (action as FinalizeAssignmentConfirm).payload
+                }
+            }
+        case assignmentAction.FINALIZE_ASSIGNMENT_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: (action as FinalizeAssignmentFail).payload.error
             }
         case detailAction.RESTART_DETAIL_REQUEST:
             return initState;

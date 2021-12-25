@@ -1,15 +1,10 @@
-import * as React from 'react';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
+import React from 'react';
 import StudentRow from './StudentRow';
 import { GradeTableProps } from '@/@types/props';
 import usePointsSum from '@/hooks/usePointsSum';
+import { Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, TablePagination } from '@mui/material';
+import AssignmentHeaderCell from './AssignmentHeaderCell';
+
 
 const GradeTable: React.FC<GradeTableProps> = ({studentInfos, assignments}) => {
   const [page, setPage] = React.useState(0);
@@ -34,13 +29,7 @@ const GradeTable: React.FC<GradeTableProps> = ({studentInfos, assignments}) => {
                 <TableCell style={{ width:200 }}>{'Student'}</TableCell>
                 <TableCell style={{ width:200 }} align='center'>{'Total grade'}</TableCell>
                 {assignments.map((assignment) => (
-                    <TableCell
-                        key={assignment.id}
-                        align='center'
-                        style={{ width:100 }}
-                    >
-                    {assignment.name}
-                    </TableCell>
+                    <AssignmentHeaderCell assignment={assignment} key={assignment.id}/>
                 ))}
             </TableRow>
           </TableHead>

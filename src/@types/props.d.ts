@@ -58,6 +58,9 @@ interface UpdateStudentIDDialogProps extends DialogProps{
     studentId: string|null
 }
 
+interface GradeReviewDialogProps extends DialogProps{
+}
+
 type ParticipantListProps={
     hasCount: boolean,
     hasAddIcon?: boolean,

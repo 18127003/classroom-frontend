@@ -211,6 +211,17 @@ const getStudentGradeReview = (classId: number)=>instance({
     transformResponse: [(data) => JSON.parse(data)]
 })
 
+const checkFillSubmission = (classId: number, assignmentId: number)=>instance({
+    'method':'GET',
+    'url':`/classroom/${classId}/assignment/${assignmentId}/submission/filled`,
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
+const finalizeAssignment = (classId: number, assignmentId: number)=>instance({
+    'method':'PATCH',
+    'url':`/classroom/${classId}/assignment/${assignmentId}/submission/finalize`
+})
+
 export const api = {
     getData,
     createClassroom,
@@ -243,5 +254,7 @@ export const api = {
     getOverallGrade,
     getStudentClassGrade,
     creatGradeReview,
-    getStudentGradeReview
+    getStudentGradeReview,
+    checkFillSubmission,
+    finalizeAssignment
 }
