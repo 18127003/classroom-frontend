@@ -31,7 +31,7 @@ const GradeReviewDialog: React.FC<GradeReviewDialogProps> = ({isOpen, handleClos
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <List>
+            <List sx={{m:3}}>
                 {
                     reviews.map(review=>(
                         <GradeReviewCard key={review.id} review={review}/> 

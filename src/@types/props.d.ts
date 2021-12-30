@@ -1,4 +1,4 @@
-import { Account, AssignedClassroom, Assignment, Classroom, StudentInfo, Submission } from "@/@types/model";
+import { Account, AssignedClassroom, Assignment, Classroom, GradeReview, StudentInfo, Submission } from "@/@types/model";
 import { IconButtonProps } from "@mui/material";
 import React from "react";
 import { RouteProps } from "react-router-dom";
@@ -59,6 +59,10 @@ interface UpdateStudentIDDialogProps extends DialogProps{
 }
 
 interface GradeReviewDialogProps extends DialogProps{
+}
+
+interface AddGradeReviewDialogProps extends DialogProps{
+    handleSubmit: (assignmentId:number, gradeReview: GradeReview)=>void 
 }
 
 type ParticipantListProps={
