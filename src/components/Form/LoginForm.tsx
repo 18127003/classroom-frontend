@@ -4,6 +4,7 @@ import { LoadingButton } from "@mui/lab";
 import { Alert, Box, Stack, TextField } from "@mui/material";
 import React, { SyntheticEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import GoogleLoginButton from "../GoogleLoginButton";
 
 const LoginForm = () => {
@@ -53,6 +54,7 @@ const LoginForm = () => {
                         Login
                 </LoadingButton>
                 <GoogleLoginButton/>
+                <Link to="/forgetPassword">Forgot Password?</Link>
             </Stack>
             {error && <Alert severity="error">{error}</Alert>}
         </Box>

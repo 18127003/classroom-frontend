@@ -3,8 +3,10 @@ import AdminHomePage from "@/views/AdminHomePage";
 import AdminLoginPage from "@/views/AdminLoginPage";
 import AssignmentPage from "@/views/AssignmentPage";
 import ClassroomPage from "@/views/ClassroomPage";
+import ForgetPasswordPage from "@/views/ForgetPasswordPage";
 import HomePage from "@/views/HomePage";
 import LoginPage from "@/views/LoginPage";
+import ReNewPasswordPage from "@/views/RenewPasswordPage";
 import TestPage from "@/views/test";
 import React from "react";
 
@@ -48,6 +50,23 @@ const routes: AppRoute[] = [
         props:{
             tab: '1'
         }
+    },
+    {
+        path: '/forgetPassword',
+        name: 'Forget Password Page',
+        component: ForgetPasswordPage,
+        protected: false,
+        exact: true,
+        props:{
+            tab: '1'
+        }
+    },
+    {
+        path: '/resetPassword',
+        name: 'Renew Password Page',
+        component: ReNewPasswordPage,
+        protected: false,
+        exact: true,
     },
     {
         path: '/signup',

@@ -26,6 +26,20 @@ const login = (auth: AuthRequestInfo) => instance({
     'data': auth,
     transformResponse: [(data) => JSON.parse(data)]
 })
+const forgotPassword=(email:string)=>instance({
+    'method':'POST',
+    'url': `/account/resetPassword/request?email=${email}`
+
+})
+const resetPassword=(password:string, token:string)=>instance({
+    'method':'PATCH',
+    'url': `/account/resetPassword/`,
+    'data':{
+        token,
+        password
+    }
+
+})
 
 const adminLogin = (auth: AuthRequestInfo) => instance({
     'method':'POST',
@@ -256,5 +270,7 @@ export const api = {
     creatGradeReview,
     getStudentGradeReview,
     checkFillSubmission,
-    finalizeAssignment
+    finalizeAssignment,
+    forgotPassword,
+    resetPassword
 }

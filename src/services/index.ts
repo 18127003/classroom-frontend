@@ -1,6 +1,7 @@
 
 import { Account, AssignedClassroom, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GetClassroomsCriteria, GradeReview, InvitationRequestInfo, JoinRequestInfo, ModifyParticipantsInfo, StudentInfo, Submission } from "@/@types/model"
 import { LOCAL_STORAGE_CLASSES_NAME } from "@/constants/common"
+import { ApiOutlined } from "@mui/icons-material"
 import Cookies from "universal-cookie"
 import { api } from "./api"
 
@@ -43,6 +44,12 @@ const saveCookies = (name:string, value:any)=>{
         'path':'/',
         'maxAge':3600
     })
+}
+const forgotPassword=async(email:string)=>{
+    await api.forgotPassword(email);
+}
+const resetPassword=async(password:string,token:string)=>{
+    await api.resetPassword(password,token);
 }
 
 const addClassroomLocal = (classroom: AssignedClassroom)=>{
@@ -196,7 +203,9 @@ export const authService = {
     signup,
     socialLogin,
     testConnection,
-    adminLogin
+    adminLogin,
+    forgotPassword,
+    resetPassword
 }
 
 export const accountService = {
