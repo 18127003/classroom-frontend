@@ -95,6 +95,40 @@ export interface AddGradeReviewFail {
     payload: AddGradeReviewFailPayload
 }
 
+export interface CommentGradeReviewSuccessPayload {
+    review: GradeReview;
+    index: number;
+}
+
+export interface CommentGradeReviewFailPayload{
+    error: string
+}
+
+export interface CommentGradeReviewRequest{
+    type: typeof gradeAction.COMMENT_GRADE_REVIEW_REQUEST,
+    payload: {
+        classId: number,
+        assignmentId: number,
+        reviewId: number,
+        comment: Comment
+    }
+}
+
+export interface CommentGradeReviewSuccess {
+    type: typeof gradeAction.COMMENT_GRADE_REVIEW_SUCCESS
+    payload: CommentGradeReviewSuccessPayload
+}
+
+export interface CommentGradeReviewFail {
+    type: typeof gradeAction.COMMENT_GRADE_REVIEW_FAIL
+    payload: CommentGradeReviewFailPayload
+}
+
+export type CommentAction = 
+    | CommentGradeReviewRequest
+    | CommentGradeReviewSuccess
+    | CommentGradeReviewFail
+
 export type GradeAction = 
     | GetGradeRequest
     | GetGradeSuccess
@@ -107,3 +141,4 @@ export type GradeAction =
     | AddGradeReviewRequest
     | AddGradeReviewFail
     | AddGradeReviewSuccess
+    | CommentAction

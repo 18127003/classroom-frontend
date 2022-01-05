@@ -2,11 +2,17 @@
 import { GetGradeRequest, GetGradeSuccessPayload, GetGradeSuccess, GetGradeFailPayload, GetGradeFail, ReloadGradeRequest, 
     GetGradeReviewFail, GetGradeReviewFailPayload, GetGradeReviewRequest, GetGradeReviewSuccess, GetGradeReviewSuccessPayload, 
     ReloadGradeReviewRequest, AddGradeReviewFail, AddGradeReviewFailPayload, AddGradeReviewRequest, AddGradeReviewSuccess,
-    AddGradeReviewSuccessPayload} from "@/@types/grade.action";
+    AddGradeReviewSuccessPayload,
+    CommentGradeReviewRequest,
+    CommentGradeReviewSuccessPayload,
+    CommentGradeReviewSuccess,
+    CommentGradeReviewFailPayload,
+    CommentGradeReviewFail} from "@/@types/grade.action";
 import { GradeReview } from "@/@types/model";
 import { gradeAction } from "@/constants/actions";
+import { AppState } from "@/reducers";
 import { gradeService } from "@/services";
-import { put, call, all, takeLatest, takeEvery } from "redux-saga/effects";
+import { put, call, all, takeLatest, takeEvery, select } from "redux-saga/effects";
 
 export const getGradeRequest = (classId: number): GetGradeRequest => ({
     type: gradeAction.GET_GRADE_REQUEST,
@@ -105,11 +111,54 @@ function* addGradeReviewSaga(action: AddGradeReviewRequest) {
     }
 }
 
+export const commentGradeReviewRequest = (classId: number, assignmentId: number, reviewId: number, comment:Comment): CommentGradeReviewRequest => ({
+    type: gradeAction.COMMENT_GRADE_REVIEW_REQUEST,
+    payload: {
+        classId,
+        assignmentId,
+        reviewId,
+        comment
+    }
+});
+
+export const commentGradeReviewSuccess = (payload: CommentGradeReviewSuccessPayload):CommentGradeReviewSuccess =>({
+    type: gradeAction.COMMENT_GRADE_REVIEW_SUCCESS,
+    payload: payload
+});
+
+export const commentGradeReviewFail = (payload: CommentGradeReviewFailPayload):CommentGradeReviewFail =>({
+    type: gradeAction.COMMENT_GRADE_REVIEW_FAIL,
+    payload: payload
+});
+ 
+function* commentGradeReviewSaga(action: CommentGradeReviewRequest) {
+    try {
+        const arg = action.payload
+        const comment = yield call(gradeService.commentGradeReview, arg.classId, arg.assignmentId, arg.reviewId, arg.comment);
+        const reviews: GradeReview[] = yield select((state:AppState)=>state.grade.review.data)
+        const index = reviews.findIndex(review=>review.id===comment.data.reviewId)
+        const review = reviews[index]
+        review.comments = [
+            ...review.comments,
+            comment.data
+        ]
+        yield put(commentGradeReviewSuccess({
+           review : review,
+           index: index
+        }))
+    } catch (e) {
+        yield put(commentGradeReviewFail({
+            error: 'Comment on grade review failed'
+        }))
+    }
+}
+
 export function* gradeSaga() {
     yield all([
         takeLatest(gradeAction.GET_GRADE_REQUEST, getGradeSaga),
         takeLatest(gradeAction.GET_GRADE_REVIEW_REQUEST, getGradeReviewSaga),
-        takeEvery(gradeAction.ADD_GRADE_REVIEW_REQUEST, addGradeReviewSaga)
+        takeEvery(gradeAction.ADD_GRADE_REVIEW_REQUEST, addGradeReviewSaga),
+        takeEvery(gradeAction.COMMENT_GRADE_REVIEW_REQUEST, commentGradeReviewSaga)
     ]);
 }
 

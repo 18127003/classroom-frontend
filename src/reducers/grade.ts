@@ -1,4 +1,4 @@
-import { AddGradeReviewFail, AddGradeReviewSuccess, GetGradeFail, GetGradeReviewFail, GetGradeReviewSuccess, GetGradeSuccess, 
+import { AddGradeReviewFail, AddGradeReviewSuccess, CommentGradeReviewSuccess, GetGradeFail, GetGradeReviewFail, GetGradeReviewSuccess, GetGradeSuccess, 
     GradeAction, GradeState } from "@/@types/grade.action";
 import { authActions, detailAction, gradeAction } from "@/constants/actions";
 
@@ -110,6 +110,26 @@ export const gradeReducer = (state: GradeState = initState, action: GradeAction)
                 ...state,
                 loading: false,
                 error: (action as AddGradeReviewFail).payload.error
+            };
+        case gradeAction.COMMENT_GRADE_REVIEW_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case gradeAction.COMMENT_GRADE_REVIEW_SUCCESS:
+            let commentPayload = (action as CommentGradeReviewSuccess).payload
+            return {
+                ...state,
+                loading: false,
+                review:{
+                    data: [
+                        ...state.review.data.slice(0, commentPayload.index),
+                        commentPayload.review,
+                        ...state.review.data.slice(commentPayload.index+1)
+                    ],
+                    reload: false
+                },
+                error: null
             };
         case detailAction.RESTART_DETAIL_REQUEST:
             return initState;

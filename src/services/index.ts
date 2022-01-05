@@ -45,10 +45,12 @@ const saveCookies = (name:string, value:any)=>{
         'maxAge':3600
     })
 }
-const forgotPassword=async(email:string)=>{
-    await api.forgotPassword(email);
+
+const requestResetPassword = async (email:string) => {
+    await api.requestResetPassword(email);
 }
-const resetPassword=async(password:string,token:string)=>{
+
+const resetPassword = async (password:string,token:string) => {
     await api.resetPassword(password,token);
 }
 
@@ -197,6 +199,10 @@ const finalizeAssignment =async (classId:number, assignmentId: number) => {
     await api.finalizeAssignment(classId, assignmentId)
 }
 
+const commentGradeReview = async (classId: number, assignmentId: number, reviewId:number, comment: Comment)=>{
+    return await api.commentGradeReview(classId, assignmentId, reviewId, comment)
+}
+
 export const authService = {
     login,
     logout,
@@ -204,7 +210,7 @@ export const authService = {
     socialLogin,
     testConnection,
     adminLogin,
-    forgotPassword,
+    requestResetPassword,
     resetPassword
 }
 
@@ -246,7 +252,8 @@ export const gradeService = {
     getOverallGrade,
     getStudentClassGrade,
     getStudentGradeReview,
-    createGradeReview
+    createGradeReview,
+    commentGradeReview
 }
 
 export const commonService = {

@@ -144,3 +144,9 @@ interface AssignmentDropdownProps {
 interface ImportStudentButtonProps {
     onUploadConfirm: (file:File)=>void
 }
+
+interface GradeReviewCardProps {
+    review: GradeReview,
+    onComment: (gradeReview: GradeReview, comment:Comment)=>void,
+    key: any
+}

@@ -6,7 +6,7 @@ import ClassroomPage from "@/views/ClassroomPage";
 import ForgetPasswordPage from "@/views/ForgetPasswordPage";
 import HomePage from "@/views/HomePage";
 import LoginPage from "@/views/LoginPage";
-import ReNewPasswordPage from "@/views/RenewPasswordPage";
+import RenewPasswordPage from "@/views/RenewPasswordPage";
 import TestPage from "@/views/test";
 import React from "react";
 
@@ -64,7 +64,7 @@ const routes: AppRoute[] = [
     {
         path: '/resetPassword',
         name: 'Renew Password Page',
-        component: ReNewPasswordPage,
+        component: RenewPasswordPage,
         protected: false,
         exact: true,
     },

@@ -87,6 +87,13 @@ export interface StudentInfo {
     submissions?: Submission[]
 }
 
+export interface Comment {
+    id?:number,
+    reviewId?:number,
+    content:string,
+    by?:string
+}
+
 export interface GradeReview {
     expectGrade: number,
     explanation: string,
@@ -94,5 +101,7 @@ export interface GradeReview {
     currentGrade?:number,
     assignment?:string,
     status?:string,
-    author?:string
+    author?:string,
+    comments?:Comment[],
+    assignmentId?:number
 }

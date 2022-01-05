@@ -26,19 +26,20 @@ const login = (auth: AuthRequestInfo) => instance({
     'data': auth,
     transformResponse: [(data) => JSON.parse(data)]
 })
-const forgotPassword=(email:string)=>instance({
+
+const requestResetPassword = (email:string) => instance({
     'method':'POST',
     'url': `/account/resetPassword/request?email=${email}`
 
 })
-const resetPassword=(password:string, token:string)=>instance({
+
+const resetPassword = (password:string, token:string) => instance({
     'method':'PATCH',
     'url': `/account/resetPassword/`,
     'data':{
         token,
         password
     }
-
 })
 
 const adminLogin = (auth: AuthRequestInfo) => instance({
@@ -236,6 +237,13 @@ const finalizeAssignment = (classId: number, assignmentId: number)=>instance({
     'url':`/classroom/${classId}/assignment/${assignmentId}/submission/finalize`
 })
 
+const commentGradeReview = (classId:number, assignmentId:number, reviewId:number, comment: Comment)=>instance({
+    'method':'POST',
+    'url':`/classroom/${classId}/assignment/${assignmentId}/submission/review/${reviewId}/comment/create`,
+    'data':comment,
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
 export const api = {
     getData,
     createClassroom,
@@ -271,6 +279,7 @@ export const api = {
     getStudentGradeReview,
     checkFillSubmission,
     finalizeAssignment,
-    forgotPassword,
-    resetPassword
+    requestResetPassword,
+    resetPassword,
+    commentGradeReview
 }

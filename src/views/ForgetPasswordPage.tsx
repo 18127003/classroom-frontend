@@ -1,17 +1,18 @@
 import { authService } from "@/services"
 import { Button, Card, CardActions, CardContent, Grid, TextField,Box } from "@mui/material"
 import React, { SyntheticEvent } from "react"
-import ReNewPasswordPage from "./RenewPasswordPage"
 
-const ForgetPasswordPage=()=>{
+const ForgetPasswordPage: React.FC = ()=>{
     const onClick=async(event:SyntheticEvent)=>{
         event.preventDefault();
         const target = event.target as typeof event.target & {
             email: { value: string };
         };
-        authService.forgotPassword(target.email.value)
-    
-        
+        try {
+            authService.requestResetPassword(target.email.value)
+        } catch (e){
+            console.log(e)
+        }    
     }
     return(
         <Grid container spacing={0} direction="column" alignItems="center" justifyContent="center" style={{ display:'flex', justifyContent:'center'}}>
