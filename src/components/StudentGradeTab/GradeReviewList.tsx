@@ -16,7 +16,7 @@ const GradeReviewList: React.FC = ()=>{
             <Stack mt={4} spacing={4}>
                 {reviews.map(review=>(
                     
-                    <GradeReviewCard review={review} key={review.id}/>
+                    <GradeReviewCard review={review} key={review.id} viewOnly={true}/>
                     
                 ))}
             </Stack>

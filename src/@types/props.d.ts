@@ -65,6 +65,10 @@ interface AddGradeReviewDialogProps extends DialogProps{
     handleSubmit: (assignmentId:number, gradeReview: GradeReview)=>void 
 }
 
+interface FinalizeGradeReviewDialogProps extends DialogProps{
+    handleSubmit: (grade: number)=>void
+}
+
 type ParticipantListProps={
     hasCount: boolean,
     hasAddIcon?: boolean,
@@ -147,7 +151,10 @@ interface ImportStudentButtonProps {
 
 interface GradeReviewCardProps {
     review: GradeReview,
-    onComment?: (gradeReview: GradeReview, comment:Comment)=>void,
-    onFinalize?: (gradeReview: GradeReview, grade: number)=>void,
+    viewOnly: boolean
     key: any
+}
+
+interface GradeReviewActionButtonProps {
+    review: GradeReview
 }

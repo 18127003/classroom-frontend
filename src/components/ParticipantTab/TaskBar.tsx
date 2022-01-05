@@ -7,7 +7,6 @@ import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "@/reducers";
 import { hideParticipantsRequest, removeParticipantsRequest } from "@/actions/detail";
-import DeleteIcon from "@mui/icons-material/Delete";
 import SimpleConfirmDialog from "../Dialog/SimpleConfirmDialog";
 
 type TaskbarProps={
