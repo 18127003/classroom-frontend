@@ -244,6 +244,12 @@ const commentGradeReview = (classId:number, assignmentId:number, reviewId:number
     transformResponse: [(data) => JSON.parse(data)]
 })
 
+const finalizeGradeReview = (classId:number, assignmentId:number, reviewId:number, grade:number)=>instance({
+    'method':'PATCH',
+    'url':`/classroom/${classId}/assignment/${assignmentId}/submission/review/${reviewId}/finalize?grade=${grade}`,
+    transformResponse: [(data) => JSON.parse(data)]
+})
+
 export const api = {
     getData,
     createClassroom,
@@ -281,5 +287,6 @@ export const api = {
     finalizeAssignment,
     requestResetPassword,
     resetPassword,
-    commentGradeReview
+    commentGradeReview,
+    finalizeGradeReview
 }

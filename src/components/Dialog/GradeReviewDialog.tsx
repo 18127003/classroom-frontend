@@ -7,7 +7,7 @@ import useGradeReview from "@/hooks/useGradeReview";
 import GradeReviewCard from "../Card/GradeReviewCard";
 
 const GradeReviewDialog: React.FC<GradeReviewDialogProps> = ({isOpen, handleClose}) => {
-    const {reviews} = useGradeReview()
+    const {reviews, comment, finalize} = useGradeReview()
 
     return (
         <Dialog
@@ -34,7 +34,7 @@ const GradeReviewDialog: React.FC<GradeReviewDialogProps> = ({isOpen, handleClos
             <List sx={{m:3}}>
                 {
                     reviews.map(review=>(
-                        <GradeReviewCard key={review.id} review={review}/> 
+                        <GradeReviewCard key={review.id} review={review} onComment={comment} onFinalize={finalize}/> 
                     ))
                 }
             </List>

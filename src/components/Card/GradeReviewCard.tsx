@@ -4,9 +4,7 @@ import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import { Card, CardHeader, Avatar, Divider, CardContent, List, ListItem, ListItemText, Typography, ListItemAvatar, Stack, Icon } from "@mui/material";
 import React from "react";
 
-
-
-const GradeReviewCard:React.FC<GradeReviewCardProps>=({review, onComment})=> {
+const GradeReviewCard:React.FC<GradeReviewCardProps>=({review, onComment, onFinalize})=> {
 
     return (
         <Card>

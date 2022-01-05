@@ -147,6 +147,7 @@ interface ImportStudentButtonProps {
 
 interface GradeReviewCardProps {
     review: GradeReview,
-    onComment: (gradeReview: GradeReview, comment:Comment)=>void,
+    onComment?: (gradeReview: GradeReview, comment:Comment)=>void,
+    onFinalize?: (gradeReview: GradeReview, grade: number)=>void,
     key: any
 }

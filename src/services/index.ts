@@ -203,6 +203,10 @@ const commentGradeReview = async (classId: number, assignmentId: number, reviewI
     return await api.commentGradeReview(classId, assignmentId, reviewId, comment)
 }
 
+const finalizeGradeReview =async (classId: number, assignmentId: number, reviewId:number, grade:number) => {
+    return await api.finalizeGradeReview(classId, assignmentId, reviewId, grade)
+}
+
 export const authService = {
     login,
     logout,
@@ -253,7 +257,8 @@ export const gradeService = {
     getStudentClassGrade,
     getStudentGradeReview,
     createGradeReview,
-    commentGradeReview
+    commentGradeReview,
+    finalizeGradeReview
 }
 
 export const commonService = {

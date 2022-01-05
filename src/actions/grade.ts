@@ -7,12 +7,18 @@ import { GetGradeRequest, GetGradeSuccessPayload, GetGradeSuccess, GetGradeFailP
     CommentGradeReviewSuccessPayload,
     CommentGradeReviewSuccess,
     CommentGradeReviewFailPayload,
-    CommentGradeReviewFail} from "@/@types/grade.action";
-import { GradeReview } from "@/@types/model";
+    CommentGradeReviewFail,
+    FinalizeGradeReviewRequest,
+    FinalizeGradeReviewSuccess,
+    FinalizeGradeReviewFail,
+    FinalizeGradeReviewFailPayload,
+    FinalizeGradeReviewSuccessPayload} from "@/@types/grade.action";
+import { GradeReview, StudentInfo } from "@/@types/model";
 import { gradeAction } from "@/constants/actions";
 import { AppState } from "@/reducers";
 import { gradeService } from "@/services";
 import { put, call, all, takeLatest, takeEvery, select } from "redux-saga/effects";
+import { updateSubmissionSuccess } from "./assignment";
 
 export const getGradeRequest = (classId: number): GetGradeRequest => ({
     type: gradeAction.GET_GRADE_REQUEST,
@@ -153,12 +159,72 @@ function* commentGradeReviewSaga(action: CommentGradeReviewRequest) {
     }
 }
 
+export const finalizeGradeReviewRequest = (classId: number, assignmentId: number, reviewId: number, grade:number): FinalizeGradeReviewRequest => ({
+    type: gradeAction.FINALIZE_GRADE_REVIEW_REQUEST,
+    payload: {
+        classId,
+        assignmentId,
+        reviewId,
+        grade
+    }
+});
+
+export const finalizeGradeReviewSuccess = (payload: FinalizeGradeReviewSuccessPayload):FinalizeGradeReviewSuccess =>({
+    type: gradeAction.FINALIZE_GRADE_REVIEW_SUCCESS,
+    payload: payload
+});
+
+export const finalizeGradeReviewFail = (payload: FinalizeGradeReviewFailPayload):FinalizeGradeReviewFail =>({
+    type: gradeAction.COMMENT_GRADE_REVIEW_FAIL,
+    payload: payload
+});
+ 
+function* finalizeGradeReviewSaga(action: FinalizeGradeReviewRequest) {
+    try {
+        const arg = action.payload
+        const submission = yield call(gradeService.finalizeGradeReview, arg.classId, arg.assignmentId, arg.reviewId, arg.grade);
+        const studentInfos: StudentInfo[] = yield select((state:AppState)=>state.assignment.studentInfos.data)
+        const index = studentInfos.findIndex(s=>s.studentId===submission.data.studentId)
+        const studentInfo = studentInfos[index]
+        const submissionIndex = studentInfo.submissions.findIndex(s=>s.id===submission.data.id)
+
+        studentInfo.submissions = [
+            ...studentInfo.submissions.slice(0, submissionIndex),
+            submission.data,
+            ...studentInfo.submissions.slice(submissionIndex+1)
+        ]
+        yield put(updateSubmissionSuccess({
+            studentInfo: studentInfo,
+            index: index
+        }))
+
+        let reviews: GradeReview[] = yield select((state: AppState)=>state.grade.review.data)
+        let reviewIndex = reviews.findIndex(r=>r.id===arg.reviewId)
+        let updated = {
+            ...reviews[reviewIndex],
+            status: 'ACCEPTED'
+        } 
+        yield put(finalizeGradeReviewSuccess({
+            reviews: [
+                ...reviews.slice(0, reviewIndex),
+                updated,
+                ...reviews.slice(reviewIndex + 1)
+            ]
+        }))
+    } catch (e) {
+        yield put(finalizeGradeReviewFail({
+            error: 'Finalize grade review failed'
+        }))
+    }
+}
+
 export function* gradeSaga() {
     yield all([
         takeLatest(gradeAction.GET_GRADE_REQUEST, getGradeSaga),
         takeLatest(gradeAction.GET_GRADE_REVIEW_REQUEST, getGradeReviewSaga),
         takeEvery(gradeAction.ADD_GRADE_REVIEW_REQUEST, addGradeReviewSaga),
-        takeEvery(gradeAction.COMMENT_GRADE_REVIEW_REQUEST, commentGradeReviewSaga)
+        takeEvery(gradeAction.COMMENT_GRADE_REVIEW_REQUEST, commentGradeReviewSaga),
+        takeEvery(gradeAction.FINALIZE_GRADE_REVIEW_REQUEST, finalizeGradeReviewSaga)
     ]);
 }
 

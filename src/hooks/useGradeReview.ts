@@ -1,5 +1,5 @@
 import { GradeReview } from "@/@types/model"
-import { addGradeReviewRequest, commentGradeReviewRequest, getGradeReviewRequest } from "@/actions/grade"
+import { addGradeReviewRequest, commentGradeReviewRequest, finalizeGradeReviewRequest, getGradeReviewRequest } from "@/actions/grade"
 import { AppState } from "@/reducers"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -24,10 +24,15 @@ const useGradeReview = ()=>{
         dispatch(commentGradeReviewRequest(classId, gradeReview.assignmentId, gradeReview.id, comment))
     }
 
+    const finalize = (gradeReview: GradeReview, grade: number)=>{
+        dispatch(finalizeGradeReviewRequest(classId, gradeReview.assignmentId, gradeReview.id, grade))
+    }
+
     return {
         reviews,
         addGradeReview,
-        comment
+        comment,
+        finalize
     }
 }
 

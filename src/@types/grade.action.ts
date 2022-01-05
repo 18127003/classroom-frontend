@@ -124,6 +124,34 @@ export interface CommentGradeReviewFail {
     payload: CommentGradeReviewFailPayload
 }
 
+export interface FinalizeGradeReviewSuccessPayload{
+    reviews: GradeReview[]
+}
+
+export interface FinalizeGradeReviewFailPayload{
+    error: string
+}
+
+export interface FinalizeGradeReviewRequest{
+    type: typeof gradeAction.FINALIZE_GRADE_REVIEW_REQUEST,
+    payload: {
+        classId: number,
+        assignmentId: number,
+        reviewId: number,
+        grade: number
+    }
+}
+
+export interface FinalizeGradeReviewSuccess {
+    type: typeof gradeAction.FINALIZE_GRADE_REVIEW_SUCCESS,
+    payload: FinalizeGradeReviewSuccessPayload
+}
+
+export interface FinalizeGradeReviewFail {
+    type: typeof gradeAction.FINALIZE_GRADE_REVIEW_FAIL
+    payload: FinalizeGradeReviewFailPayload
+}
+
 export type CommentAction = 
     | CommentGradeReviewRequest
     | CommentGradeReviewSuccess
@@ -142,3 +170,6 @@ export type GradeAction =
     | AddGradeReviewFail
     | AddGradeReviewSuccess
     | CommentAction
+    | FinalizeGradeReviewRequest
+    | FinalizeGradeReviewSuccess
+    | FinalizeGradeReviewFail
