@@ -1,18 +1,18 @@
 
-import { Account, AssignedClassroom, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GetClassroomsCriteria, GradeReview, InvitationRequestInfo, JoinRequestInfo, ModifyParticipantsInfo, StudentInfo, Submission } from "@/@types/model"
+import { Account, AssignedClassroom, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GetClassroomsCriteria, 
+    GradeReview, InvitationRequestInfo, JoinRequestInfo, ModifyParticipantsInfo, StudentInfo, Submission } from "@/@types/model"
 import { LOCAL_STORAGE_CLASSES_NAME } from "@/constants/common"
-import { ApiOutlined } from "@mui/icons-material"
 import Cookies from "universal-cookie"
 import { api } from "./api"
 
 const getClassrooms = async (criteria: GetClassroomsCriteria) =>{
     let localData = localStorage.getItem(LOCAL_STORAGE_CLASSES_NAME)
     if(!localData || criteria.reload){
-        const res = await api.getData()
-        if (res.status===200){
+        try {
+            const res = await api.getData()
             saveLocal(LOCAL_STORAGE_CLASSES_NAME, res.data)
             localData = localStorage.getItem(LOCAL_STORAGE_CLASSES_NAME)
-        } else {
+        } catch(e){
             return null;
         }
     }
@@ -30,7 +30,7 @@ const joinClassroom = async (request: JoinRequestInfo)=>{
     return await api.joinClassroom(request.code, request.role)
 }
 
-const saveLocal = (item: string, data: any[])=>{
+const saveLocal = (item: string, data: any)=>{
     localStorage.setItem(item, JSON.stringify(data))
 }
 

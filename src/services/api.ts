@@ -5,8 +5,16 @@ import axios from 'axios';
 const instance = axios.create({
     // baseURL: 'https://classroom-spring.herokuapp.com/api',
     baseURL: TEST_SERVER_BASE_URL,
-    withCredentials: true
+    withCredentials: true,
 });
+
+const transformFunc = data => {
+    try {
+        return JSON.parse(data);
+    } catch (error) {
+        return data;
+    }
+}
 
 instance.interceptors.response.use(
     response=>response,
@@ -15,18 +23,17 @@ instance.interceptors.response.use(
 
         // Prevent infinite loops
         if (error.response.status === 400 && originalRequest.url.includes('/auth/refreshToken')) {
-            window.location.href = '/login/';
+            // window.location.href = '/#/login/';
             return Promise.reject(error);
         }
 
-        if (error.response.status === 401) {
-            const refreshToken = localStorage.getItem(LOCAL_REFRESH_TOKEN);
+        if (error.response.status === 401 ) {
             try {
+                const refreshToken = JSON.parse(localStorage.getItem(LOCAL_REFRESH_TOKEN));
                 var rt = await instance.get(`/auth/refreshToken/${refreshToken}`)
-                localStorage.setItem(LOCAL_REFRESH_TOKEN, rt.data)
+                localStorage.setItem(LOCAL_REFRESH_TOKEN, JSON.stringify(rt.data))
                 return instance(originalRequest)
             } catch (e){
-                window.location.href = '/login/';
             }    
         }
         // specific error handling done elsewhere
@@ -37,21 +44,21 @@ instance.interceptors.response.use(
 const getData = () => instance({
     'method':'GET',
     'url':'/classroom/all',
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const createClassroom = (classroom: Classroom) => instance({
     'method':'POST',
     'url':'/classroom/create',
     'data': classroom,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const login = (auth: AuthRequestInfo) => instance({
     'method':'POST',
     'url':'/auth/login',
     'data': auth,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const requestResetPassword = (email:string) => instance({
@@ -73,7 +80,7 @@ const adminLogin = (auth: AuthRequestInfo) => instance({
     'method':'POST',
     'url':'/auth/loginAdmin',
     'data': auth,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const logout = () => instance({
@@ -85,7 +92,7 @@ const signup = (account: Account)=>instance({
     'method':'POST',
     'url':'/account/create',
     'data': account,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const testConnection = ()=>instance({
@@ -97,7 +104,7 @@ const socialLogin = (tokenId: string)=>instance({
     'method':'POST',
     'url':'/auth/socialLogin',
     'data': tokenId,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const joinClassroom = (code: string, role?: string)=>instance({
@@ -107,7 +114,7 @@ const joinClassroom = (code: string, role?: string)=>instance({
         'code': code,
         'role': role
     },
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const getParticipants = (classId: number)=> instance({
@@ -119,7 +126,7 @@ const getParticipants = (classId: number)=> instance({
 const getClassroomDetail = (classId: number)=>instance({
     'method':'GET',
     'url':`/classroom/${classId}`,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const sendInvitationMail = (classId: number, invitations: string[], role: 'STUDENT'|'TEACHER')=>instance({
@@ -132,14 +139,14 @@ const updateAccount = (account: Account)=>instance({
     'method':'PUT',
     'url':`/account/update`,
     'data':account,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const changePassword = (request: ChangePasswordRequestInfo)=>instance({
     'method':'PATCH',
     'url':`/account/change_password`,
     'data':request,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const removeParticipants = (id: number, removals: number[])=>instance({
@@ -157,14 +164,14 @@ const hideParticipants = (id: number, participants: number[])=>instance({
 const getAssignments = (id:number)=>instance({
     'method':'GET',
     'url':`/classroom/${id}/assignment/all`,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const addAssignment = (id:number, assignment: Assignment)=>instance({
     'method':'POST',
     'url':`/classroom/${id}/assignment/create`,
     'data':assignment,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const removeAssignment = (classId: number, id:number)=>instance({
@@ -176,7 +183,7 @@ const updateAssignment = (classId: number, id:number, assignment: Assignment)=>i
     'method':'PUT',
     'url':`/classroom/${classId}/assignment/${id}/update`,
     'data':assignment,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const updateAssignmentPosition = (id:number, update: number[])=>instance({
@@ -188,7 +195,7 @@ const updateAssignmentPosition = (id:number, update: number[])=>instance({
 const getStudentInfos = (id:number)=>instance({
     'method':'GET',
     'url':`/classroom/${id}/studentInfo/all`,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const importStudentInfos = (id:number, formData: FormData)=>instance({
@@ -201,7 +208,7 @@ const addSubmission = (id:number, assignmentId:number, submission: Submission)=>
     'method':'POST',
     'url':`/classroom/${id}/assignment/${assignmentId}/submission/create`,
     'data':submission,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const updateStudentId = (studentInfo: StudentInfo)=>instance({
@@ -225,38 +232,38 @@ const importSubmission = (id:number, assignmentId: number, formData: FormData)=>
 const updateSubmission = (classId:number, assignmentId:number, submissionId: number, grade: number)=>instance({
     'method':'PATCH',
     'url':`/classroom/${classId}/assignment/${assignmentId}/submission/${submissionId}/update?grade=${grade}`,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const getOverallGrade = (classId: number)=>instance({
     'method':'GET',
     'url':`/classroom/${classId}/assignment/submission/overall`,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const getStudentClassGrade = (classId: number)=>instance({
     'method':'GET',
     'url':`/classroom/${classId}/assignment/submission/all`,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const creatGradeReview = (classId: number, assignmentId: number, gradeReview: GradeReview)=>instance({
     'method':'POST',
     'url':`/classroom/${classId}/assignment/${assignmentId}/submission/review/create`,
     'data': gradeReview,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const getStudentGradeReview = (classId: number)=>instance({
     'method':'GET',
     'url':`/classroom/${classId}/assignment/submission/review/all`,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const checkFillSubmission = (classId: number, assignmentId: number)=>instance({
     'method':'GET',
     'url':`/classroom/${classId}/assignment/${assignmentId}/submission/filled`,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const finalizeAssignment = (classId: number, assignmentId: number)=>instance({
@@ -268,13 +275,13 @@ const commentGradeReview = (classId:number, assignmentId:number, reviewId:number
     'method':'POST',
     'url':`/classroom/${classId}/assignment/${assignmentId}/submission/review/${reviewId}/comment/create`,
     'data':comment,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 const finalizeGradeReview = (classId:number, assignmentId:number, reviewId:number, grade:number)=>instance({
     'method':'PATCH',
     'url':`/classroom/${classId}/assignment/${assignmentId}/submission/review/${reviewId}/finalize?grade=${grade}`,
-    transformResponse: [(data) => JSON.parse(data)]
+    transformResponse: [transformFunc]
 })
 
 export const api = {
