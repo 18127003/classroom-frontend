@@ -3,7 +3,7 @@ import { LOCAL_REFRESH_TOKEN, TEST_SERVER_BASE_URL } from '@/constants/common';
 import axios from 'axios';
 
 const instance = axios.create({
-    // baseURL: 'https://classroom-spring.herokuapp.com/api',
+    // baseURL: 'SERVER_BASE_URL',
     baseURL: TEST_SERVER_BASE_URL,
     withCredentials: true,
 });
@@ -20,12 +20,6 @@ instance.interceptors.response.use(
     response=>response,
     async error => {
         const originalRequest = error.config;
-
-        // Prevent infinite loops
-        if (error.response.status === 400 && originalRequest.url.includes('/auth/refreshToken')) {
-            // window.location.href = '/#/login/';
-            return Promise.reject(error);
-        }
 
         if (error.response.status === 401 ) {
             try {

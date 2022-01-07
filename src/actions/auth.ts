@@ -137,8 +137,9 @@ export const socialLoginRequest = (tokenId: string) => ({
 function* socialLoginSaga(action: SocialAuthRequest){
     try{
         const user = yield call(authService.socialLogin, action.payload)
-        commonService.saveCookies(COOKIES_AUTH_NAME, user.data);
-        yield put(initAccountRequest(user.data))
+        commonService.saveCookies(COOKIES_AUTH_NAME, user.data.account);
+        yield put(initAccountRequest(user.data.account))
+        commonService.saveLocal(LOCAL_REFRESH_TOKEN, user.data.refreshToken)
         yield put(loginSuccess({
             user: user.data
         }))        
