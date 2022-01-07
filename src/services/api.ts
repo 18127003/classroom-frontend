@@ -1,11 +1,38 @@
 import { Account, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GradeReview, StudentInfo, Submission } from '@/@types/model';
+import { LOCAL_REFRESH_TOKEN, TEST_SERVER_BASE_URL } from '@/constants/common';
 import axios from 'axios';
 
 const instance = axios.create({
     // baseURL: 'https://classroom-spring.herokuapp.com/api',
-    baseURL:'http://localhost:8080/api',
+    baseURL: TEST_SERVER_BASE_URL,
     withCredentials: true
 });
+
+instance.interceptors.response.use(
+    response=>response,
+    async error => {
+        const originalRequest = error.config;
+
+        // Prevent infinite loops
+        if (error.response.status === 400 && originalRequest.url.includes('/auth/refreshToken')) {
+            window.location.href = '/login/';
+            return Promise.reject(error);
+        }
+
+        if (error.response.status === 401) {
+            const refreshToken = localStorage.getItem(LOCAL_REFRESH_TOKEN);
+            try {
+                var rt = await instance.get(`/auth/refreshToken/${refreshToken}`)
+                localStorage.setItem(LOCAL_REFRESH_TOKEN, rt.data)
+                return instance(originalRequest)
+            } catch (e){
+                window.location.href = '/login/';
+            }    
+        }
+        // specific error handling done elsewhere
+        return Promise.reject(error);
+    }
+)
 
 const getData = () => instance({
     'method':'GET',

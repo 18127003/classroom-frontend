@@ -4,10 +4,9 @@ import { authActions } from "../constants/actions";
 import {all, call, put, takeLatest} from "redux-saga/effects";
 import { AuthSuccessPayload, AuthSuccess, AuthFailPayload, AuthFail, AuthRequest, 
     AuthRefresh, LogoutSuccess, LogoutFail, LogoutFailPayload, SignupSuccess, SignupFailPayload, SignupFail, SignupRequest, SocialAuthRequest } from "@/@types/auth.action";
-import { COOKIES_AUTH_NAME } from "@/constants/common";
+import { COOKIES_AUTH_NAME, LOCAL_REFRESH_TOKEN } from "@/constants/common";
 import { initAccountRequest } from "./account";
 import { getClassroomsRequest } from "./classrooms";
-import { userInfo } from "os";
 
 
 export const loginRequest = (auth: AuthRequestInfo) => ({
@@ -38,8 +37,9 @@ function* loginSaga(action: AuthRequest) {
         } else {
             user = yield call(authService.adminLogin, action.payload);
         }
-        commonService.saveCookies(COOKIES_AUTH_NAME, user.data);
-        yield put(initAccountRequest(user.data))
+        commonService.saveCookies(COOKIES_AUTH_NAME, user.data.account);
+        yield put(initAccountRequest(user.data.account))
+        commonService.saveLocal(LOCAL_REFRESH_TOKEN, user.data.refreshToken)
         yield put(loginSuccess({
             user: user.data
         }))
@@ -57,7 +57,7 @@ function* loginSaga(action: AuthRequest) {
 
 function* refreshLoginSaga(action: AuthRefresh) {
     try{
-        yield call(authService.testConnection)
+        // yield call(authService.testConnection)
         yield put(initAccountRequest(action.payload))
         yield put(loginSuccess({
             user:action.payload
