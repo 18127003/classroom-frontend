@@ -10,6 +10,7 @@ import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useLocation } from "react-router-dom";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
+import useWebSocket from "@/hooks/useWebSocket";
 
 const LoginPage: React.FC<LoginPageProps> = ({tab})=>{
     const auth = useSelector((state: AppState)=>state.auth.user);
@@ -17,6 +18,7 @@ const LoginPage: React.FC<LoginPageProps> = ({tab})=>{
     const dispatch = useDispatch();
     const location = useLocation();
     const [tabValue, setTabValue] = React.useState(tab);
+    const wsClient = useWebSocket()
 
     const handleChange = (event: React.SyntheticEvent, newValue: "1"|"2") => {
         setTabValue(newValue);
