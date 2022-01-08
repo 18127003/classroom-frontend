@@ -1,6 +1,6 @@
 
 import { Account, AssignedClassroom, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GetClassroomsCriteria, 
-    GradeReview, InvitationRequestInfo, JoinRequestInfo, ModifyParticipantsInfo, StudentInfo, Submission } from "@/@types/model"
+    GradeReview, GradeReviewComment, InvitationRequestInfo, JoinRequestInfo, ModifyParticipantsInfo, StudentInfo, Submission } from "@/@types/model"
 import { LOCAL_STORAGE_CLASSES_NAME } from "@/constants/common"
 import Cookies from "universal-cookie"
 import { api } from "./api"
@@ -70,6 +70,9 @@ const login = async (auth: AuthRequestInfo)=>{
 
 const adminLogin = async (auth: AuthRequestInfo)=>{
     return await api.adminLogin(auth);
+}
+const adminSignup= async (account:Account)=>{
+    return await api.adminSignup(account)
 }
 
 const logout = async ()=>{
@@ -199,7 +202,7 @@ const finalizeAssignment =async (classId:number, assignmentId: number) => {
     await api.finalizeAssignment(classId, assignmentId)
 }
 
-const commentGradeReview = async (classId: number, assignmentId: number, reviewId:number, comment: Comment)=>{
+const commentGradeReview = async (classId: number, assignmentId: number, reviewId:number, comment: GradeReviewComment)=>{
     return await api.commentGradeReview(classId, assignmentId, reviewId, comment)
 }
 
@@ -264,4 +267,7 @@ export const gradeService = {
 export const commonService = {
     saveLocal,
     saveCookies,
+}
+export const adminService={
+    adminSignup
 }

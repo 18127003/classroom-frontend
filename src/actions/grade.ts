@@ -13,7 +13,7 @@ import { GetGradeRequest, GetGradeSuccessPayload, GetGradeSuccess, GetGradeFailP
     FinalizeGradeReviewFail,
     FinalizeGradeReviewFailPayload,
     FinalizeGradeReviewSuccessPayload} from "@/@types/grade.action";
-import { GradeReview, StudentInfo } from "@/@types/model";
+import { GradeReview, GradeReviewComment, StudentInfo } from "@/@types/model";
 import { gradeAction } from "@/constants/actions";
 import { AppState } from "@/reducers";
 import { gradeService } from "@/services";
@@ -117,7 +117,7 @@ function* addGradeReviewSaga(action: AddGradeReviewRequest) {
     }
 }
 
-export const commentGradeReviewRequest = (classId: number, assignmentId: number, reviewId: number, comment:Comment): CommentGradeReviewRequest => ({
+export const commentGradeReviewRequest = (classId: number, assignmentId: number, reviewId: number, comment:GradeReviewComment): CommentGradeReviewRequest => ({
     type: gradeAction.COMMENT_GRADE_REVIEW_REQUEST,
     payload: {
         classId,

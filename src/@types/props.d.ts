@@ -158,3 +158,6 @@ interface GradeReviewCardProps {
 interface GradeReviewActionButtonProps {
     review: GradeReview
 }
+interface GradeReviewCommentProps{
+    review:GradeReview
+}

@@ -1,4 +1,4 @@
-import { Account, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GradeReview, StudentInfo, Submission } from '@/@types/model';
+import { Account, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GradeReview, GradeReviewComment, StudentInfo, Submission } from '@/@types/model';
 import { LOCAL_REFRESH_TOKEN, TEST_SERVER_BASE_URL } from '@/constants/common';
 import axios from 'axios';
 
@@ -75,6 +75,12 @@ const adminLogin = (auth: AuthRequestInfo) => instance({
     'url':'/auth/loginAdmin',
     'data': auth,
     transformResponse: [transformFunc]
+})
+const adminSignup=(account:Account)=>instance({
+    'method':'POST',
+    'url':'/admin/create',
+    'data':account,
+    transformResponse:[transformFunc]
 })
 
 const logout = () => instance({
@@ -265,7 +271,7 @@ const finalizeAssignment = (classId: number, assignmentId: number)=>instance({
     'url':`/classroom/${classId}/assignment/${assignmentId}/submission/finalize`
 })
 
-const commentGradeReview = (classId:number, assignmentId:number, reviewId:number, comment: Comment)=>instance({
+const commentGradeReview = (classId:number, assignmentId:number, reviewId:number, comment: GradeReviewComment)=>instance({
     'method':'POST',
     'url':`/classroom/${classId}/assignment/${assignmentId}/submission/review/${reviewId}/comment/create`,
     'data':comment,
@@ -316,5 +322,6 @@ export const api = {
     requestResetPassword,
     resetPassword,
     commentGradeReview,
-    finalizeGradeReview
+    finalizeGradeReview,
+    adminSignup
 }

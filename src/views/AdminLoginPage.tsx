@@ -1,18 +1,25 @@
 import { LoginPageProps } from "@/@types/props";
 import { loginRefresh } from "@/actions/auth";
 import AdminLoginForm from "@/components/Form/AdminLoginForm";
+import AdminSignupForm from "@/components/Form/AdminSignUpForm";
 import { AppState } from "@/reducers";
-import { Box, Card, CardContent, Stack, Typography } from "@mui/material";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { Box, Card, CardContent, Stack, Tab, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect, useLocation } from "react-router-dom";
 
-const AdminLoginPage: React.FC<LoginPageProps> = ()=>{
+const AdminLoginPage: React.FC<LoginPageProps> = ({tab})=>{
     const auth = useSelector((state: AppState)=>state.auth.user);
     const [cookies]=useCookies(['user'])
     const dispatch = useDispatch();
     const location = useLocation();
+    const [tabValue, setTabValue] = React.useState(tab);
+
+    const handleChange = (event: React.SyntheticEvent, newValue: "1"|"2") => {
+        setTabValue(newValue);
+    };
 
     useEffect(()=>{
         if(cookies.user){
@@ -34,7 +41,21 @@ const AdminLoginPage: React.FC<LoginPageProps> = ()=>{
                     </Typography>
                     <Card>
                         <CardContent>
-                            <AdminLoginForm/>
+                        <TabContext value={tabValue}>
+                                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                    <TabList 
+                                        onChange={handleChange} 
+                                        aria-label="auth-tabs" 
+                                        sx={{flexGrow:1}}
+                                        variant="fullWidth"
+                                    >
+                                        <Tab label="Login" value="1"/>
+                                        <Tab label="Sign Up" value="2"/>
+                                    </TabList>
+                                </Box>
+                                <TabPanel value="1"><AdminLoginForm/></TabPanel>
+                                <TabPanel value="2"><AdminSignupForm/></TabPanel>
+                            </TabContext>
                         </CardContent>
                     </Card>
                 </Stack>

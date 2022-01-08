@@ -7,6 +7,7 @@ import { Card, CardHeader, Avatar, Divider, CardContent, List, ListItem, ListIte
     Tooltip} from "@mui/material";
 import React from "react";
 import GradeReviewActionButton from "../Button/GradeReviewActionButton";
+import CommentCard from "../Comment/CommentCard";
 
 const GradeReviewCard:React.FC<GradeReviewCardProps>=({review, viewOnly=true})=> {
 
@@ -63,6 +64,7 @@ const GradeReviewCard:React.FC<GradeReviewCardProps>=({review, viewOnly=true})=>
                     </ListItem>
                 ))}
             </List>
+            <CommentCard review={review}/>
         </Card>
     );
 }

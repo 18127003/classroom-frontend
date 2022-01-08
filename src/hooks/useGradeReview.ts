@@ -1,4 +1,4 @@
-import { GradeReview } from "@/@types/model"
+import { GradeReview, GradeReviewComment } from "@/@types/model"
 import { addGradeReviewRequest, commentGradeReviewRequest, finalizeGradeReviewRequest, getGradeReviewRequest } from "@/actions/grade"
 import { AppState } from "@/reducers"
 import { useEffect } from "react"
@@ -20,7 +20,7 @@ const useGradeReview = ()=>{
         dispatch(addGradeReviewRequest(classId, assignmentId, gradeReview))
     }
 
-    const comment = (gradeReview: GradeReview, comment: Comment)=>{
+    const comment = (gradeReview: GradeReview, comment: GradeReviewComment)=>{
         dispatch(commentGradeReviewRequest(classId, gradeReview.assignmentId, gradeReview.id, comment))
     }
 

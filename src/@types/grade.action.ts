@@ -1,5 +1,5 @@
 import { gradeAction } from "@/constants/actions";
-import { GradeReview, Submission } from "./model";
+import { GradeReview, GradeReviewComment, Submission } from "./model";
 
 export interface GradeState {
     loading: boolean,
@@ -110,7 +110,7 @@ export interface CommentGradeReviewRequest{
         classId: number,
         assignmentId: number,
         reviewId: number,
-        comment: Comment
+        comment: GradeReviewComment
     }
 }
 

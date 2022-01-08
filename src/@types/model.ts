@@ -95,7 +95,7 @@ export interface StudentInfo {
     submissions?: Submission[]
 }
 
-export interface Comment {
+export interface GradeReviewComment {
     id?:number,
     reviewId?:number,
     content:string,
@@ -110,6 +110,6 @@ export interface GradeReview {
     assignment?:string,
     status?:string,
     author?:string,
-    comments?:Comment[],
+    comments?:GradeReviewComment[],
     assignmentId?:number
 }
