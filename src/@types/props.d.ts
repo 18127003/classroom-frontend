@@ -1,4 +1,4 @@
-import { Account, AssignedClassroom, Assignment, Classroom, GradeReview, StudentInfo, Submission } from "@/@types/model";
+import { Account, AssignedClassroom, Assignment, Classroom, GradeReview, Participant, StudentInfo, Submission } from "@/@types/model";
 import { IconButtonProps } from "@mui/material";
 import React from "react";
 import { RouteProps } from "react-router-dom";
@@ -74,7 +74,7 @@ type ParticipantListProps={
     hasAddIcon?: boolean,
     mode: "Student"|"Teacher"
     hasManage?:boolean,
-    data: Account[]
+    data: Participant[]
 }
 type DetailClassTabProps={
     detailClass:AssignedClassroom

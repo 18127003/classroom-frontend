@@ -1,10 +1,10 @@
 import { detailAction } from "@/constants/actions";
-import { Account, AssignedClassroom, Assignment, InvitationRequestInfo, ModifyParticipantsInfo } from "./model";
+import { Account, AssignedClassroom, InvitationRequestInfo, ModifyParticipantsInfo, Participant } from "./model";
 
 export interface ClassroomDetailState {
     loading: boolean,
     participants: {
-        data: Account[],
+        data: Participant[],
         reload: boolean
     },
     detail: AssignedClassroom|null,
@@ -16,7 +16,7 @@ export interface ClassroomDetailState {
 }
 
 export interface GetParticipantsSuccessPayload {
-    participants: Account[];
+    participants: Participant[];
 }
 
 export interface GetParticipantsFailPayload{

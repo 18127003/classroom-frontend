@@ -57,7 +57,7 @@ function* loginSaga(action: AuthRequest) {
 
 function* refreshLoginSaga(action: AuthRefresh) {
     try{
-        // yield call(authService.testConnection)
+        yield call(authService.testConnection)
         yield put(initAccountRequest(action.payload))
         yield put(loginSuccess({
             user:action.payload

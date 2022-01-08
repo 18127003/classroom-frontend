@@ -143,13 +143,13 @@ const changePassword = (request: ChangePasswordRequestInfo)=>instance({
     transformResponse: [transformFunc]
 })
 
-const removeParticipants = (id: number, removals: number[])=>instance({
+const removeParticipants = (id: number, removals: string[])=>instance({
     'method':'DELETE',
     'url':`/classroom/${id}/removeParticipants`,
     'data':removals
 })
 
-const hideParticipants = (id: number, participants: number[])=>instance({
+const hideParticipants = (id: number, participants: string[])=>instance({
     'method':'PATCH',
     'url':`/classroom/${id}/hideParticipants`,
     'data':participants

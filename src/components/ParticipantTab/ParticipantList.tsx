@@ -75,11 +75,11 @@ const ParticipantList: React.FC<ParticipantListProps> = ({mode, data, hasManage=
                             {
                                 data.map(item=>(
                                     <ParticipantItem 
-                                        key={item.id}
+                                        key={item.accountId}
                                         item={item} 
                                         task={hasManage}
                                         onCheck={select}
-                                        checked={getSelectedAt(item.id)}
+                                        checked={getSelectedAt(item.accountId)}
                                     />
                                 ))
                             }

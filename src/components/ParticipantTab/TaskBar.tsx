@@ -13,7 +13,7 @@ type TaskbarProps={
     checked: boolean,
     onCheck: (value:boolean)=>void,
     disabledTask: boolean,
-    getSelected: ()=>number[]
+    getSelected: ()=>string[]
 }
 
 const TaskBar: React.FC<TaskbarProps> = ({checked, onCheck, disabledTask, getSelected})=>{

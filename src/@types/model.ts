@@ -16,14 +16,22 @@ export interface AssignedClassroom extends Classroom{
 
 export interface Account {
     name?: string,
-    id?: number,
+    id?: string,
     email: string,
-    role?:string,
     password?:string,
     firstName?:string,
     lastName?:string,
     studentId?:string,
-    hidden?:boolean
+    role?:string
+}
+
+export interface Participant {
+    name: string,
+    accountId: string,
+    email: string,
+    studentId?:string,
+    hidden:boolean,
+    role:string
 }
 
 export interface Assignment {
@@ -58,7 +66,7 @@ export interface JoinRequestInfo {
 
 export interface ModifyParticipantsInfo {
     id: number,
-    participants: number[]
+    participants: string[]
 }
 
 export interface ChangePasswordRequestInfo{

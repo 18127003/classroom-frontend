@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 type SelectedItem = {
-    key: number,
+    key: string,
     value: boolean
 }
 
@@ -9,10 +9,10 @@ const useCheckboxes = (list: any[])=>{
     const [selectedList, setSelectedList] = useState<SelectedItem[]>([])
 
     useEffect(()=>{
-        setSelectedList(list.map(l=>{return {key: l.id, value:false}}))
+        setSelectedList(list.map(l=>{return {key: l.accountId, value:false}}))
     },[list])
 
-    const select = (id:number, value: boolean)=>{
+    const select = (id:string, value: boolean)=>{
         let item = selectedList.find(i=>i.key===id)
         item.value = value
         setSelectedList([...selectedList])
@@ -22,7 +22,7 @@ const useCheckboxes = (list: any[])=>{
         return selectedList.filter(item=>item.value===true).map(i=>i.key)
     }
 
-    const getSelectedAt = (id:number)=>{
+    const getSelectedAt = (id:string)=>{
         let item = selectedList.find(i=>i.key===id)
         if(item){
             return item.value

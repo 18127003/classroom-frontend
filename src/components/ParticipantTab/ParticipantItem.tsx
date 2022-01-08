@@ -1,4 +1,4 @@
-import { Account } from "@/@types/model";
+import { Participant } from "@/@types/model";
 import { removeParticipantsRequest, hideParticipantsRequest } from "@/actions/detail";
 import { COLORS } from "@/constants/common";
 import { AppState } from "@/reducers";
@@ -11,10 +11,10 @@ import PopupMenu from "../PopupMenu";
 import PopupMenuItem from "../PopupMenu/PopupMenuItem";
 
 interface ParticipantItemProps {
-    item: Account,
+    item: Participant,
     task?: boolean,
     checked?: boolean,
-    onCheck?: (id:number, value:boolean)=>void,
+    onCheck?: (id:string, value:boolean)=>void,
     key: any
 }
 
@@ -26,19 +26,19 @@ const ParticipantItem: React.FC<ParticipantItemProps> = ({item, task=false, onCh
     const onRemove = ()=>{
         dispatch(removeParticipantsRequest({
             id: classroom.id,
-            participants: [item.id]
+            participants: [item.accountId]
         }))
     }
 
     const onHide = ()=>{
         dispatch(hideParticipantsRequest({
             id: classroom.id,
-            participants: [item.id]
+            participants: [item.accountId]
         }))
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        onCheck(item.id, event.target.checked)
+        onCheck(item.accountId, event.target.checked)
     };
     return (
         <>
