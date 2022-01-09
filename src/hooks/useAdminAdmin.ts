@@ -1,5 +1,5 @@
 import { Account } from "@/@types/model"
-import { getAdminRequest } from "@/actions/admin"
+import { activateAdminRequest, getAdminRequest } from "@/actions/admin"
 import { AppState } from "@/reducers"
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
@@ -17,8 +17,13 @@ const useAdminAdmin=()=>{
         }
     },[reload])
 
+    const activateAdmin = (email:string)=>{
+        dispatch(activateAdminRequest(email))
+    }
+
     return {
-        admins
+        admins,
+        activateAdmin
     }
 }
 

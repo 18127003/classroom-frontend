@@ -22,7 +22,8 @@ export interface Account {
     firstName?:string,
     lastName?:string,
     studentId?:string,
-    role?:string
+    role?:string,
+    status?: string
 }
 
 export interface Participant {
@@ -112,4 +113,9 @@ export interface GradeReview {
     author?:string,
     comments?:GradeReviewComment[],
     assignmentId?:number
+}
+
+export interface Notification {
+    id?: number,
+    content: string
 }

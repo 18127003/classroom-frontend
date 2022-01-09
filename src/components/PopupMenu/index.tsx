@@ -2,13 +2,14 @@ import { Box, Menu } from "@mui/material";
 import React, { ReactElement } from "react";
 
 interface PopupMenuProps {
-    children: ReactElement| ReactElement[],
+    children: (ReactElement| ReactElement[])[],
     id: string,
     button: ReactElement,
-    buttonWrapperSx?: any
+    buttonWrapperSx?: any,
+    maxHeight?: number
 }
 
-const PopupMenu: React.FC<PopupMenuProps> = ({children, id, button, buttonWrapperSx})=>{
+const PopupMenu: React.FC<PopupMenuProps> = ({children, id, button, buttonWrapperSx, maxHeight})=>{
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -36,13 +37,14 @@ const PopupMenu: React.FC<PopupMenuProps> = ({children, id, button, buttonWrappe
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
                 anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
+                    vertical: 'bottom',
+                    horizontal: 'right',
                 }}
                 transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                    vertical: 'top',
+                    horizontal: 'right',
                 }}
+                sx={{maxHeight:maxHeight}}
             >
                 {renderChildren()}
             </Menu>

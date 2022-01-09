@@ -1,46 +1,35 @@
-import * as React from 'react';
+import React from 'react';
 import Badge from '@mui/material/Badge';
 import { Notifications } from '@mui/icons-material';
 import PopupMenu from '../PopupMenu';
 import PopupMenuItem from '../PopupMenu/PopupMenuItem';
-import { Divider, List, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
+import { Notification } from '@/@types/model';
 
-const BadgeNotification=()=> {
-    const notifications=["1","fgehr","sfheriueoruqywuywefhsdbfjahfkhes",
-    "1","fgehr","sfheriueoruqywuywefhsdbfjahfkhes","1","fgehr","sfheriueoruqywuywefhsdbfjahfkhes"]
+const BadgeNotification: React.FC = () => {
+  const notifications: Notification[] = []
   return (
-    <PopupMenu 
-    id="notification-menu"
-    button=
-    {<Badge 
-        badgeContent={notifications.length>99?'99+':notifications.length} 
-        sx={{"& .MuiBadge-badge": { color:  "white" , backgroundColor:  'rgba(0, 128, 0, 0.3)' }}}>
+    <PopupMenu
+      id="notification-menu"
+      maxHeight={300}
+      button=
+      {<Badge
+        badgeContent={notifications.length > 99 ? '99+' : notifications.length}
+        sx={{ "& .MuiBadge-badge": { color: "white", backgroundColor: 'rgba(0, 128, 0, 0.3)' } }}>
         <Notifications />
       </Badge>}
     >
-        <List sx={{
-        width: '100%',
-        maxWidth: 360,
-        bgcolor: 'background.paper',
-        position: 'relative',
-        overflow: 'auto',
-        maxHeight: 300,
-        '& ul': { padding:0 },
-      }}>
-           <Typography variant='h5' color={'teal'}  paddingLeft={2}><strong>Notifications</strong></Typography>
-        {
-            notifications.map(notification=>
-                
-                (<>
-                <PopupMenuItem title={notification}>
-                </PopupMenuItem>
-                 </>)
-            )
-        }
-        </List>
+        <PopupMenuItem title={''}>
+          <Typography variant='h5' color={'teal'} paddingLeft={2} width={300}><strong>Notifications</strong></Typography>
+        </PopupMenuItem>
         
+        {
+          notifications.map(notification =>
+            (<PopupMenuItem title={notification.content} key={notification.id}/>)
+          )
+        }
     </PopupMenu>
-    
+
   );
 }
-export default  BadgeNotification
+export default BadgeNotification

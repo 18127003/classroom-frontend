@@ -19,7 +19,8 @@ interface PopupMenuButtonProps {
     onMenuItemClick?: ()=>void
     children?: React.ReactNode
     title: string
-    button?: React.ReactNode
+    button?: React.ReactNode,
+    key?: any
 }
 
 interface DialogProps {
