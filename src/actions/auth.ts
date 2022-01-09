@@ -33,17 +33,20 @@ function* loginSaga(action: AuthRequest) {
     try{
         let user;
         if(!action.payload.admin){
-            user = yield call(authService.login, action.payload);
+            let res = yield call(authService.login, action.payload);
+            commonService.saveLocal(LOCAL_REFRESH_TOKEN, user.data.refreshToken)
+            user = res.data.account
         } else {
-            user = yield call(authService.adminLogin, action.payload);
+            let adminRes = yield call(authService.adminLogin, action.payload);
+            user = adminRes.data
         }
-        commonService.saveCookies(COOKIES_AUTH_NAME, user.data.account);
-        yield put(initAccountRequest(user.data.account))
-        commonService.saveLocal(LOCAL_REFRESH_TOKEN, user.data.refreshToken)
+        commonService.saveCookies(COOKIES_AUTH_NAME, user);
+        yield put(initAccountRequest(user))
+        
         yield put(loginSuccess({
-            user: user.data
+            user: user
         }))
-        if(user.data.role!=='ADMIN'){
+        if(user && user.role!=='ADMIN'){
             yield put(getClassroomsRequest({
                 reload: true
             }))

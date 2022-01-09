@@ -1,6 +1,5 @@
-import { signupRequest } from "@/actions/auth";
+import { createAdminRequest } from "@/actions/admin";
 import { AppState } from "@/reducers";
-import { adminService } from "@/services";
 import { LoadingButton } from "@mui/lab";
 import { Alert, Box, Stack, TextField } from "@mui/material";
 import React, { SyntheticEvent } from "react";
@@ -8,8 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 const AdminSignupForm = () => {
     const dispatch = useDispatch();
-    const loading = useSelector((state: AppState) => state.auth.loading);
-    const error = useSelector((state: AppState)=>state.auth.error.signup);
+    const loading = useSelector((state: AppState) => state.admin.loading);
+    const error = useSelector((state: AppState)=>state.admin.error);
+    const msg = useSelector((state: AppState)=>state.admin.msg)
 
     const handleLoginSubmit=async(event:SyntheticEvent)=>{
         event.preventDefault();
@@ -19,7 +19,7 @@ const AdminSignupForm = () => {
             email: {value:string};
         };
 
-        dispatch(adminService.adminSignup({
+        dispatch(createAdminRequest({
             name: target.name.value,
             password: target.password.value,
             email: target.email.value
@@ -62,6 +62,7 @@ const AdminSignupForm = () => {
                 </LoadingButton>
             </Stack>
             {error && <Alert severity="error">{error}</Alert>}
+            {msg && <Alert severity="success">{msg}</Alert>}
         </Box>
     )
 }

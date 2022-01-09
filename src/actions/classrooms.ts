@@ -2,14 +2,14 @@ import { AddClassroomFailPayload, AddClassroomRequest, AddClassroomsFail, AddCla
     AddClassroomSuccessPayload, GetClassroomsFail, GetClassroomsFailPayload, 
     GetClassroomsRequest, GetClassroomsSuccess, GetClassroomsSuccessPayload, JoinClassroomRequest, 
     JoinClassroomSuccessPayload, JoinClassroomSuccess, JoinClassroomFailPayload, JoinClassroomsFail, ReloadClassroomsRequest } from "@/@types/classroom.action";
-import { Classroom, GetClassroomsCriteria, JoinRequestInfo } from "@/@types/model";
+import { Classroom, GetDataCriteria, JoinRequestInfo } from "@/@types/model";
 import { classroomService } from "@/services";
 import { all, call, put, takeEvery, takeLatest } from "@redux-saga/core/effects";
 import { classroomActions } from "../constants/actions";
 import { redirectRequest } from "./common";
 import { getDetailRequest } from "./detail";
 
-export const getClassroomsRequest = (criteria: GetClassroomsCriteria): GetClassroomsRequest => ({
+export const getClassroomsRequest = (criteria: GetDataCriteria): GetClassroomsRequest => ({
     type: classroomActions.GETALL_REQUEST,
     payload: criteria
 });
@@ -104,8 +104,11 @@ function* joinClassroomsSaga(action: JoinClassroomRequest) {
     }
 }
 
-export const reloadClassroomRequest = (): ReloadClassroomsRequest => ({
-    type: classroomActions.RELOAD_REQUEST
+export const reloadClassroomRequest = (fetch: boolean): ReloadClassroomsRequest => ({
+    type: classroomActions.RELOAD_REQUEST,
+    payload: {
+        fetch
+    }
 });
 
 

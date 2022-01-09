@@ -1,6 +1,5 @@
 import { AuthState, AuthAction, AuthSuccess, AuthFail, LogoutFail, SignupFail } from "@/@types/auth.action";
 import { authActions } from "@/constants/actions";
-import { error } from "console";
 
 const initState:AuthState = {loading:false, user: null, error:{}, loggedOut:false}
 

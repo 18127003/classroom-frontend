@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import { accountReducer } from "./account";
+import { adminReducer } from "./admin";
 import { assignmentReducer } from "./assignment";
 import { authReducer } from "./auth";
 import { classroomsReducer } from "./classrooms";
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     detail: detailReducer,
     account: accountReducer,
     assignment: assignmentReducer,
-    grade: gradeReducer
+    grade: gradeReducer,
+    admin: adminReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

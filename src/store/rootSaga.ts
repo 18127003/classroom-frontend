@@ -1,4 +1,5 @@
 import accountSaga from "@/actions/account";
+import adminSaga from "@/actions/admin";
 import assignmentSaga from "@/actions/assignment";
 import authSaga from "@/actions/auth";
 import classroomsSaga from "@/actions/classrooms";
@@ -13,6 +14,7 @@ export function* rootSaga(){
         fork(detailSaga), 
         fork(accountSaga),
         fork(assignmentSaga),
-        fork(gradeSaga)
+        fork(gradeSaga),
+        fork(adminSaga)
     ]);
 }

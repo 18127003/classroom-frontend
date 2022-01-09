@@ -1,7 +1,15 @@
-import { AddClassroomsFail, ClassroomAction, ClassroomsState, GetClassroomsFail, GetClassroomsSuccess, JoinClassroomsFail } from "@/@types/classroom.action";
+import { AddClassroomsFail, ClassroomAction, ClassroomsState, GetClassroomsFail, GetClassroomsSuccess, JoinClassroomsFail, ReloadClassroomsRequest } from "@/@types/classroom.action";
 import { authActions, classroomActions } from "@/constants/actions";
 
-const initState:ClassroomsState = {loading:false, classes: [], error:null, reload: true}
+const initState:ClassroomsState = {
+    loading:false, 
+    classes: [], 
+    error:null, 
+    reload: {
+        reload: true,
+        fetch: false
+    }
+}
 
 export const classroomsReducer = (state: ClassroomsState = initState, action: ClassroomAction):ClassroomsState=>{
     console.log(action.type)
@@ -9,13 +17,16 @@ export const classroomsReducer = (state: ClassroomsState = initState, action: Cl
         case classroomActions.GETALL_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                reload: {
+                    reload: false,
+                    fetch: false
+                },
             };
         case classroomActions.GETALL_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                reload: false,
                 classes: (action as GetClassroomsSuccess).payload.classes,
                 error:null
             };
@@ -29,7 +40,10 @@ export const classroomsReducer = (state: ClassroomsState = initState, action: Cl
         case classroomActions.RELOAD_REQUEST:
             return {
                 ...state,
-                reload: true
+                reload: {
+                    reload: true,
+                    fetch: (action as ReloadClassroomsRequest).payload.fetch
+                }
             }
         case classroomActions.ADD_REQUEST:
             return {

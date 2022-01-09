@@ -74,7 +74,7 @@ export interface ChangePasswordRequestInfo{
     newPassword:string
 }
 
-export interface GetClassroomsCriteria {
+export interface GetDataCriteria {
     reload: boolean
 }
 

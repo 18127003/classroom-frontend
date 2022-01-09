@@ -91,6 +91,9 @@ const routes: AppRoute[] = [
         component: AdminLoginPage,
         protected: false,
         exact: true,
+        props:{
+            tab: '1'
+        }
     }
 ]
 

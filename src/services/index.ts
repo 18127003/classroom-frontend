@@ -1,11 +1,12 @@
 
-import { Account, AssignedClassroom, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, GetClassroomsCriteria, 
-    GradeReview, GradeReviewComment, InvitationRequestInfo, JoinRequestInfo, ModifyParticipantsInfo, StudentInfo, Submission } from "@/@types/model"
+import { Account, AssignedClassroom, Assignment, AuthRequestInfo, ChangePasswordRequestInfo, Classroom, 
+    GetDataCriteria, GradeReview, GradeReviewComment, InvitationRequestInfo, JoinRequestInfo, ModifyParticipantsInfo, StudentInfo, 
+    Submission } from "@/@types/model"
 import { LOCAL_STORAGE_CLASSES_NAME } from "@/constants/common"
 import Cookies from "universal-cookie"
 import { api } from "./api"
 
-const getClassrooms = async (criteria: GetClassroomsCriteria) =>{
+const getClassrooms = async (criteria: GetDataCriteria) =>{
     let localData = localStorage.getItem(LOCAL_STORAGE_CLASSES_NAME)
     if(!localData || criteria.reload){
         try {
@@ -70,9 +71,6 @@ const login = async (auth: AuthRequestInfo)=>{
 
 const adminLogin = async (auth: AuthRequestInfo)=>{
     return await api.adminLogin(auth);
-}
-const adminSignup= async (account:Account)=>{
-    return await api.adminSignup(account)
 }
 
 const logout = async ()=>{
@@ -267,7 +265,4 @@ export const gradeService = {
 export const commonService = {
     saveLocal,
     saveCookies,
-}
-export const adminService={
-    adminSignup
 }

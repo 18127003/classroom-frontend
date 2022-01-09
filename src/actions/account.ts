@@ -7,7 +7,6 @@ import { accountAction } from "@/constants/actions";
 import { COOKIES_AUTH_NAME } from "@/constants/common";
 import { accountService, commonService } from "@/services";
 import { all, call, put, takeLatest } from "@redux-saga/core/effects";
-import { reloadClassroomRequest } from "./classrooms";
 
 export const updateRequest = (account: Account): UpdateRequest => ({
     type: accountAction.UPDATE_ACCOUNT_REQUEST,
@@ -100,7 +99,6 @@ function* updateStudentIdSaga(action: UpdateStudentIdRequest) {
         yield put(updateStudentIdSuccess({
             studentId: action.payload.studentId
         }))
-        yield put(reloadClassroomRequest())
     } catch (e){
         yield put(updateStudentIdFail({
             error: 'Update student ID failed'

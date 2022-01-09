@@ -11,9 +11,9 @@ const ClassroomsGrid: React.FC = ()=>{
     const dispatch = useDispatch();
 
     useEffect(()=>{
-        if(reload){
+        if(reload.reload){
             dispatch(getClassroomsRequest({
-                reload: true
+                reload: reload.fetch
             }))
         }
     },[])
