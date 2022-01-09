@@ -1,5 +1,5 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { Collapse, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { Collapse, Divider, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import React, { ReactElement } from "react";
 
 interface ListItemProps{
@@ -23,6 +23,7 @@ return(
         <Collapse in={open} timeout="auto" unmountOnExit>
             {children}
         </Collapse>
+    <Divider/>
     </>
    
 )

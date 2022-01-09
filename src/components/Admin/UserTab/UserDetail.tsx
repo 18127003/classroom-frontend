@@ -1,5 +1,5 @@
 import { Account } from "@/@types/model";
-import { Block, ExpandMore } from "@mui/icons-material";
+import { Block, ExpandMore, MapOutlined } from "@mui/icons-material";
 import { Card, CardHeader, Avatar, IconButton, CardMedia, CardContent, Typography, CardActions } from "@mui/material";
 import { red } from "@mui/material/colors";
 import React from "react";
@@ -17,9 +17,14 @@ const UserDetail:React.FC<UserDetailProps>=({user})=>{
           </Avatar>
         }
         action={
+          <>
+          {user.studentId?
+          (<IconButton aria-label="map"><MapOutlined /></IconButton>)
+          :(<IconButton aria-label="map"><MapOutlined /></IconButton>)
+          }
           <IconButton aria-label="ban">
-            <Block />
-          </IconButton>
+              <Block />
+          </IconButton></>
         }
         title={user.name}
         subheader={user.studentId??''}
