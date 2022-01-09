@@ -37,7 +37,7 @@ interface LogoutDialogProps extends DialogProps{}
 interface SimpleConfirmDialogProps extends DialogProps {
     title: string,
     onConfirm: ()=>void,
-    loading:boolean
+    loading?:boolean
 }
 
 interface CustomRouteProps extends RouteProps {
@@ -56,7 +56,8 @@ interface ChangePasswordDialogProps extends DialogProps{
 }
 
 interface UpdateStudentIDDialogProps extends DialogProps{
-    studentId: string|null
+    studentId?: string,
+    onUpdate: (studentId:string, name:string)=>void
 }
 
 interface GradeReviewDialogProps extends DialogProps{

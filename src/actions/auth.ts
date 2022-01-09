@@ -99,6 +99,7 @@ function* logoutSaga() {
             error: 'Logout Failed'
         }))
     }
+    yield put(logoutSuccess())
 }
 
 export const signupRequest = (account: Account): SignupRequest => ({

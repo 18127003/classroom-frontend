@@ -31,7 +31,7 @@ const AdminDetail: React.FC<AdminDetailProps> = ({ user }) => {
             </Avatar>
           }
           action={
-            user.status==='ACTIVATED'?<HowToRegRoundedIcon />:
+            user.status==='ACTIVATED'?<HowToRegRoundedIcon sx={{mt:3, mb:2, mr:1}}/>:
             (<IconButton aria-label="activate" onClick={onOpen}>
               <PermIdentityRoundedIcon />
             </IconButton>)

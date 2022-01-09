@@ -1,41 +1,35 @@
 import { Account } from "@/@types/model";
-import { Block, ExpandMore, MapOutlined } from "@mui/icons-material";
-import { Card, CardHeader, Avatar, IconButton, CardMedia, CardContent, Typography, CardActions } from "@mui/material";
-import { red } from "@mui/material/colors";
+import UserActionButton from "@/components/Button/UserActionButton";
+import { Card, CardHeader, Avatar, CardContent, Typography } from "@mui/material";
 import React from "react";
 
-interface UserDetailProps{
-    user:Account
+interface UserDetailProps {
+  user: Account
 }
-const UserDetail:React.FC<UserDetailProps>=({user})=>{
-    return (
-        <Card sx={{  }}>
+
+const UserDetail: React.FC<UserDetailProps> = ({ user }) => {
+
+  return (
+    <Card>
       <CardHeader
         avatar={
-          <Avatar sx={{}} aria-label="recipe">
-            {user.name.slice(0,2)}
+          <Avatar aria-label="user-avatar">
+            {user.name.slice(0, 2)}
           </Avatar>
         }
         action={
-          <>
-          {user.studentId?
-          (<IconButton aria-label="map"><MapOutlined /></IconButton>)
-          :(<IconButton aria-label="map"><MapOutlined /></IconButton>)
-          }
-          <IconButton aria-label="ban">
-              <Block />
-          </IconButton></>
+          <UserActionButton account={user}/>
         }
         title={user.name}
-        subheader={user.studentId??''}
+        subheader={user.studentId ?? ''}
       />
-      
+
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           {user.email}
         </Typography>
       </CardContent>
-      </Card>
-    )
+    </Card>
+  )
 }
 export default UserDetail

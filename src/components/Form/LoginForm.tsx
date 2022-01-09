@@ -56,7 +56,7 @@ const LoginForm = () => {
                 <GoogleLoginButton/>
                 <Link to="/forgetPassword">Forgot Password?</Link>
             </Stack>
-            {error && <Alert severity="error">{error}</Alert>}
+            {error && <Alert severity="error" sx={{mt:2}}>{error}</Alert>}
         </Box>
     )
 }

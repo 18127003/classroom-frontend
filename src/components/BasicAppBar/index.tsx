@@ -7,16 +7,17 @@ import PopupMenuItem from '../PopupMenu/PopupMenuItem';
 import LogoutDialog from '../Dialog/LogoutDialog';
 import { NavLink } from 'react-router-dom';
 import Profile from '../Profile';
-import { ModeEdit, Notifications } from '@mui/icons-material';
+import { ModeEdit } from '@mui/icons-material';
 import { EditProfileDialog } from '../Dialog/EditProfileDialog';
 import { BasicAppBarProps } from '@/@types/props';
 import ClassroomDrawer from './ClassroomDrawer';
 import UpdateStudentIDDialog from '../Dialog/UpdateStudentIDDialog';
 import ChangePasswordDialog from '../Dialog/ChangePasswordDialog';
 import BadgeNotification from './Notifications';
+import useProfile from '@/hooks/useProfile';
 
 const BasicAppBar: React.FC<BasicAppBarProps> = ({titleFlexGrow=true,hasDrawer=true, children}) => {
-  const user = useSelector((state:AppState)=>state.account.detail);
+  const {user, updateStudentId} = useProfile()
   
 
   return (
@@ -45,7 +46,7 @@ const BasicAppBar: React.FC<BasicAppBarProps> = ({titleFlexGrow=true,hasDrawer=t
               <EditProfileDialog />
             </PopupMenuItem>
             <PopupMenuItem title="Update Student ID">
-              <UpdateStudentIDDialog studentId={user.studentId}/>
+              <UpdateStudentIDDialog studentId={user.studentId} onUpdate={updateStudentId}/>
             </PopupMenuItem>
             <PopupMenuItem title="Change Password">
               <ChangePasswordDialog/>

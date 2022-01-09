@@ -4,8 +4,7 @@ import { Dialog, DialogTitle, Box, DialogContent, TextField, DialogActions, Butt
 import React, { SyntheticEvent } from "react"
 import { useDispatch } from "react-redux"
 
-const UpdateStudentIDDialog: React.FC<UpdateStudentIDDialogProps> = ({isOpen=false, handleClose, studentId}) => {
-    const dispatch = useDispatch()
+const UpdateStudentIDDialog: React.FC<UpdateStudentIDDialogProps> = ({isOpen=false, handleClose, studentId, onUpdate}) => {
 
     const handleSubmit = async (event: SyntheticEvent) => {
         event.preventDefault();
@@ -14,10 +13,7 @@ const UpdateStudentIDDialog: React.FC<UpdateStudentIDDialogProps> = ({isOpen=fal
             studentName: { value: string };
         };
         handleClose();
-        dispatch(updateStudentIdRequest({
-            studentId: target.studentId.value,
-            name: target.studentName.value
-        }));
+        onUpdate(target.studentId.value, target.studentName.value)
     }
 
 
