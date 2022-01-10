@@ -17,7 +17,7 @@ const InviteParticipantDialog: React.FC<InviteParticipantDialogProps>=({title,is
 
     useEffect(()=>{
         if(classroom){
-            setInviteLink(`https://18127003.github.io/classroom-frontend/#/classroom/${classroom.id}?invite=true&code=${classroom.code}`)
+            setInviteLink(`https://mnclassroom.netlify.app/#/classroom/${classroom.id}?invite=true&code=${classroom.code}`)
         }
     },[classroom])
 
