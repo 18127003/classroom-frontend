@@ -3,7 +3,7 @@ import { authService, commonService } from "@/services";
 import { authActions } from "../constants/actions";
 import {all, call, put, takeLatest} from "redux-saga/effects";
 import { AuthSuccessPayload, AuthSuccess, AuthFailPayload, AuthFail, AuthRequest, 
-    AuthRefresh, LogoutSuccess, LogoutFail, LogoutFailPayload, SignupSuccess, SignupFailPayload, SignupFail, SignupRequest, SocialAuthRequest } from "@/@types/auth.action";
+    AuthRefresh, LogoutSuccess, LogoutFail, SignupSuccess, SignupFail, SignupRequest, SocialAuthRequest } from "@/@types/auth.action";
 import { COOKIES_AUTH_NAME, LOCAL_REFRESH_TOKEN } from "@/constants/common";
 import { initAccountRequest } from "./account";
 import { getClassroomsRequest } from "./classrooms";
@@ -34,7 +34,7 @@ function* loginSaga(action: AuthRequest) {
         let user;
         if(!action.payload.admin){
             let res = yield call(authService.login, action.payload);
-            commonService.saveLocal(LOCAL_REFRESH_TOKEN, user.data.refreshToken)
+            commonService.saveLocal(LOCAL_REFRESH_TOKEN, res.data.refreshToken)
             user = res.data.account
         } else {
             let adminRes = yield call(authService.adminLogin, action.payload);
@@ -52,6 +52,7 @@ function* loginSaga(action: AuthRequest) {
             }))
         }
     } catch (e){
+        console.log(e)
         yield put(loginFail({
             error: 'Login failed'
         }))
@@ -84,7 +85,7 @@ export const logoutSuccess = ():LogoutSuccess =>({
     type: authActions.LOGOUT_SUCCESS
 });
 
-export const logoutFail = (payload: LogoutFailPayload):LogoutFail =>({
+export const logoutFail = (payload: AuthFailPayload):LogoutFail =>({
     type: authActions.LOGOUT_FAIL,
     payload: payload
 });
@@ -107,11 +108,12 @@ export const signupRequest = (account: Account): SignupRequest => ({
     payload: account
 });
 
-export const signupSuccess = ():SignupSuccess =>({
-    type: authActions.SIGNUP_SUCCESS
+export const signupSuccess = (msg: string):SignupSuccess =>({
+    type: authActions.SIGNUP_SUCCESS,
+    payload:{msg}
 });
 
-export const signupFail = (payload: SignupFailPayload):SignupFail =>({
+export const signupFail = (payload: AuthFailPayload):SignupFail =>({
     type: authActions.SIGNUP_FAIL,
     payload: payload
 });
@@ -121,11 +123,12 @@ function* signupSaga(action: SignupRequest) {
     try{
         const res = yield call(authService.signup, action.payload)
         const user: Account = res.data
-        yield put(signupSuccess())
-        yield put(loginRequest({
-            email: user.email,
-            password: action.payload.password
-        }))
+        yield call(authService.sendActivateAccountEmail, user.email)
+        yield put(signupSuccess('Account created. Please check your verification email to activate your account'))
+        // yield put(loginRequest({
+        //     email: user.email,
+        //     password: action.payload.password
+        // }))
     } catch(e){
         yield put(signupFail({
             error: 'Signup Failed'

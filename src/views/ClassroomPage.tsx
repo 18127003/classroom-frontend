@@ -1,6 +1,7 @@
 import AssignmentsTab from "@/components/AssignmentsTab";
 import BasicAppBar from "@/components/BasicAppBar";
 import ClassNotFound from "@/components/ClassNotFound";
+import BasicSnackBar from "@/components/BasicSnackBar"
 import DetailClassTab from "@/components/DetailClassTab";
 import InvitationRespondDialog from "@/components/Dialog/InvitationRespondDialog";
 import GradeBookTab from "@/components/GradeBookTab";
@@ -19,7 +20,12 @@ const ClassroomPage: React.FC = ()=>{
     const {invite, handleAcceptInvite} = useClassroomWrapper();
     const loading = useSelector((state: AppState)=>state.detail.loading);
     const classroom = useSelector((state: AppState)=>state.detail.detail);
-    const error = useSelector((state: AppState)=>state.detail.error);
+    const detailError = useSelector((state: AppState)=>state.detail.error);
+    const detailMsg = useSelector((state: AppState)=>state.detail.msg)
+    const assignmentError = useSelector((state: AppState)=>state.assignment.error)
+    const assignmentMsg = useSelector((state: AppState)=>state.assignment.msg)
+    const gradeError = useSelector((state: AppState)=>state.grade.error)
+    const gradeMsg = useSelector((state: AppState)=>state.grade.msg)
     
     const [tabValue, setTabValue] = React.useState('1');
 
@@ -28,7 +34,7 @@ const ClassroomPage: React.FC = ()=>{
     };
       
 
-    if(invite || error){
+    if(invite || detailError==='Get classroom detail failed'){
         return invite?<InvitationRespondDialog handleAccept={handleAcceptInvite}/>:<ClassNotFound/>
     }
 
@@ -75,6 +81,12 @@ const ClassroomPage: React.FC = ()=>{
                     classroom && classroom.role==="STUDENT"?<OverallGradeTab/>:<GradeBookTab/>
                 }
             </TabPanel>
+            <BasicSnackBar type='error' msg={detailError}/>
+            <BasicSnackBar type='success' msg={detailMsg}/>
+            <BasicSnackBar type='error' msg={assignmentError}/>
+            <BasicSnackBar type='success' msg={assignmentMsg}/>
+            <BasicSnackBar type='error' msg={gradeError}/>
+            <BasicSnackBar type='success' msg={gradeMsg}/>
         </TabContext>
     )
 }

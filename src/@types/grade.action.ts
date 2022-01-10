@@ -12,13 +12,18 @@ export interface GradeState {
         reload: boolean
     }
     error: string|null,
+    msg: string|null
+}
+
+export interface MsgPayload{
+    msg: string
 }
 
 export interface GetGradeSuccessPayload {
     grade: Submission[];
 }
 
-export interface GetGradeFailPayload{
+export interface GradeFailPayload{
     error: string
 }
 
@@ -34,7 +39,7 @@ export interface GetGradeSuccess {
 
 export interface GetGradeFail {
     type: typeof gradeAction.GET_GRADE_FAIL
-    payload: GetGradeFailPayload
+    payload: GradeFailPayload
 }
 
 export interface ReloadGradeRequest{
@@ -43,10 +48,6 @@ export interface ReloadGradeRequest{
 
 export interface GetGradeReviewSuccessPayload {
     reviews: GradeReview[];
-}
-
-export interface GetGradeReviewFailPayload{
-    error: string
 }
 
 export interface GetGradeReviewRequest{
@@ -61,19 +62,15 @@ export interface GetGradeReviewSuccess {
 
 export interface GetGradeReviewFail {
     type: typeof gradeAction.GET_GRADE_REVIEW_FAIL
-    payload: GetGradeReviewFailPayload
+    payload: GradeFailPayload
 }
 
 export interface ReloadGradeReviewRequest{
     type: typeof gradeAction.RELOAD_GRADE_REVIEW_REQUEST
 }
 
-export interface AddGradeReviewSuccessPayload {
+export interface AddGradeReviewSuccessPayload extends MsgPayload{
     review: GradeReview;
-}
-
-export interface AddGradeReviewFailPayload{
-    error: string
 }
 
 export interface AddGradeReviewRequest{
@@ -92,16 +89,12 @@ export interface AddGradeReviewSuccess {
 
 export interface AddGradeReviewFail {
     type: typeof gradeAction.ADD_GRADE_REVIEW_FAIL
-    payload: AddGradeReviewFailPayload
+    payload: GradeFailPayload
 }
 
 export interface CommentGradeReviewSuccessPayload {
     review: GradeReview;
     index: number;
-}
-
-export interface CommentGradeReviewFailPayload{
-    error: string
 }
 
 export interface CommentGradeReviewRequest{
@@ -121,15 +114,11 @@ export interface CommentGradeReviewSuccess {
 
 export interface CommentGradeReviewFail {
     type: typeof gradeAction.COMMENT_GRADE_REVIEW_FAIL
-    payload: CommentGradeReviewFailPayload
+    payload: GradeFailPayload
 }
 
-export interface FinalizeGradeReviewSuccessPayload{
+export interface FinalizeGradeReviewSuccessPayload extends MsgPayload{
     reviews: GradeReview[]
-}
-
-export interface FinalizeGradeReviewFailPayload{
-    error: string
 }
 
 export interface FinalizeGradeReviewRequest{
@@ -149,7 +138,7 @@ export interface FinalizeGradeReviewSuccess {
 
 export interface FinalizeGradeReviewFail {
     type: typeof gradeAction.FINALIZE_GRADE_REVIEW_FAIL
-    payload: FinalizeGradeReviewFailPayload
+    payload: GradeFailPayload
 }
 
 export type CommentAction = 

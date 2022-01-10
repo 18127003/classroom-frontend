@@ -9,6 +9,7 @@ const SignupForm = () => {
     const dispatch = useDispatch();
     const loading = useSelector((state: AppState) => state.auth.loading);
     const error = useSelector((state: AppState)=>state.auth.error.signup);
+    const msg = useSelector((state: AppState)=>state.auth.msg)
 
     const handleLoginSubmit=async(event:SyntheticEvent)=>{
         event.preventDefault();
@@ -69,6 +70,7 @@ const SignupForm = () => {
                 </LoadingButton>
             </Stack>
             {error && <Alert severity="error">{error}</Alert>}
+            {msg && <Alert severity="success">{msg}</Alert>}
         </Box>
     )
 }

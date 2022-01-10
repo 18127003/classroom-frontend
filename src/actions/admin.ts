@@ -107,7 +107,7 @@ export const getLockFail = (payload: AdminFailPayload):GetLockFail =>({
 });
  
 function* getLockSaga(action: GetLockRequest) {
-    const accounts = yield call(adminService.getAllAccount, action.payload);
+    const accounts = yield call(adminService.getAllLockedAccount, action.payload);
     if(accounts) {
         yield put(getLockSuccess({
             locks: accounts
@@ -225,7 +225,8 @@ function* lockAccountSaga(action: LockAccountRequest) {
 
         yield put(lockAccountSuccess({
             accounts: [
-                ...accounts.splice(index, 1)
+                ...accounts.slice(0, index),
+                ...accounts.slice(index+1)
             ],
             msg: 'Lock account succeed'
         }))
@@ -261,7 +262,8 @@ function* unlockAccountSaga(action: UnlockAccountRequest) {
 
         yield put(unlockAccountSuccess({
             accounts: [
-                ...locks.splice(index, 1)
+                ...locks.slice(0, index),
+                ...locks.slice(index+1)
             ],
             msg: 'Unlock account succeed'
         }))

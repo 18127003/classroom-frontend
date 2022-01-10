@@ -1,6 +1,6 @@
-import { ChangePasswordFail, ChangePasswordFailPayload, ChangePasswordRequest, ChangePasswordSuccess, InitAccountRequest, 
-    InitAccountSuccess, InitAccountSuccessPayload, UpdateFail, UpdateFailPayload, UpdateRequest, UpdateStudentIdFail, 
-    UpdateStudentIdFailPayload, UpdateStudentIdRequest, UpdateStudentIdSuccess, UpdateStudentIdSuccessPayload, UpdateSuccess, 
+import { AccountFailPayload, ChangePasswordFail, ChangePasswordRequest, ChangePasswordSuccess, InitAccountRequest, 
+    InitAccountSuccess, InitAccountSuccessPayload, UpdateFail, UpdateRequest, UpdateStudentIdFail,
+     UpdateStudentIdRequest, UpdateStudentIdSuccess, UpdateStudentIdSuccessPayload, UpdateSuccess, 
     UpdateSuccessPayload } from "@/@types/account.action";
 import { Account, ChangePasswordRequestInfo, StudentInfo } from "@/@types/model";
 import { accountAction } from "@/constants/actions";
@@ -18,7 +18,7 @@ export const updateSuccess = (payload: UpdateSuccessPayload):UpdateSuccess =>({
     payload: payload
 });
 
-export const updateFail = (payload: UpdateFailPayload):UpdateFail =>({
+export const updateFail = (payload: AccountFailPayload):UpdateFail =>({
     type: accountAction.UPDATE_ACCOUNT_FAIL,
     payload: payload
 });
@@ -28,7 +28,8 @@ function* updateAccountSaga(action: UpdateRequest) {
         const user = yield call(accountService.updateAccount, action.payload);
         commonService.saveCookies(COOKIES_AUTH_NAME, user.data);
         yield put(updateSuccess({
-            user: user.data
+            user: user.data,
+            msg: 'Update profile succeed'
         }))
     } catch (e){
         yield put(updateFail({
@@ -42,11 +43,12 @@ export const changePasswordRequest = (payload: ChangePasswordRequestInfo): Chang
     payload: payload
 });
 
-export const changePasswordSuccess = ():ChangePasswordSuccess =>({
-    type: accountAction.UPDATE_PASSWORD_SUCCESS
+export const changePasswordSuccess = (msg: string):ChangePasswordSuccess =>({
+    type: accountAction.UPDATE_PASSWORD_SUCCESS,
+    payload: {msg}
 });
 
-export const changePasswordFail = (payload: ChangePasswordFailPayload):ChangePasswordFail =>({
+export const changePasswordFail = (payload: AccountFailPayload):ChangePasswordFail =>({
     type: accountAction.UPDATE_PASSWORD_FAIL,
     payload: payload
 });
@@ -54,7 +56,7 @@ export const changePasswordFail = (payload: ChangePasswordFailPayload):ChangePas
 function* changePasswordSaga(action: ChangePasswordRequest) {
     try{
         yield call(accountService.changePassword, action.payload);
-        yield put(changePasswordSuccess())
+        yield put(changePasswordSuccess('Change password succeed'))
     } catch (e){
         yield put(changePasswordFail({
             error: 'Change password failed'
@@ -88,7 +90,7 @@ export const updateStudentIdSuccess = (payload: UpdateStudentIdSuccessPayload):U
     payload: payload
 });
 
-export const updateStudentIdFail = (payload: UpdateStudentIdFailPayload):UpdateStudentIdFail =>({
+export const updateStudentIdFail = (payload: AccountFailPayload):UpdateStudentIdFail =>({
     type: accountAction.UPDATE_STUDENTID_FAIL,
     payload: payload
 });
@@ -97,7 +99,8 @@ function* updateStudentIdSaga(action: UpdateStudentIdRequest) {
     try {
         yield call(accountService.updateStudentId, action.payload)
         yield put(updateStudentIdSuccess({
-            studentId: action.payload.studentId
+            studentId: action.payload.studentId,
+            msg: 'Update student ID succeed'
         }))
     } catch (e){
         yield put(updateStudentIdFail({

@@ -1,5 +1,5 @@
 import { Account, GetDataCriteria, StudentInfo } from "@/@types/model"
-import { LOCAL_STORAGE_ACCOUNTS_NAME, LOCAL_STORAGE_ADMINS_NAME, LOCAL_STORAGE_CLASSES_NAME } from "@/constants/common"
+import { LOCAL_STORAGE_ACCOUNTS_NAME, LOCAL_STORAGE_ADMINS_NAME, LOCAL_STORAGE_CLASSES_NAME, LOCAL_STORAGE_LOCKS_NAME } from "@/constants/common"
 import { commonService } from "."
 import { adminApi } from "./adminApi"
 
@@ -13,6 +13,10 @@ const getAllClassroom = async (criteria: GetDataCriteria) =>{
 
 const getAllAccount = async (criteria: GetDataCriteria) =>{
     return await getData(criteria, LOCAL_STORAGE_ACCOUNTS_NAME, adminApi.getAllAccount)
+}
+
+const getAllLockedAccount = async (criteria: GetDataCriteria) =>{
+    return await getData(criteria, LOCAL_STORAGE_LOCKS_NAME, adminApi.getAllLockedAccount)
 }
 
 const getAllAdmin = async (criteria: GetDataCriteria) =>{
@@ -65,5 +69,6 @@ export const adminService = {
     lockAccount,
     unlockAccount,
     mapStudentId,
-    removeStudentId
+    removeStudentId,
+    getAllLockedAccount
 }

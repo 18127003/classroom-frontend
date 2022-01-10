@@ -245,6 +245,17 @@ const finalizeGradeReview = (classId:number, assignmentId:number, reviewId:numbe
     transformResponse: [transformFunc]
 })
 
+const sendActivateAccountEmail = (email:string)=>instance({
+    'method':'POST',
+    'url':`/account/activate/request?email=${email}`
+})
+
+const activateAccount = (token:string)=>instance({
+    'method':'PATCH',
+    'url':`/account/activate`,
+    'data':token
+})
+
 export const api = {
     getData,
     createClassroom,
@@ -283,5 +294,7 @@ export const api = {
     requestResetPassword,
     resetPassword,
     commentGradeReview,
-    finalizeGradeReview
+    finalizeGradeReview,
+    sendActivateAccountEmail,
+    activateAccount
 }

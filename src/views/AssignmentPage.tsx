@@ -6,7 +6,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const AssignmentPage: React.FC = ()=>{
-    const loading = useSelector((state: AppState)=>state.assignment.loading);
     const error = useSelector((state: AppState)=>state.assignment.error);
 
     if(error){

@@ -208,6 +208,14 @@ const finalizeGradeReview =async (classId: number, assignmentId: number, reviewI
     return await api.finalizeGradeReview(classId, assignmentId, reviewId, grade)
 }
 
+const sendActivateAccountEmail =async (email:string) => {
+    await api.sendActivateAccountEmail(email)
+}
+
+const activateAccount =async (token:string) => {
+    await api.activateAccount(token)
+}
+
 export const authService = {
     login,
     logout,
@@ -216,7 +224,9 @@ export const authService = {
     testConnection,
     adminLogin,
     requestResetPassword,
-    resetPassword
+    resetPassword,
+    sendActivateAccountEmail,
+    activateAccount
 }
 
 export const accountService = {

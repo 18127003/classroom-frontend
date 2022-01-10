@@ -19,10 +19,11 @@ const BadgeNotification: React.FC = () => {
         <Notifications />
       </Badge>}
     >
-        <PopupMenuItem title={''}>
-          <Typography variant='h5' color={'teal'} paddingLeft={2} width={300}><strong>Notifications</strong></Typography>
-        </PopupMenuItem>
-        
+        <PopupMenuItem 
+          title={(<Typography variant='h5' color={'teal'} paddingLeft={2} width={300}>
+                    <strong>Notifications</strong>
+                  </Typography>)}
+        />
         {
           notifications.map(notification =>
             (<PopupMenuItem title={notification.content} key={notification.id}/>)

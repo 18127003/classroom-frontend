@@ -1,4 +1,5 @@
 import AcceptTokenPage from "@/views/AcceptTokenPage";
+import ActivateAccountPage from "@/views/ActivateAccountPage";
 import AdminHomePage from "@/views/AdminHomePage";
 import AdminLoginPage from "@/views/AdminLoginPage";
 import AssignmentPage from "@/views/AssignmentPage";
@@ -94,7 +95,14 @@ const routes: AppRoute[] = [
         props:{
             tab: '1'
         }
-    }
+    },
+    {
+        path: '/activateAccount',
+        name: 'Activate Account Page',
+        component: ActivateAccountPage,
+        protected: false,
+        exact: true,
+    },
 ]
 
 export const adminRoute: AppRoute[] = [

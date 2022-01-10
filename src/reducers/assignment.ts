@@ -1,8 +1,10 @@
+import { UpdateStudentIdSuccess } from "@/@types/account.action";
 import { AddAssignmentFail, AddAssignmentSuccess, AddSubmissionFail, AddSubmissionSuccess, AssignmentAction, AssignmentState, 
     FinalizeAssignmentConfirm, 
     FinalizeAssignmentFail, 
     FinalizeAssignmentSuccess, 
     GetAssignmentsFail, GetAssignmentsSuccess, GetStudentInfosSuccess, ImportStudentInfosFail, ImportSubmissionFail, 
+    ImportSubmissionSuccess, 
     RemoveAssignmentFail, RemoveAssignmentSuccess, UpdateAssignmentFail, UpdateAssignmentSuccess, UpdatePositionFail, 
     UpdatePositionSuccess, UpdateSubmissionFail,UpdateSubmissionSuccess} from "@/@types/assignment.action";
 import { assignmentAction, authActions, detailAction } from "@/constants/actions";
@@ -17,7 +19,8 @@ const initState:AssignmentState = {
         data: [],
         reload: true
     },
-    error:null
+    error:null,
+    msg: null
 }
 
 export const assignmentReducer = (state: AssignmentState = initState, action: AssignmentAction):AssignmentState=>{
@@ -73,7 +76,8 @@ export const assignmentReducer = (state: AssignmentState = initState, action: As
                     ],
                     reload: false
                 },
-                error: null
+                error: null,
+                msg: assignmentPayload.msg
             };
         case assignmentAction.ADD_ASSIGNMENT_FAIL:
             return {
@@ -100,14 +104,15 @@ export const assignmentReducer = (state: AssignmentState = initState, action: As
                 loading: true
             }
         case assignmentAction.REMOVE_ASSIGNMENT_SUCCESS:
-            var removeId = (action as RemoveAssignmentSuccess).payload.id
+            var removeAssisgnment = (action as RemoveAssignmentSuccess).payload
             return {
                 ...state,
                 loading: false,
                 assignments: {
-                    data: state.assignments.data.filter(assignment=>assignment.id!==removeId),
+                    data: state.assignments.data.filter(assignment=>assignment.id!==removeAssisgnment.id),
                     reload: false
-                }
+                },
+                msg: removeAssisgnment.msg
             }
         case assignmentAction.REMOVE_ASSIGNMENT_FAIL:
             return {
@@ -128,7 +133,8 @@ export const assignmentReducer = (state: AssignmentState = initState, action: As
                 assignments: {
                     data: state.assignments.data.map(assignment=>assignment.id===update.id?update:assignment),
                     reload: false
-                }
+                },
+                msg: (action as UpdateAssignmentSuccess).payload.msg
             }
         case assignmentAction.UPDATE_ASSIGNMENT_FAIL:
             return {
@@ -174,7 +180,8 @@ export const assignmentReducer = (state: AssignmentState = initState, action: As
                     data: state.studentInfos.data,
                     reload: true
                 },
-                error:null
+                error:null,
+                msg: (action as UpdateStudentIdSuccess).payload.msg
             };
         case assignmentAction.IMPORT_STUDENT_INFO_FAIL:
             return {
@@ -204,7 +211,8 @@ export const assignmentReducer = (state: AssignmentState = initState, action: As
                     ],
                     reload: false
                 },
-                error: null
+                error: null,
+                msg: submissionPayload.msg
             };
         case assignmentAction.ADD_SUBMISSION_FAIL:
             return {
@@ -226,7 +234,8 @@ export const assignmentReducer = (state: AssignmentState = initState, action: As
         case assignmentAction.IMPORT_SUBMISSION_SUCCESS:
             return {
                 ...state,
-                loading: false
+                loading: false,
+                msg: (action as ImportSubmissionSuccess).payload.msg
             };
         case assignmentAction.RELOAD_STUDENT_INFO_REQUEST:
             return {
@@ -254,7 +263,8 @@ export const assignmentReducer = (state: AssignmentState = initState, action: As
                     ],
                     reload: false
                 },
-                error: null
+                error: null,
+                msg: submissionUpdate.msg
             };
         case assignmentAction.UPDATE_SUBMISSION_FAIL:
             return {
@@ -278,7 +288,8 @@ export const assignmentReducer = (state: AssignmentState = initState, action: As
                 assignments:{
                     data: (action as FinalizeAssignmentSuccess).payload.assignments,
                     reload: false
-                }
+                },
+                msg: (action as FinalizeAssignmentSuccess).payload.msg
             }
         case assignmentAction.FINALIZE_ASSIGNMENT_CONFIRM:
             return {

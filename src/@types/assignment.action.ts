@@ -18,14 +18,19 @@ export interface AssignmentState {
         reload: boolean
     }
     error: string|null,
+    msg: string|null
+}
+
+export interface AssignmentFailPayload{
+    error: string
+}
+
+export interface MsgPayload{
+    msg: string
 }
 
 export interface GetAssignmentsSuccessPayload {
     assignments: Assignment[];
-}
-
-export interface GetAssignmentsFailPayload{
-    error: string
 }
 
 export interface GetAssignmentsRequest{
@@ -40,18 +45,14 @@ export interface GetAssignmentsSuccess {
 
 export interface GetAssignmentsFail {
     type: typeof assignmentAction.GET_ASSIGNMENTS_FAIL
-    payload: GetAssignmentsFailPayload
+    payload: AssignmentFailPayload
 }
 
 export interface ReloadAssignmentsRequest{
     type: typeof assignmentAction.RELOAD_ASSIGNMENTS_REQUEST
 }
 
-export interface UpdatePositionFailPayload{
-    error: string
-}
-
-export interface UpdatePositionSuccessPayload{
+export interface UpdatePositionSuccessPayload {
     assignments: Assignment[]
 }
 
@@ -71,16 +72,12 @@ export interface UpdatePositionSuccess {
 
 export interface UpdatePositionFail{
     type: typeof assignmentAction.UPDATE_POSITION_FAIL
-    payload: UpdatePositionFailPayload
+    payload: AssignmentFailPayload
 }
 
-export interface AddAssignmentSuccessPayload {
+export interface AddAssignmentSuccessPayload extends MsgPayload{
     assignment: Assignment;
     index: number;
-}
-
-export interface AddAssignmentFailPayload{
-    error: string
 }
 
 export interface AddAssignmentRequest{
@@ -98,15 +95,11 @@ export interface AddAssignmentSuccess {
 
 export interface AddAssignmentFail {
     type: typeof assignmentAction.ADD_ASSIGNMENT_FAIL
-    payload: AddAssignmentFailPayload
+    payload: AssignmentFailPayload
 }
 
-export interface RemoveAssignmentSuccessPayload{
+export interface RemoveAssignmentSuccessPayload extends MsgPayload{
     id: number
-}
-
-export interface RemoveAssignmentFailPayload{
-    error: string
 }
 
 export interface RemoveAssignmentRequest{
@@ -124,15 +117,11 @@ export interface RemoveAssignmentSuccess {
 
 export interface RemoveAssignmentFail {
     type: typeof assignmentAction.REMOVE_ASSIGNMENT_FAIL
-    payload: RemoveAssignmentFailPayload
+    payload: AssignmentFailPayload
 }
 
-export interface UpdateAssignmentSuccessPayload {
+export interface UpdateAssignmentSuccessPayload extends MsgPayload {
     assignment: Assignment;
-}
-
-export interface UpdateAssignmentFailPayload{
-    error: string
 }
 
 export interface UpdateAssignmentRequest{
@@ -151,15 +140,11 @@ export interface UpdateAssignmentSuccess {
 
 export interface UpdateAssignmentFail {
     type: typeof assignmentAction.UPDATE_ASSIGNMENT_FAIL
-    payload: UpdateAssignmentFailPayload
+    payload: AssignmentFailPayload
 }
 
 export interface GetStudentInfosSuccessPayload {
     studentInfos: StudentInfo[];
-}
-
-export interface GetStudentInfosFailPayload{
-    error: string
 }
 
 export interface GetStudentInfosRequest{
@@ -174,11 +159,7 @@ export interface GetStudentInfosSuccess {
 
 export interface GetStudentInfosFail {
     type: typeof assignmentAction.GET_STUDENT_INFO_FAIL
-    payload: GetStudentInfosFailPayload
-}
-
-export interface ImportStudentInfosFailPayload{
-    error: string
+    payload: AssignmentFailPayload
 }
 
 export interface ImportStudentInfosRequest{
@@ -190,12 +171,13 @@ export interface ImportStudentInfosRequest{
 }
 
 export interface ImportStudentInfosSuccess {
-    type: typeof assignmentAction.IMPORT_STUDENT_INFO_SUCCESS
+    type: typeof assignmentAction.IMPORT_STUDENT_INFO_SUCCESS,
+    payload: MsgPayload
 }
 
 export interface ImportStudentInfosFail {
     type: typeof assignmentAction.IMPORT_STUDENT_INFO_FAIL
-    payload: ImportStudentInfosFailPayload
+    payload: AssignmentFailPayload
 }
 
 export interface ExportTemplateRequest{
@@ -203,13 +185,9 @@ export interface ExportTemplateRequest{
     payload: number //class ID
 }
 
-export interface AddSubmissionSuccessPayload {
+export interface AddSubmissionSuccessPayload extends MsgPayload {
     studentInfo: StudentInfo;
     index: number;
-}
-
-export interface AddSubmissionFailPayload{
-    error: string
 }
 
 export interface AddSubmissionRequest{
@@ -228,11 +206,7 @@ export interface AddSubmissionSuccess {
 
 export interface AddSubmissionFail {
     type: typeof assignmentAction.ADD_SUBMISSION_FAIL
-    payload: AddSubmissionFailPayload
-}
-
-export interface ImportSubmissionFailPayload{
-    error: string
+    payload: AssignmentFailPayload
 }
 
 export interface ImportSubmissionRequest{
@@ -245,25 +219,22 @@ export interface ImportSubmissionRequest{
 }
 
 export interface ImportSubmissionSuccess {
-    type: typeof assignmentAction.IMPORT_SUBMISSION_SUCCESS
+    type: typeof assignmentAction.IMPORT_SUBMISSION_SUCCESS,
+    payload: MsgPayload
 }
 
 export interface ImportSubmissionFail {
     type: typeof assignmentAction.IMPORT_SUBMISSION_FAIL
-    payload: ImportSubmissionFailPayload
+    payload: AssignmentFailPayload
 }
 
 export interface ReloadStudentInfoRequest{
     type: typeof assignmentAction.RELOAD_STUDENT_INFO_REQUEST
 }
  
-export interface UpdateSubmissionSuccessPayload {
+export interface UpdateSubmissionSuccessPayload extends MsgPayload {
     studentInfo: StudentInfo;
     index: number;
-}
-
-export interface UpdateSubmissionFailPayload{
-    error: string
 }
 
 export interface UpdateSubmissionRequest{
@@ -283,15 +254,11 @@ export interface UpdateSubmissionSuccess {
 
 export interface UpdateSubmissionFail {
     type: typeof assignmentAction.UPDATE_SUBMISSION_FAIL
-    payload: UpdateSubmissionFailPayload
+    payload: AssignmentFailPayload
 }
 
-export interface FinalizeAssignmentSuccessPayload {
+export interface FinalizeAssignmentSuccessPayload extends MsgPayload {
     assignments: Assignment[];
-}
-
-export interface FinalizeAssignmentFailPayload{
-    error: string
 }
 
 export interface FinalizeAssignmentRequest{
@@ -310,7 +277,7 @@ export interface FinalizeAssignmentSuccess {
 
 export interface FinalizeAssignmentFail {
     type: typeof assignmentAction.FINALIZE_ASSIGNMENT_FAIL
-    payload: FinalizeAssignmentFailPayload
+    payload: AssignmentFailPayload
 }
 
 export interface FinalizeAssignmentConfirm {

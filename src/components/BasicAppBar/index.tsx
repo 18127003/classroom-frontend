@@ -1,5 +1,5 @@
 import React from 'react';
-import {AppBar, Box, Toolbar, Typography, IconButton, Avatar, Badge} from '@mui/material';
+import {AppBar, Box, Toolbar, Typography, IconButton, Avatar, LinearProgress} from '@mui/material';
 import { useSelector } from 'react-redux';
 import { AppState } from '@/reducers';
 import PopupMenu from '../PopupMenu';
@@ -15,10 +15,13 @@ import UpdateStudentIDDialog from '../Dialog/UpdateStudentIDDialog';
 import ChangePasswordDialog from '../Dialog/ChangePasswordDialog';
 import BadgeNotification from './Notifications';
 import useProfile from '@/hooks/useProfile';
+import BasicSnackBar from '../BasicSnackBar';
 
 const BasicAppBar: React.FC<BasicAppBarProps> = ({titleFlexGrow=true,hasDrawer=true, children}) => {
   const {user, updateStudentId} = useProfile()
-  
+  const error = useSelector((state: AppState)=>state.account.error)
+  const msg = useSelector((state: AppState)=>state.account.msg)
+  const loading = useSelector((state: AppState)=>state.account.loading)
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -57,6 +60,9 @@ const BasicAppBar: React.FC<BasicAppBarProps> = ({titleFlexGrow=true,hasDrawer=t
           </PopupMenu>
         </Toolbar>
       </AppBar>
+      <LinearProgress sx={loading?{}:{display: 'none'}}/>
+      <BasicSnackBar type='error' msg={error}/>
+      <BasicSnackBar type='success' msg={msg}/>
     </Box>
   );
 }

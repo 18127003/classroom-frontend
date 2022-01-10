@@ -1,13 +1,12 @@
-import {  GetDetailFail, GetDetailFailPayload, GetDetailRequest, GetDetailSuccess, GetDetailSuccessPayload, 
-    GetParticipantsFail, GetParticipantsFailPayload, GetParticipantsRequest, GetParticipantsSuccess, 
-    GetParticipantsSuccessPayload, HideParticipantsFail, HideParticipantsFailPayload, HideParticipantsRequest, 
-    HideParticipantsSuccess, ReloadParticipantsRequest, RemoveParticipantsFail, RemoveParticipantsFailPayload, 
+import {  DetailFailPayload, GetDetailFail, GetDetailRequest, GetDetailSuccess, GetDetailSuccessPayload, 
+    GetParticipantsFail, GetParticipantsRequest, GetParticipantsSuccess, 
+    GetParticipantsSuccessPayload, HideParticipantsFail, HideParticipantsRequest, 
+    HideParticipantsSuccess, ReloadParticipantsRequest, RemoveParticipantsFail, 
     RemoveParticipantsRequest, RemoveParticipantsSuccess,RestartDetailRequest,SendInvitationRequest} from "@/@types/detail.action";
 import { AssignedClassroom, InvitationRequestInfo, ModifyParticipantsInfo } from "@/@types/model";
 import { detailAction } from "@/constants/actions";
 import { classroomService } from "@/services";
 import { all, call, put, takeLatest } from "@redux-saga/core/effects";
-import { reloadAssignmentsRequest, reloadStudentInfoRequest } from "./assignment";
 
 export const getParticipantsRequest = (classId: number): GetParticipantsRequest => ({
     type: detailAction.GET_PARTICIPANT_REQUEST,
@@ -19,7 +18,7 @@ export const getParticipantsSuccess = (payload: GetParticipantsSuccessPayload):G
     payload: payload
 });
 
-export const getParticipantsFail = (payload: GetParticipantsFailPayload):GetParticipantsFail =>({
+export const getParticipantsFail = (payload: DetailFailPayload):GetParticipantsFail =>({
     type: detailAction.GET_PARTICIPANT_FAIL,
     payload: payload
 });
@@ -51,7 +50,7 @@ export const getDetailSuccess = (payload: GetDetailSuccessPayload):GetDetailSucc
     payload: payload
 });
 
-export const getDetailFail = (payload: GetDetailFailPayload):GetDetailFail =>({
+export const getDetailFail = (payload: DetailFailPayload):GetDetailFail =>({
     type: detailAction.GET_DETAIL_FAIL,
     payload: payload
 });
@@ -71,8 +70,6 @@ function* getDetailSaga(action: GetDetailRequest) {
         yield put(getDetailSuccess({
             detail: detail
         }))
-        // yield put(reloadAssignmentsRequest())
-        // yield put(reloadStudentInfoRequest())
         yield put(restartDetailRequest())
     } else {
         yield put(getDetailFail({
@@ -95,12 +92,12 @@ export const removeParticipantsRequest = (request: ModifyParticipantsInfo): Remo
     payload: request
 });
 
-export const removeParticipantsSuccess = ():RemoveParticipantsSuccess =>({
-    type: detailAction.REMOVE_PARTICIPANT_SUCCESS
-    // payload: payload
+export const removeParticipantsSuccess = (msg: string):RemoveParticipantsSuccess =>({
+    type: detailAction.REMOVE_PARTICIPANT_SUCCESS,
+    payload: {msg}
 });
 
-export const removeParticipantsFail = (payload: RemoveParticipantsFailPayload):RemoveParticipantsFail =>({
+export const removeParticipantsFail = (payload: DetailFailPayload):RemoveParticipantsFail =>({
     type: detailAction.REMOVE_PARTICIPANT_FAIL,
     payload: payload
 });
@@ -108,7 +105,7 @@ export const removeParticipantsFail = (payload: RemoveParticipantsFailPayload):R
 function* removeParticipantsSaga(action: RemoveParticipantsRequest) {
     try {
         yield call(classroomService.removeParticipants, action.payload)
-        yield put(removeParticipantsSuccess())
+        yield put(removeParticipantsSuccess('Remove participant succeed'))
         yield put(reloadParticipantsRequest())
     } catch (e){
         yield put(removeParticipantsFail({
@@ -122,12 +119,12 @@ export const hideParticipantsRequest = (request: ModifyParticipantsInfo): HidePa
     payload: request
 });
 
-export const hideParticipantsSuccess = ():HideParticipantsSuccess =>({
-    type: detailAction.HIDE_PARTICIPANT_SUCCESS
-    // payload: payload
+export const hideParticipantsSuccess = (msg: string):HideParticipantsSuccess =>({
+    type: detailAction.HIDE_PARTICIPANT_SUCCESS,
+    payload: {msg}
 });
 
-export const hideParticipantsFail = (payload: HideParticipantsFailPayload):HideParticipantsFail =>({
+export const hideParticipantsFail = (payload: DetailFailPayload):HideParticipantsFail =>({
     type: detailAction.HIDE_PARTICIPANT_FAIL,
     payload: payload
 });
@@ -135,7 +132,7 @@ export const hideParticipantsFail = (payload: HideParticipantsFailPayload):HideP
 function* hideParticipantsSaga(action: HideParticipantsRequest) {
     try {
         yield call(classroomService.hideParticipants, action.payload)
-        yield put(hideParticipantsSuccess())
+        yield put(hideParticipantsSuccess('Hide participant succeed'))
         yield put(reloadParticipantsRequest())
     } catch (e){
         yield put(hideParticipantsFail({

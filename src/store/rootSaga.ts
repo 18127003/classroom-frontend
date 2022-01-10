@@ -6,6 +6,7 @@ import classroomsSaga from "@/actions/classrooms";
 import detailSaga from "@/actions/detail";
 import gradeSaga from "@/actions/grade";
 import { all, fork } from "@redux-saga/core/effects";
+import { watchOnPings } from "./socketMiddleware";
 
 export function* rootSaga(){
     yield all([
@@ -15,6 +16,7 @@ export function* rootSaga(){
         fork(accountSaga),
         fork(assignmentSaga),
         fork(gradeSaga),
-        fork(adminSaga)
+        fork(adminSaga),
+        // fork(watchOnPings)
     ]);
 }

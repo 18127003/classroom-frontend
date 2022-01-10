@@ -20,6 +20,12 @@ const getAllAccount = ()=>instance({
     transformResponse:[transformFunc]
 })
 
+const getAllLockedAccount = ()=>instance({
+    'method':'GET',
+    'url':'/admin/account/locked/all',
+    transformResponse:[transformFunc]
+})
+
 const getAllAdmin = ()=>instance({
     'method':'GET',
     'url':'/admin/all',
@@ -61,5 +67,6 @@ export const adminApi = {
     lockAccount,
     unlockAccount,
     mapStudentId,
-    removeStudentId
+    removeStudentId,
+    getAllLockedAccount
 }

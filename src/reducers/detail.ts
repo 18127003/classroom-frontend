@@ -1,6 +1,6 @@
 import { RedirectRequest } from "@/@types/common.action";
 import {ClassroomDetailState, DetailAction, GetDetailFail, GetDetailSuccess, GetParticipantsFail, GetParticipantsSuccess, 
-    HideParticipantsFail, RemoveParticipantsFail } from "@/@types/detail.action";
+    HideParticipantsFail, HideParticipantsSuccess, RemoveParticipantsFail, RemoveParticipantsSuccess } from "@/@types/detail.action";
 import { authActions, commonAction, detailAction } from "@/constants/actions";
 
 const initState:ClassroomDetailState = {
@@ -11,7 +11,8 @@ const initState:ClassroomDetailState = {
     }, 
     error: null,
     detail: undefined,
-    redirect: {redirect:false}
+    redirect: {redirect:false},
+    msg: null
 }
 
 export const detailReducer = (state: ClassroomDetailState = initState, action: DetailAction):ClassroomDetailState=>{
@@ -54,6 +55,12 @@ export const detailReducer = (state: ClassroomDetailState = initState, action: D
                 ...state,
                 loading: true
             }
+        case detailAction.REMOVE_PARTICIPANT_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                msg: (action as RemoveParticipantsSuccess).payload.msg
+            }
         case detailAction.REMOVE_PARTICIPANT_FAIL:
             return {
                 ...state,
@@ -64,6 +71,12 @@ export const detailReducer = (state: ClassroomDetailState = initState, action: D
             return {
                 ...state,
                 loading: true
+            }
+        case detailAction.HIDE_PARTICIPANT_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                msg: (action as HideParticipantsSuccess).payload.msg
             }
         case detailAction.HIDE_PARTICIPANT_FAIL:
             return {

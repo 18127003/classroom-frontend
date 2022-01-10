@@ -1,18 +1,11 @@
 
-import { GetGradeRequest, GetGradeSuccessPayload, GetGradeSuccess, GetGradeFailPayload, GetGradeFail, ReloadGradeRequest, 
-    GetGradeReviewFail, GetGradeReviewFailPayload, GetGradeReviewRequest, GetGradeReviewSuccess, GetGradeReviewSuccessPayload, 
-    ReloadGradeReviewRequest, AddGradeReviewFail, AddGradeReviewFailPayload, AddGradeReviewRequest, AddGradeReviewSuccess,
-    AddGradeReviewSuccessPayload,
-    CommentGradeReviewRequest,
-    CommentGradeReviewSuccessPayload,
-    CommentGradeReviewSuccess,
-    CommentGradeReviewFailPayload,
-    CommentGradeReviewFail,
-    FinalizeGradeReviewRequest,
-    FinalizeGradeReviewSuccess,
-    FinalizeGradeReviewFail,
-    FinalizeGradeReviewFailPayload,
-    FinalizeGradeReviewSuccessPayload} from "@/@types/grade.action";
+import { GetGradeRequest, GetGradeSuccessPayload, GetGradeSuccess, GetGradeFail, ReloadGradeRequest, 
+    GetGradeReviewFail, GetGradeReviewRequest, GetGradeReviewSuccess, GetGradeReviewSuccessPayload, 
+    ReloadGradeReviewRequest, AddGradeReviewFail, AddGradeReviewRequest, AddGradeReviewSuccess,
+    AddGradeReviewSuccessPayload,CommentGradeReviewRequest,CommentGradeReviewSuccessPayload,
+    CommentGradeReviewSuccess,CommentGradeReviewFail,FinalizeGradeReviewRequest,FinalizeGradeReviewSuccess,FinalizeGradeReviewFail,
+    FinalizeGradeReviewSuccessPayload,
+    GradeFailPayload} from "@/@types/grade.action";
 import { GradeReview, GradeReviewComment, StudentInfo } from "@/@types/model";
 import { gradeAction } from "@/constants/actions";
 import { AppState } from "@/reducers";
@@ -30,7 +23,7 @@ export const getGradeSuccess = (payload: GetGradeSuccessPayload):GetGradeSuccess
     payload: payload
 });
 
-export const getGradeFail = (payload: GetGradeFailPayload):GetGradeFail =>({
+export const getGradeFail = (payload: GradeFailPayload):GetGradeFail =>({
     type: gradeAction.GET_GRADE_FAIL,
     payload: payload
 });
@@ -62,7 +55,7 @@ export const getGradeReviewSuccess = (payload: GetGradeReviewSuccessPayload):Get
     payload: payload
 });
 
-export const getGradeReviewFail = (payload: GetGradeReviewFailPayload):GetGradeReviewFail =>({
+export const getGradeReviewFail = (payload: GradeFailPayload):GetGradeReviewFail =>({
     type: gradeAction.GET_GRADE_REVIEW_FAIL,
     payload: payload
 });
@@ -98,7 +91,7 @@ export const addGradeReviewSuccess = (payload: AddGradeReviewSuccessPayload):Add
     payload: payload
 });
 
-export const addGradeReviewFail = (payload: AddGradeReviewFailPayload):AddGradeReviewFail =>({
+export const addGradeReviewFail = (payload: GradeFailPayload):AddGradeReviewFail =>({
     type: gradeAction.ADD_GRADE_REVIEW_FAIL,
     payload: payload
 });
@@ -108,7 +101,8 @@ function* addGradeReviewSaga(action: AddGradeReviewRequest) {
         const arg = action.payload
         const review = yield call(gradeService.createGradeReview, arg.classId, arg.assignmentId, arg.gradeReview);
         yield put(addGradeReviewSuccess({
-           review : review.data
+           review : review.data,
+           msg: 'Add grade review succeed'
         }))
     } catch (e) {
         yield put(addGradeReviewFail({
@@ -132,7 +126,7 @@ export const commentGradeReviewSuccess = (payload: CommentGradeReviewSuccessPayl
     payload: payload
 });
 
-export const commentGradeReviewFail = (payload: CommentGradeReviewFailPayload):CommentGradeReviewFail =>({
+export const commentGradeReviewFail = (payload: GradeFailPayload):CommentGradeReviewFail =>({
     type: gradeAction.COMMENT_GRADE_REVIEW_FAIL,
     payload: payload
 });
@@ -174,7 +168,7 @@ export const finalizeGradeReviewSuccess = (payload: FinalizeGradeReviewSuccessPa
     payload: payload
 });
 
-export const finalizeGradeReviewFail = (payload: FinalizeGradeReviewFailPayload):FinalizeGradeReviewFail =>({
+export const finalizeGradeReviewFail = (payload: GradeFailPayload):FinalizeGradeReviewFail =>({
     type: gradeAction.COMMENT_GRADE_REVIEW_FAIL,
     payload: payload
 });
@@ -195,7 +189,8 @@ function* finalizeGradeReviewSaga(action: FinalizeGradeReviewRequest) {
         ]
         yield put(updateSubmissionSuccess({
             studentInfo: studentInfo,
-            index: index
+            index: index,
+            msg: 'Grade succeed'
         }))
 
         let reviews: GradeReview[] = yield select((state: AppState)=>state.grade.review.data)
@@ -209,7 +204,8 @@ function* finalizeGradeReviewSaga(action: FinalizeGradeReviewRequest) {
                 ...reviews.slice(0, reviewIndex),
                 updated,
                 ...reviews.slice(reviewIndex + 1)
-            ]
+            ],
+            msg: 'Finalize grade review succeed'
         }))
     } catch (e) {
         yield put(finalizeGradeReviewFail({

@@ -12,14 +12,19 @@ export interface ClassroomDetailState {
     redirect: {
         redirect: boolean,
         payload?: AssignedClassroom
-    }
+    },
+    msg: string|null
+}
+
+export interface MsgPayload{
+    msg: string
 }
 
 export interface GetParticipantsSuccessPayload {
     participants: Participant[];
 }
 
-export interface GetParticipantsFailPayload{
+export interface DetailFailPayload{
     error: string
 }
 
@@ -35,7 +40,7 @@ export interface GetParticipantsSuccess {
 
 export interface GetParticipantsFail {
     type: typeof detailAction.GET_PARTICIPANT_FAIL
-    payload: GetParticipantsFailPayload
+    payload: DetailFailPayload
 }
 
 export interface ReloadParticipantsRequest{
@@ -44,10 +49,6 @@ export interface ReloadParticipantsRequest{
 
 export interface GetDetailSuccessPayload {
     detail: AssignedClassroom;
-}
-
-export interface GetDetailFailPayload{
-    error: string
 }
 
 export interface GetDetailRequest{
@@ -62,16 +63,12 @@ export interface GetDetailSuccess {
 
 export interface GetDetailFail {
     type: typeof detailAction.GET_DETAIL_FAIL
-    payload: GetDetailFailPayload
+    payload: DetailFailPayload
 }
 
 export interface SendInvitationRequest{
     type: typeof detailAction.SEND_INVITATION_REQUEST,
     payload: InvitationRequestInfo
-}
-
-export interface RemoveParticipantsFailPayload{
-    error: string
 }
 
 export interface RemoveParticipantsRequest{
@@ -80,16 +77,13 @@ export interface RemoveParticipantsRequest{
 }
 
 export interface RemoveParticipantsSuccess {
-    type: typeof detailAction.REMOVE_PARTICIPANT_SUCCESS
+    type: typeof detailAction.REMOVE_PARTICIPANT_SUCCESS,
+    payload: MsgPayload
 }
 
 export interface RemoveParticipantsFail {
     type: typeof detailAction.REMOVE_PARTICIPANT_FAIL
-    payload: RemoveParticipantsFailPayload
-}
-
-export interface HideParticipantsFailPayload{
-    error: string
+    payload: DetailFailPayload
 }
 
 export interface HideParticipantsRequest{
@@ -98,12 +92,13 @@ export interface HideParticipantsRequest{
 }
 
 export interface HideParticipantsSuccess {
-    type: typeof detailAction.HIDE_PARTICIPANT_REQUEST
+    type: typeof detailAction.HIDE_PARTICIPANT_REQUEST,
+    payload: MsgPayload
 }
 
 export interface HideParticipantsFail {
     type: typeof detailAction.HIDE_PARTICIPANT_FAIL
-    payload: HideParticipantsFailPayload
+    payload: DetailFailPayload
 }
 
 export interface RestartDetailRequest {

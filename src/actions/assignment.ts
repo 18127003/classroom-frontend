@@ -1,15 +1,14 @@
-import { GetAssignmentsRequest, GetAssignmentsSuccessPayload, GetAssignmentsSuccess, GetAssignmentsFailPayload, GetAssignmentsFail, 
-    ReloadAssignmentsRequest, AddAssignmentRequest, AddAssignmentSuccessPayload, AddAssignmentSuccess, AddAssignmentFailPayload, 
-    AddAssignmentFail, UpdatePositionRequest, UpdatePositionSuccessPayload, UpdatePositionSuccess, UpdatePositionFailPayload, 
-    UpdatePositionFail, RemoveAssignmentRequest, RemoveAssignmentSuccessPayload, RemoveAssignmentSuccess, RemoveAssignmentFailPayload, 
+import { GetAssignmentsRequest, GetAssignmentsSuccessPayload, GetAssignmentsSuccess, GetAssignmentsFail, 
+    ReloadAssignmentsRequest, AddAssignmentRequest, AddAssignmentSuccessPayload, AddAssignmentSuccess, 
+    AddAssignmentFail, UpdatePositionRequest, UpdatePositionSuccessPayload, UpdatePositionSuccess, 
+    UpdatePositionFail, RemoveAssignmentRequest, RemoveAssignmentSuccessPayload, RemoveAssignmentSuccess, 
     RemoveAssignmentFail, UpdateAssignmentRequest, UpdateAssignmentSuccessPayload, UpdateAssignmentSuccess,
-    UpdateAssignmentFailPayload, UpdateAssignmentFail, GetStudentInfosRequest, GetStudentInfosSuccessPayload, GetStudentInfosSuccess, 
-    GetStudentInfosFailPayload, GetStudentInfosFail, ImportStudentInfosRequest, ImportStudentInfosSuccess, 
-    ImportStudentInfosFailPayload, ImportStudentInfosFail, ExportTemplateRequest, AddSubmissionRequest, AddSubmissionSuccess, 
-    AddSubmissionSuccessPayload, AddSubmissionFail, AddSubmissionFailPayload, ImportSubmissionRequest, ImportSubmissionSuccess, 
-    ImportSubmissionFailPayload, ImportSubmissionFail, ReloadStudentInfoRequest, UpdateSubmissionRequest, UpdateSubmissionSuccess, 
-    UpdateSubmissionSuccessPayload, UpdateSubmissionFail, UpdateSubmissionFailPayload, FinalizeAssignmentRequest, FinalizeAssignmentSuccessPayload, 
-    FinalizeAssignmentSuccess, FinalizeAssignmentFailPayload, FinalizeAssignmentFail, FinalizeAssignmentConfirm, FinalizeWarning } from "@/@types/assignment.action";
+    UpdateAssignmentFail, GetStudentInfosRequest, GetStudentInfosSuccessPayload, GetStudentInfosSuccess,
+    GetStudentInfosFail, ImportStudentInfosRequest, ImportStudentInfosSuccess,ImportStudentInfosFail, ExportTemplateRequest, 
+    AddSubmissionRequest, AddSubmissionSuccess, AddSubmissionSuccessPayload, AddSubmissionFail, ImportSubmissionRequest, 
+    ImportSubmissionSuccess, ImportSubmissionFail, ReloadStudentInfoRequest, UpdateSubmissionRequest, UpdateSubmissionSuccess, 
+    UpdateSubmissionSuccessPayload, UpdateSubmissionFail, FinalizeAssignmentRequest, FinalizeAssignmentSuccessPayload, 
+    FinalizeAssignmentSuccess, FinalizeAssignmentFail, FinalizeAssignmentConfirm, FinalizeWarning, AssignmentFailPayload } from "@/@types/assignment.action";
 import { Assignment, StudentInfo, Submission } from "@/@types/model";
 import { assignmentAction } from "@/constants/actions";
 import { AppState } from "@/reducers";
@@ -26,7 +25,7 @@ export const getAssignmentsSuccess = (payload: GetAssignmentsSuccessPayload):Get
     payload: payload
 });
 
-export const getAssignmentsFail = (payload: GetAssignmentsFailPayload):GetAssignmentsFail =>({
+export const getAssignmentsFail = (payload: AssignmentFailPayload):GetAssignmentsFail =>({
     type: assignmentAction.GET_ASSIGNMENTS_FAIL,
     payload: payload
 });
@@ -61,7 +60,7 @@ export const addAssignmentSuccess = (payload: AddAssignmentSuccessPayload):AddAs
     payload: payload
 });
 
-export const addAssignmentFail = (payload: AddAssignmentFailPayload):AddAssignmentFail =>({
+export const addAssignmentFail = (payload: AssignmentFailPayload):AddAssignmentFail =>({
     type: assignmentAction.ADD_ASSIGNMENT_FAIL,
     payload: payload
 });
@@ -71,7 +70,8 @@ function* addAssignmentSaga(action: AddAssignmentRequest) {
         const assignment = yield call(assignmentService.addAssignment, action.payload.id, action.payload.assignment);
         yield put(addAssignmentSuccess({
             assignment: assignment.data,
-            index: action.payload.assignment.position
+            index: action.payload.assignment.position,
+            msg: 'Add new assignment succeed'
         }))
         yield put(updatePositionRequest(action.payload.id))
 
@@ -96,7 +96,7 @@ export const updatePositionSuccess = (payload: UpdatePositionSuccessPayload):Upd
     payload: payload
 });
 
-export const updatePositionFail = (payload: UpdatePositionFailPayload):UpdatePositionFail =>({
+export const updatePositionFail = (payload: AssignmentFailPayload):UpdatePositionFail =>({
     type: assignmentAction.UPDATE_POSITION_FAIL,
     payload: payload
 });
@@ -135,7 +135,7 @@ export const removeAssignmentSuccess = (payload: RemoveAssignmentSuccessPayload)
     payload: payload
 });
 
-export const removeAssignmentFail = (payload: RemoveAssignmentFailPayload):RemoveAssignmentFail =>({
+export const removeAssignmentFail = (payload: AssignmentFailPayload):RemoveAssignmentFail =>({
     type: assignmentAction.REMOVE_ASSIGNMENT_FAIL,
     payload: payload
 });
@@ -144,7 +144,8 @@ function* removeAssignmentSaga(action: RemoveAssignmentRequest) {
     try {
         yield call(assignmentService.removeAssignment, action.payload.classId, action.payload.id);
         yield put(removeAssignmentSuccess({
-            id: action.payload.id
+            id: action.payload.id,
+            msg: 'Remove assignment succeed'
         }))
         yield put(updatePositionRequest(action.payload.classId))
         yield put(reloadStudentInfoRequest())
@@ -169,7 +170,7 @@ export const updateAssignmentSuccess = (payload: UpdateAssignmentSuccessPayload)
     payload: payload
 });
 
-export const updateAssignmentFail = (payload: UpdateAssignmentFailPayload):UpdateAssignmentFail =>({
+export const updateAssignmentFail = (payload: AssignmentFailPayload):UpdateAssignmentFail =>({
     type: assignmentAction.UPDATE_ASSIGNMENT_FAIL,
     payload: payload
 });
@@ -178,7 +179,8 @@ function* updateAssignmentSaga(action: UpdateAssignmentRequest) {
     try {
         var assignment = yield call(assignmentService.updateAssignment, action.payload.classId, action.payload.id, action.payload.assignment);
         yield put(updateAssignmentSuccess({
-            assignment: assignment.data
+            assignment: assignment.data,
+            msg: `Update assignment ${assignment.data.name} succeed`
         }))
 
     } catch (e) {
@@ -198,7 +200,7 @@ export const getStudentInfosSuccess = (payload: GetStudentInfosSuccessPayload):G
     payload: payload
 });
 
-export const getStudentInfosFail = (payload: GetStudentInfosFailPayload):GetStudentInfosFail =>({
+export const getStudentInfosFail = (payload: AssignmentFailPayload):GetStudentInfosFail =>({
     type: assignmentAction.GET_STUDENT_INFO_FAIL,
     payload: payload
 });
@@ -224,11 +226,12 @@ export const importStudentInfosRequest = (classId: number, file: File): ImportSt
     }
 });
 
-export const importStudentInfosSuccess = ():ImportStudentInfosSuccess =>({
-    type: assignmentAction.IMPORT_STUDENT_INFO_SUCCESS
+export const importStudentInfosSuccess = (msg: string):ImportStudentInfosSuccess =>({
+    type: assignmentAction.IMPORT_STUDENT_INFO_SUCCESS,
+    payload:{msg}
 });
 
-export const importStudentInfosFail = (payload: ImportStudentInfosFailPayload):ImportStudentInfosFail =>({
+export const importStudentInfosFail = (payload: AssignmentFailPayload):ImportStudentInfosFail =>({
     type: assignmentAction.IMPORT_STUDENT_INFO_FAIL,
     payload: payload
 });
@@ -236,7 +239,7 @@ export const importStudentInfosFail = (payload: ImportStudentInfosFailPayload):I
 function* importStudentInfosSaga(action: ImportStudentInfosRequest) {
     try {
         yield call(classroomService.importStudentInfos, action.payload.classId, action.payload.file);
-        yield put(importStudentInfosSuccess())
+        yield put(importStudentInfosSuccess('Import student info succeed'))
     } catch (e) {
         yield put(importStudentInfosFail({
             error: 'Import student infos failed'
@@ -271,7 +274,7 @@ export const addSubmissionSuccess = (payload: AddSubmissionSuccessPayload):AddSu
     payload: payload
 });
 
-export const addSubmissionFail = (payload: AddSubmissionFailPayload):AddSubmissionFail =>({
+export const addSubmissionFail = (payload: AssignmentFailPayload):AddSubmissionFail =>({
     type: assignmentAction.ADD_SUBMISSION_FAIL,
     payload: payload
 });
@@ -289,7 +292,8 @@ function* addSubmissionSaga(action: AddSubmissionRequest) {
         ]
         yield put(addSubmissionSuccess({
             studentInfo: studentInfo,
-            index: index
+            index: index,
+            msg: 'Grade succeed'
         }))
     } catch (e) {
         yield put(addSubmissionFail({
@@ -307,11 +311,12 @@ export const importSubmissionRequest = (classId: number, assignmentId: number, f
     }
 });
 
-export const importSubmissionSuccess = ():ImportSubmissionSuccess =>({
-    type: assignmentAction.IMPORT_SUBMISSION_SUCCESS
+export const importSubmissionSuccess = (msg: string):ImportSubmissionSuccess =>({
+    type: assignmentAction.IMPORT_SUBMISSION_SUCCESS,
+    payload:{msg}
 });
 
-export const importSubmissionFail = (payload: ImportSubmissionFailPayload):ImportSubmissionFail =>({
+export const importSubmissionFail = (payload: AssignmentFailPayload):ImportSubmissionFail =>({
     type: assignmentAction.IMPORT_SUBMISSION_FAIL,
     payload: payload
 });
@@ -324,7 +329,7 @@ function* importSubmissionSaga(action: ImportSubmissionRequest) {
     try {
         const payload = action.payload
         yield call(assignmentService.importSubmission, payload.classId, payload.assignmentId, payload.file);
-        yield put(importSubmissionSuccess())
+        yield put(importSubmissionSuccess('Import grade succeed'))
         yield put(reloadStudentInfoRequest())
     } catch (e) {
         console.log(e)
@@ -349,7 +354,7 @@ export const updateSubmissionSuccess = (payload: UpdateSubmissionSuccessPayload)
     payload: payload
 });
 
-export const updateSubmissionFail = (payload: UpdateSubmissionFailPayload):UpdateSubmissionFail =>({
+export const updateSubmissionFail = (payload: AssignmentFailPayload):UpdateSubmissionFail =>({
     type: assignmentAction.UPDATE_SUBMISSION_FAIL,
     payload: payload
 });
@@ -371,7 +376,8 @@ function* updateSubmissionSaga(action: UpdateSubmissionRequest) {
         ]
         yield put(updateSubmissionSuccess({
             studentInfo: studentInfo,
-            index: index
+            index: index,
+            msg: 'Grade succeed'
         }))
     } catch (e) {
         yield put(updateSubmissionFail({
@@ -394,7 +400,7 @@ export const finalizeAssignmentSuccess = (payload: FinalizeAssignmentSuccessPayl
     payload: payload
 });
 
-export const finalizeAssignmentFail = (payload: FinalizeAssignmentFailPayload):FinalizeAssignmentFail =>({
+export const finalizeAssignmentFail = (payload: AssignmentFailPayload):FinalizeAssignmentFail =>({
     type: assignmentAction.FINALIZE_ASSIGNMENT_FAIL,
     payload: payload
 });
@@ -431,7 +437,8 @@ function* finalizeAssignmentSaga(action: FinalizeAssignmentRequest) {
                     ...assignments.slice(0, index),
                     updated,
                     ...assignments.slice(index+1)
-                ]
+                ],
+                msg:'Finalize assignment grades succeed'
             }))
         }
 

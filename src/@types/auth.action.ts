@@ -5,6 +5,10 @@ export interface AuthSuccessPayload {
     user: Account;
 }
 
+export interface MsgPayload{
+    msg: string
+}
+
 export interface AuthFailPayload{
     error: string
 }
@@ -16,7 +20,8 @@ export interface AuthState {
         login?: string,
         signup?: string
     },
-    loggedOut: boolean
+    loggedOut: boolean,
+    msg: string|null
 }
 
 export interface AuthRequest{
@@ -44,10 +49,6 @@ export interface AuthFail {
     payload: AuthFailPayload
 }
 
-export interface LogoutFailPayload{
-    error: string
-}
-
 export interface LogoutRequest{
     type: typeof authActions.LOGOUT_REQUEST
 }
@@ -58,11 +59,7 @@ export interface LogoutSuccess {
 
 export interface LogoutFail {
     type: typeof authActions.LOGOUT_FAIL
-    payload: LogoutFailPayload
-}
-
-export interface SignupFailPayload{
-    error: string
+    payload: AuthFailPayload
 }
 
 export interface SignupRequest{
@@ -71,12 +68,13 @@ export interface SignupRequest{
 }
 
 export interface SignupSuccess {
-    type: typeof authActions.SIGNUP_SUCCESS
+    type: typeof authActions.SIGNUP_SUCCESS,
+    payload: MsgPayload
 }
 
 export interface SignupFail {
     type: typeof authActions.SIGNUP_FAIL
-    payload: SignupFailPayload
+    payload: AuthFailPayload
 }
 
 type SignupAction = 

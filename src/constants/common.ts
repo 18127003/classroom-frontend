@@ -1,5 +1,6 @@
 export const LOCAL_STORAGE_CLASSES_NAME = "classes";
 export const LOCAL_STORAGE_ACCOUNTS_NAME = "accounts";
+export const LOCAL_STORAGE_LOCKS_NAME = "locks";
 export const LOCAL_STORAGE_ADMINS_NAME = "admins";
 export const COOKIES_AUTH_NAME = "user";
 export const LOCAL_REFRESH_TOKEN = "refreshToken";

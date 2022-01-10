@@ -1,7 +1,7 @@
-import { AddClassroomFailPayload, AddClassroomRequest, AddClassroomsFail, AddClassroomSuccess, 
-    AddClassroomSuccessPayload, GetClassroomsFail, GetClassroomsFailPayload, 
+import { AddClassroomRequest, AddClassroomsFail, AddClassroomSuccess, 
+    AddClassroomSuccessPayload, GetClassroomsFail, 
     GetClassroomsRequest, GetClassroomsSuccess, GetClassroomsSuccessPayload, JoinClassroomRequest, 
-    JoinClassroomSuccessPayload, JoinClassroomSuccess, JoinClassroomFailPayload, JoinClassroomsFail, ReloadClassroomsRequest } from "@/@types/classroom.action";
+    JoinClassroomSuccessPayload, JoinClassroomSuccess, JoinClassroomsFail, ReloadClassroomsRequest, ClassroomsFailPayload } from "@/@types/classroom.action";
 import { Classroom, GetDataCriteria, JoinRequestInfo } from "@/@types/model";
 import { classroomService } from "@/services";
 import { all, call, put, takeEvery, takeLatest } from "@redux-saga/core/effects";
@@ -19,7 +19,7 @@ export const getClassroomsSuccess = (payload: GetClassroomsSuccessPayload):GetCl
     payload: payload
 });
 
-export const getClassroomsFail = (payload: GetClassroomsFailPayload):GetClassroomsFail =>({
+export const getClassroomsFail = (payload: ClassroomsFailPayload):GetClassroomsFail =>({
     type: classroomActions.GETALL_FAILURE,
     payload: payload
 });
@@ -47,7 +47,7 @@ export const addClassroomSuccess = (payload: AddClassroomSuccessPayload):AddClas
     payload: payload
 });
 
-export const addClassroomFail = (payload: AddClassroomFailPayload):AddClassroomsFail =>({
+export const addClassroomFail = (payload: ClassroomsFailPayload):AddClassroomsFail =>({
     type: classroomActions.ADD_FAILURE,
     payload: payload
 });
@@ -81,7 +81,7 @@ export const joinClassroomSuccess = (payload: JoinClassroomSuccessPayload):JoinC
     payload: payload
 });
 
-export const joinClassroomFail = (payload: JoinClassroomFailPayload):JoinClassroomsFail =>({
+export const joinClassroomFail = (payload: ClassroomsFailPayload):JoinClassroomsFail =>({
     type: classroomActions.JOIN_FAILURE,
     payload: payload
 });

@@ -12,7 +12,8 @@ const initState: GradeState = {
         data:[],
         reload: true
     },
-    error:null
+    error:null,
+    msg: null
 }
 
 export const gradeReducer = (state: GradeState = initState, action: GradeAction):GradeState=>{
@@ -103,7 +104,8 @@ export const gradeReducer = (state: GradeState = initState, action: GradeAction)
                         (action as AddGradeReviewSuccess).payload.review
                     ]
                 },
-                error:null
+                error:null,
+                msg: (action as AddGradeReviewSuccess).payload.msg
             };
         case gradeAction.ADD_GRADE_REVIEW_FAIL:
             return {
@@ -144,7 +146,8 @@ export const gradeReducer = (state: GradeState = initState, action: GradeAction)
                 review:{
                     data: (action as FinalizeGradeReviewSuccess).payload.reviews,
                     reload: false
-                }
+                },
+                msg: (action as FinalizeGradeReviewSuccess).payload.msg
             }
         case gradeAction.ADD_GRADE_REVIEW_FAIL:
             return {

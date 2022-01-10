@@ -1,11 +1,7 @@
 import { classroomActions } from "@/constants/actions";
 import { AssignedClassroom, Classroom, GetDataCriteria, JoinRequestInfo } from "./model";
 
-export interface GetClassroomsSuccessPayload {
-    classes: AssignedClassroom[];
-}
-
-export interface GetClassroomsFailPayload{
+export interface ClassroomsFailPayload{
     error: string
 }
 
@@ -16,7 +12,11 @@ export interface ClassroomsState {
     reload: {
         reload: boolean,
         fetch: boolean
-    },
+    }
+}
+
+export interface GetClassroomsSuccessPayload {
+    classes: AssignedClassroom[];
 }
 
 export interface ReloadClassroomsRequest{
@@ -38,16 +38,12 @@ export interface GetClassroomsSuccess {
 
 export interface GetClassroomsFail {
     type: typeof classroomActions.GETALL_FAILURE
-    payload: GetClassroomsFailPayload
+    payload: ClassroomsFailPayload
 }
     
 
 export interface AddClassroomSuccessPayload {
     classroom: AssignedClassroom;
-}
-
-export interface AddClassroomFailPayload{
-    error: string
 }
 
 export interface AddClassroomRequest{
@@ -62,15 +58,11 @@ export interface AddClassroomSuccess {
 
 export interface AddClassroomsFail {
     type: typeof classroomActions.ADD_FAILURE
-    payload: AddClassroomFailPayload
+    payload: ClassroomsFailPayload
 }
 
 export interface JoinClassroomSuccessPayload {
     classroom: AssignedClassroom;
-}
-
-export interface JoinClassroomFailPayload{
-    error: string
 }
 
 export interface JoinClassroomRequest{
@@ -85,7 +77,7 @@ export interface JoinClassroomSuccess {
 
 export interface JoinClassroomsFail {
     type: typeof classroomActions.JOIN_FAILURE
-    payload: JoinClassroomFailPayload
+    payload: ClassroomsFailPayload
 }
 
 export type ClassroomAction = 

@@ -1,6 +1,6 @@
 import { Account, AssignedClassroom, Assignment, Classroom, GradeReview, Participant, StudentInfo, Submission } from "@/@types/model";
 import { IconButtonProps } from "@mui/material";
-import React from "react";
+import React, { ReactElement } from "react";
 import { RouteProps } from "react-router-dom";
 
 type ClassroomGridProps = {
@@ -18,7 +18,7 @@ type LoginPageProps={
 interface PopupMenuButtonProps {
     onMenuItemClick?: ()=>void
     children?: React.ReactNode
-    title: string
+    title: ReactElement | string
     button?: React.ReactNode,
     key?: any
 }

@@ -1,7 +1,7 @@
-import { AccountAction, AccountState, InitAccountSuccess, UpdateFail, UpdateStudentIdFail, UpdateStudentIdSuccess, UpdateSuccess } from "@/@types/account.action";
+import { AccountAction, AccountState, ChangePasswordSuccess, InitAccountSuccess, UpdateFail, UpdateStudentIdFail, UpdateStudentIdSuccess, UpdateSuccess } from "@/@types/account.action";
 import { accountAction, authActions } from "@/constants/actions";
 
-const initState:AccountState = {loading:false, detail: null, error:null}
+const initState:AccountState = {loading:false, detail: null, error:null, msg: null}
 
 export const accountReducer = (state: AccountState = initState, action: AccountAction):AccountState=>{
     switch(action.type){
@@ -15,7 +15,8 @@ export const accountReducer = (state: AccountState = initState, action: AccountA
                 ...state,
                 loading: false,
                 detail: (action as UpdateSuccess).payload.user,
-                error:null
+                error:null,
+                msg: (action as UpdateSuccess).payload.msg
             };
         case accountAction.UPDATE_ACCOUNT_FAIL:
             return {
@@ -31,7 +32,8 @@ export const accountReducer = (state: AccountState = initState, action: AccountA
         case accountAction.UPDATE_PASSWORD_SUCCESS:
             return {
                 ...state,
-                loading: false
+                loading: false,
+                msg: (action as ChangePasswordSuccess).payload.msg
             };
         case accountAction.UPDATE_PASSWORD_FAIL:
             return {
@@ -62,7 +64,8 @@ export const accountReducer = (state: AccountState = initState, action: AccountA
                     ...state.detail,
                     studentId: (action as UpdateStudentIdSuccess).payload.studentId
                 },
-                error:null
+                error:null,
+                msg: (action as UpdateStudentIdSuccess).payload.msg
             };
         case accountAction.UPDATE_STUDENTID_FAIL:
             return {

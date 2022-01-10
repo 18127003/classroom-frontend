@@ -5,14 +5,19 @@ export interface AccountState {
     loading: boolean,
     detail: Account|null,
     error: string|null,
+    msg: string|null
 }
 
-export interface UpdateSuccessPayload {
-    user: Account;
-}
-
-export interface UpdateFailPayload{
+export interface AccountFailPayload{
     error: string
+}
+
+export interface MsgPayload {
+    msg: string
+}
+
+export interface UpdateSuccessPayload extends MsgPayload {
+    user: Account;
 }
 
 export interface UpdateRequest {
@@ -27,11 +32,7 @@ export interface UpdateSuccess {
 
 export interface UpdateFail {
     type: typeof accountAction.UPDATE_ACCOUNT_FAIL
-    payload: UpdateFailPayload
-}
-
-export interface ChangePasswordFailPayload{
-    error: string
+    payload: AccountFailPayload
 }
 
 export interface ChangePasswordRequest {
@@ -40,12 +41,13 @@ export interface ChangePasswordRequest {
 }
 
 export interface ChangePasswordSuccess {
-    type: typeof accountAction.UPDATE_PASSWORD_SUCCESS
+    type: typeof accountAction.UPDATE_PASSWORD_SUCCESS,
+    payload: MsgPayload
 }
 
 export interface ChangePasswordFail {
     type: typeof accountAction.UPDATE_PASSWORD_FAIL
-    payload: ChangePasswordFailPayload
+    payload: AccountFailPayload
 }
 
 export interface InitAccountRequest {
@@ -62,12 +64,8 @@ export interface InitAccountSuccess {
     payload: InitAccountSuccessPayload
 }
 
-export interface UpdateStudentIdSuccessPayload {
+export interface UpdateStudentIdSuccessPayload extends MsgPayload{
     studentId: string;
-}
-
-export interface UpdateStudentIdFailPayload{
-    error: string
 }
 
 export interface UpdateStudentIdRequest{
@@ -82,7 +80,7 @@ export interface UpdateStudentIdSuccess {
 
 export interface UpdateStudentIdFail {
     type: typeof accountAction.UPDATE_STUDENTID_FAIL
-    payload: UpdateStudentIdFailPayload
+    payload: AccountFailPayload
 }
 
 

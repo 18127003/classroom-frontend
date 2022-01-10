@@ -18,7 +18,6 @@ const LoginPage: React.FC<LoginPageProps> = ({tab})=>{
     const dispatch = useDispatch();
     const location = useLocation();
     const [tabValue, setTabValue] = React.useState(tab);
-    const wsClient = useWebSocket()
 
     const handleChange = (event: React.SyntheticEvent, newValue: "1"|"2") => {
         setTabValue(newValue);
