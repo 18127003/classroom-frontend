@@ -6,6 +6,7 @@ import { authReducer } from "./auth";
 import { classroomsReducer } from "./classrooms";
 import { detailReducer } from "./detail";
 import { gradeReducer } from "./grade";
+import { notificationReducer } from "./notification";
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     account: accountReducer,
     assignment: assignmentReducer,
     grade: gradeReducer,
-    admin: adminReducer
+    admin: adminReducer,
+    noti: notificationReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

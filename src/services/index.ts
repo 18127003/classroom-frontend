@@ -216,6 +216,10 @@ const activateAccount =async (token:string) => {
     await api.activateAccount(token)
 }
 
+const getNotification = async ()=>{
+    return await api.getNotification()
+}
+
 export const authService = {
     login,
     logout,
@@ -233,6 +237,7 @@ export const accountService = {
     updateAccount,
     changePassword,
     updateStudentId,
+    getNotification
 }
 
 export const classroomService = {

@@ -1,7 +1,7 @@
 import { Account, StudentInfo } from "@/@types/model"
-import { getAccountRequest, lockAccountRequest, mapStudentIdRequest, removeStudentIdRequest } from "@/actions/admin"
+import { getAccountRequest, lockAccountRequest, mapStudentIdRequest, reloadAccountRequest, removeStudentIdRequest } from "@/actions/admin"
 import { AppState } from "@/reducers"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 
 const useAdminAccount=()=>{
@@ -16,6 +16,14 @@ const useAdminAccount=()=>{
             }))
         }
     },[reload])
+
+    const apply = (desc: boolean, q:string)=>{
+        dispatch(getAccountRequest({
+            reload: true,
+            desc: desc,
+            q: q
+        }))
+    }
 
     const lockAccount = (accountId: string)=>{
         dispatch(lockAccountRequest(accountId))
@@ -33,7 +41,8 @@ const useAdminAccount=()=>{
         accounts,
         lockAccount,
         mapStudentId,
-        removeStudentId
+        removeStudentId,
+        apply
     }
 }
 

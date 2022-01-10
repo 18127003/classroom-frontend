@@ -8,7 +8,6 @@ import ForgetPasswordPage from "@/views/ForgetPasswordPage";
 import HomePage from "@/views/HomePage";
 import LoginPage from "@/views/LoginPage";
 import RenewPasswordPage from "@/views/RenewPasswordPage";
-import TestPage from "@/views/test";
 import React from "react";
 
 type AppRoute = {
@@ -112,14 +111,7 @@ export const adminRoute: AppRoute[] = [
         component: AdminHomePage,
         protected: true,
         exact: true,
-    },
-    {
-        path: '/admin/test',
-        name: 'Admin Test Page',
-        component: TestPage,
-        protected: true,
-        exact: true,
-    },
+    }
     
 ]
 

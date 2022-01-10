@@ -17,8 +17,17 @@ const useAdminClassroom=()=>{
         }
     },[reload])
 
+    const apply = (desc: boolean, q:string)=>{
+        dispatch(getClassroomRequest({
+            reload: true,
+            desc: desc,
+            q: q
+        }))
+    }
+
     return {
-        classrooms
+        classrooms,
+        apply
     }
 }
 

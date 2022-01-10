@@ -8,27 +8,27 @@ const adminSignup=(account:Account)=>instance({
     transformResponse:[transformFunc]
 })
 
-const getAllClassroom = ()=>instance({
+const getAllClassroom = (desc:boolean, q:string)=>instance({
     'method':'GET',
-    'url':'/admin/classroom/all',
+    'url':`/admin/classroom/all?desc=${desc}&q=${q}`,
     transformResponse:[transformFunc]
 })
 
-const getAllAccount = ()=>instance({
+const getAllAccount = (desc:boolean, q:string)=>instance({
     'method':'GET',
-    'url':'/admin/account/all',
+    'url':`/admin/account/all?desc=${desc}&q=${q}`,
     transformResponse:[transformFunc]
 })
 
-const getAllLockedAccount = ()=>instance({
+const getAllLockedAccount = (desc:boolean, q:string)=>instance({
     'method':'GET',
-    'url':'/admin/account/locked/all',
+    'url':`/admin/account/locked/all?desc=${desc}&q=${q}`,
     transformResponse:[transformFunc]
 })
 
-const getAllAdmin = ()=>instance({
+const getAllAdmin = (desc:boolean, q:string)=>instance({
     'method':'GET',
-    'url':'/admin/all',
+    'url':`/admin/all?desc=${desc}&q=${q}`,
     transformResponse:[transformFunc]
 })
 

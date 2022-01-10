@@ -5,8 +5,9 @@ import authSaga from "@/actions/auth";
 import classroomsSaga from "@/actions/classrooms";
 import detailSaga from "@/actions/detail";
 import gradeSaga from "@/actions/grade";
+import notificationSaga from "@/actions/notification";
 import { all, fork } from "@redux-saga/core/effects";
-import { watchOnPings } from "./socketMiddleware";
+import wsWatcher from "./webSocketSaga";
 
 export function* rootSaga(){
     yield all([
@@ -17,6 +18,7 @@ export function* rootSaga(){
         fork(assignmentSaga),
         fork(gradeSaga),
         fork(adminSaga),
-        // fork(watchOnPings)
+        fork(notificationSaga),
+        fork(wsWatcher)
     ]);
 }

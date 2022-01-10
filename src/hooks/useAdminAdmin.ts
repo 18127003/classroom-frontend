@@ -17,12 +17,21 @@ const useAdminAdmin=()=>{
         }
     },[reload])
 
+    const apply = (desc: boolean, q:string)=>{
+        dispatch(getAdminRequest({
+            reload: true,
+            desc: desc,
+            q: q
+        }))
+    }
+
     const activateAdmin = (email:string)=>{
         dispatch(activateAdminRequest(email))
     }
 
     return {
         admins,
+        apply,
         activateAdmin
     }
 }

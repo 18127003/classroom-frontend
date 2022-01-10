@@ -23,7 +23,7 @@ const ActivateAccountPage: React.FC = ()=>{
     if (accept){
         return <Redirect to={"/login"}/>
     }
-
+    
     return (
         <>
             <Grid

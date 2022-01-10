@@ -1,5 +1,5 @@
 import { Account } from "@/@types/model"
-import { getAccountRequest, getLockRequest, unlockAccountRequest } from "@/actions/admin"
+import { getLockRequest, unlockAccountRequest } from "@/actions/admin"
 import { AppState } from "@/reducers"
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
@@ -17,6 +17,14 @@ const useAdminLock=()=>{
         }
     },[reload])
 
+    const apply = (desc: boolean, q:string)=>{
+        dispatch(getLockRequest({
+            reload: true,
+            desc: desc,
+            q: q
+        }))
+    }
+
     const unlockAccount = (accountId: string)=>{
         dispatch(unlockAccountRequest(accountId))
     }
@@ -24,6 +32,7 @@ const useAdminLock=()=>{
     return {
         locks,
         unlockAccount,
+        apply
     }
 }
 

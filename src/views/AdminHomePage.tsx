@@ -2,23 +2,35 @@ import AdminTab from "@/components/Admin/AdminTab";
 import BlacklistTab from "@/components/Admin/BlacklistTab";
 import ClassTab from "@/components/Admin/ClassTab";
 import UserTab from "@/components/Admin/UserTab";
-import BasicAppBar from "@/components/BasicAppBar";
 import BasicSnackBar from "@/components/BasicSnackBar";
 import { AppState } from "@/reducers";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Alert, Box, LinearProgress, Snackbar, Tab } from "@mui/material";
+import { Box, LinearProgress, Tab, Fab } from "@mui/material";
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import DialogButton from "@/components/Button/DialogButton"
+import { logoutRequest } from "@/actions/auth";
+import { useCookies } from "react-cookie";
+import { COOKIES_AUTH_NAME } from "@/constants/common";
 
 const AdminHomePage: React.FC = ()=>{
     const [tabValue, setTabValue] = React.useState('1');
+    const [cookies, setCookies, removeCookies] = useCookies([COOKIES_AUTH_NAME])
     const loading = useSelector((state: AppState)=>state.admin.loading)
     const error = useSelector((state: AppState)=>state.admin.error)
     const msg = useSelector((state: AppState)=>state.admin.msg)
+    const dispatch = useDispatch()
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setTabValue(newValue);
     };
+
+    const onLogout = ()=>{
+        removeCookies(COOKIES_AUTH_NAME,{'path':'/'})
+        dispatch(logoutRequest())
+    }
+
     return (
 
 
@@ -45,6 +57,19 @@ const AdminHomePage: React.FC = ()=>{
             <TabPanel value="4"><BlacklistTab/></TabPanel>
             <BasicSnackBar type="error" msg={error}/>
             <BasicSnackBar type="success" msg={msg}/>
+            <DialogButton 
+                onConfirm={onLogout} 
+                dialogContent={"Do you want to logout?"}
+            >
+                <Fab 
+                    color="primary" 
+                    aria-label="add" 
+                    sx={{position: 'fixed', bottom: 32, right: 32,}}
+                >
+                    <LogoutRoundedIcon />
+                </Fab>
+            </DialogButton>
+            
         </TabContext>
     )
 }

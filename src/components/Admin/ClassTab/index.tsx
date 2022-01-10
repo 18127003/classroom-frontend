@@ -5,11 +5,11 @@ import AdminListItem from "../AdminTabItem/ListItem";
 import ClassDetail from "./ClassDetail";
 
 const ClassTab:React.FC=()=>{
-    const {classrooms}=useAdminClassroom()
+    const {classrooms, apply}=useAdminClassroom()
     const listName="Classes list"
 
     return(
-        <AdminTabItem listName={listName}>
+        <AdminTabItem listName={listName} apply={apply}>
             {classrooms.map(classroom=>(
                 <AdminListItem key={classroom.id} content={classroom.name}>
                     <ClassDetail classroom={classroom}/>

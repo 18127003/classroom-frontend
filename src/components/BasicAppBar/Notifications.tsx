@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Badge from '@mui/material/Badge';
 import { Notifications } from '@mui/icons-material';
 import PopupMenu from '../PopupMenu';
 import PopupMenuItem from '../PopupMenu/PopupMenuItem';
 import { Typography } from '@mui/material';
-import { Notification } from '@/@types/model';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppState } from '@/reducers';
+import { getNotificationRequest } from '@/actions/notification';
 
 const BadgeNotification: React.FC = () => {
-  const notifications: Notification[] = []
+  const notifications = useSelector((state: AppState)=>state.noti.notification.data)
+  const reload = useSelector((state:AppState)=>state.noti.notification.reload)
+  const dispatch = useDispatch()
+
+  useEffect(()=>{
+    if(reload){
+      dispatch(getNotificationRequest())
+    }
+  },[reload])
+
   return (
     <PopupMenu
       id="notification-menu"

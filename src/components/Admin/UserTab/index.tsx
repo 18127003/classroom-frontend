@@ -6,11 +6,11 @@ import UserDetail from "./UserDetail";
 
 
 const UserTab:React.FC=()=>{
-    const {accounts} = useAdminAccount()
+    const {accounts, apply} = useAdminAccount()
     const listName="User list"
 
     return(
-        <AdminTabItem listName={listName}>
+        <AdminTabItem listName={listName} apply={apply}>
             {accounts.map(account=>(
                 <AdminListItem key={account.id} content={account.name}>
                     <UserDetail user={account}/>

@@ -256,6 +256,12 @@ const activateAccount = (token:string)=>instance({
     'data':token
 })
 
+const getNotification = ()=>instance({
+    'method':'GET',
+    'url':'/account/notification/all',
+    transformResponse: [transformFunc]
+})
+
 export const api = {
     getData,
     createClassroom,
@@ -296,5 +302,6 @@ export const api = {
     commentGradeReview,
     finalizeGradeReview,
     sendActivateAccountEmail,
-    activateAccount
+    activateAccount,
+    getNotification
 }

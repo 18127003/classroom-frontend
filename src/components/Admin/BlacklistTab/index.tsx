@@ -5,11 +5,11 @@ import AdminListItem from "../AdminTabItem/ListItem"
 import BlacklistDetail from "./BlacklistDetail"
 
 const BlacklistTab:React.FC=()=>{
-    const {locks, unlockAccount}=useAdminLock()
+    const {locks, unlockAccount, apply}=useAdminLock()
     const listName="Locked Account List"
 
     return(
-        <AdminTabItem listName={listName}>
+        <AdminTabItem listName={listName} apply={apply}>
             {locks.map(lock=>(
                 <AdminListItem key={lock.id} content={lock.name}>
                     <BlacklistDetail user={lock} onUnlock={unlockAccount}/>

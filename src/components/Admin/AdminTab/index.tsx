@@ -6,11 +6,11 @@ import AdminDetail from "./AdminDetail";
 
 
 const AdminTab:React.FC=()=>{
-    const {admins}=useAdminAdmin()
+    const {admins, apply}=useAdminAdmin()
     const listName="Admin list"
 
     return(
-        <AdminTabItem listName={listName}>
+        <AdminTabItem listName={listName} apply={apply}>
             {admins.map(admin=>(
                 <AdminListItem key={admin.id} content={admin.name}>
                     <AdminDetail user={admin}/>

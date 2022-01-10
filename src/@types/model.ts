@@ -76,7 +76,9 @@ export interface ChangePasswordRequestInfo{
 }
 
 export interface GetDataCriteria {
-    reload: boolean
+    reload: boolean,
+    desc?:boolean,
+    q?:string
 }
 
 export interface Submission {
@@ -115,7 +117,7 @@ export interface GradeReview {
     assignmentId?:number
 }
 
-export interface Notification {
+export interface ClassNotification {
     id?: number,
     content: string
 }

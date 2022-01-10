@@ -1,4 +1,4 @@
-import { Dialog, AppBar, Toolbar, IconButton, Typography, List, LinearProgress } from "@mui/material";
+import { Dialog, AppBar, Toolbar, IconButton, Typography, List, LinearProgress, Stack } from "@mui/material";
 import React from "react"
 import Transition from "../Transition";
 import CloseIcon from '@mui/icons-material/Close';
@@ -35,7 +35,7 @@ const GradeReviewDialog: React.FC<GradeReviewDialogProps> = ({isOpen, handleClos
                 </Toolbar>
             </AppBar>
             <LinearProgress sx={loading?{}:{display: 'none'}}/>
-            <List sx={{m:3}}>
+            <Stack sx={{m:3}} spacing={2}>
                 {
                     reviews.map(review=>(
                         <GradeReviewCard 
@@ -45,7 +45,7 @@ const GradeReviewDialog: React.FC<GradeReviewDialogProps> = ({isOpen, handleClos
                         /> 
                     ))
                 }
-            </List>
+            </Stack>
         </Dialog>
     );
 }

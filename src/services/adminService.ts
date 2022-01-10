@@ -47,7 +47,7 @@ const getData = async (criteria: GetDataCriteria, localStorageName: string, func
     let localData = localStorage.getItem(localStorageName)
     if(!localData || criteria.reload){
         try {
-            const res = await func()
+            const res = await func(criteria.desc??false, criteria.q??'')
             commonService.saveLocal(localStorageName, res.data)
             localData = localStorage.getItem(localStorageName)
         } catch(e){
