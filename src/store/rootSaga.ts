@@ -7,7 +7,7 @@ import detailSaga from "@/actions/detail";
 import gradeSaga from "@/actions/grade";
 import notificationSaga from "@/actions/notification";
 import { all, fork } from "@redux-saga/core/effects";
-import wsWatcher from "./webSocketSaga";
+import wsWatcher from "@/actions/websocketSaga";
 
 export function* rootSaga(){
     yield all([
