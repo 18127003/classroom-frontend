@@ -252,8 +252,7 @@ const sendActivateAccountEmail = (email:string)=>instance({
 
 const activateAccount = (token:string)=>instance({
     'method':'PATCH',
-    'url':`/account/activate`,
-    'data':token
+    'url':`/account/activate?token=${token}`
 })
 
 const getNotification = ()=>instance({

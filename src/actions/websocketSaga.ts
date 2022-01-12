@@ -32,8 +32,8 @@ const createSocketChannel = (socket: Client) => {
 
 const createWebSocketConnection = (id:string)=> {
     return new Client({
-        // brokerURL: TEST_WEBSOCKET_SERVER_URL,
-        brokerURL: WEBSOCKET_SERVER_BASE_URL,
+        brokerURL: TEST_WEBSOCKET_SERVER_URL,
+        // brokerURL: WEBSOCKET_SERVER_BASE_URL,
         reconnectDelay: 5000,
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,
