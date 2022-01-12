@@ -2,8 +2,8 @@ import { TEST_SERVER_BASE_URL, LOCAL_REFRESH_TOKEN, SERVER_BASE_URL } from "@/co
 import axios from "axios";
 
 const instance = axios.create({
-    // baseURL: SERVER_BASE_URL,
-    baseURL: TEST_SERVER_BASE_URL,
+    baseURL: SERVER_BASE_URL,
+    // baseURL: TEST_SERVER_BASE_URL,
     withCredentials: true,
 });
 
