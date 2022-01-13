@@ -44,7 +44,7 @@ const createWebSocketConnection = (id:string)=> {
 }
 
 const wsMessage = (payload: ClassNotification):WsMesssage =>({
-    type: notificationAction.GET_NOTI_SUCCESS,
+    type: notificationAction.WS_MESSAGE,
     payload: payload
 });
 
@@ -59,7 +59,6 @@ function* websocketSaga() {
         try {
             const payload = yield take(socketChannel)
             var noti: ClassNotification = JSON.parse(payload)
-            console.log(noti)
             yield put(wsMessage(noti))
         } catch(err) {
             console.error('socket error:', err)
